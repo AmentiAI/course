@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   if (!course) return NextResponse.json({ ok: true });
 
-  const allLessonIds = course.modules.flatMap((m) => m.lessons.map((l) => l.id));
+  const allLessonIds = course.modules.flatMap((m: any) => m.lessons.map((l: any) => l.id));
   const completedCount = await prisma.lessonProgress.count({
     where: {
       userId: session.user.id,
