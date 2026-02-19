@@ -263,7 +263,7 @@ export default async function AdminPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-800/50">
-                {stats.recentPayments.map((payment) => (
+                {stats.recentPayments.map((payment: any) => (
                   <tr key={payment.id} className="hover:bg-zinc-800/30 transition-colors">
                     <td className="py-3 pr-4">
                       <div className="text-white text-xs font-medium truncate max-w-[120px]">
