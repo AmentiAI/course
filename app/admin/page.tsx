@@ -182,7 +182,7 @@ export default async function AdminPage() {
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
             <h2 className="font-semibold text-white mb-4">Course Performance</h2>
             <div className="space-y-2">
-              {stats.courseStats.map((course) => (
+              {stats.courseStats.map((course: any) => (
                 <Link
                   key={course.id}
                   href={`/courses/${course.slug}`}
