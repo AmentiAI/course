@@ -1,0 +1,11 @@
+# Agentsubber / Communiclaw Twitter OAuth 2.0 Credentials
+# Set up under @SigNullBTC developer account (2024034251029835776)
+# App: 2024034251029835776SigNullBTC (ID: 32423467)
+# Date: 2026-02-18
+# Callback URL registered: https://agentsubber.vercel.app/api/auth/callback/twitter
+# App type: Web App / Confidential client
+
+TWITTER_CLIENT_ID=X1JybGJobXVtUENHNHBDb2sxcXI6MTpjaQ
+TWITTER_CLIENT_SECRET=cjHi4NWp0-swrtFMkdN2e_pFy_NplGkycxcFdUKAM21Hrr6wZ6
+
+# NEXTAUTH_URL should be: https://agentsubber.vercel.app
