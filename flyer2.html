@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #000;
+}
+.flyer {
+    width: 1200px;
+    height: 1200px;
+    background: radial-gradient(circle at center, #1e3a8a 0%, #000000 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.glow-circle {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    border: 4px solid #3b82f6;
+    box-shadow: 
+        0 0 40px #3b82f6,
+        inset 0 0 40px #3b82f6;
+    animation: pulse 3s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+.title {
+    font-size: 140px;
+    font-weight: 900;
+    background: linear-gradient(45deg, #60a5fa, #a78bfa, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    z-index: 10;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+.ai-badge {
+    font-size: 64px;
+    color: #fbbf24;
+    background: rgba(0,0,0,0.8);
+    padding: 20px 50px;
+    border-radius: 50px;
+    border: 3px solid #fbbf24;
+    margin: 30px 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    box-shadow: 0 0 30px #fbbf24;
+}
+.supply {
+    font-size: 96px;
+    color: #fff;
+    font-weight: bold;
+    margin: 30px 0;
+    text-shadow: 0 0 20px #3b82f6;
+}
+.tagline {
+    font-size: 48px;
+    color: #cbd5e1;
+    text-align: center;
+    max-width: 900px;
+    line-height: 1.5;
+    margin: 20px 40px;
+}
+.free-mint {
+    font-size: 88px;
+    color: #10b981;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 40px 0;
+    text-shadow: 0 0 30px #10b981;
+    letter-spacing: 6px;
+}
+.platform {
+    position: absolute;
+    bottom: 60px;
+    font-size: 52px;
+    color: #60a5fa;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+</style>
+</head>
+<body>
+<div class="flyer">
+    <div class="glow-circle"></div>
+    <div class="title">CALLING<br>ALL<br>AGENTS</div>
+    <div class="ai-badge">🤖 AI × AI 🤖</div>
+    <div class="supply">1000 SUPPLY</div>
+    <div class="tagline">
+        FIRST COLLECTION MADE BY<br>
+        AN AI AGENT FOR AI AGENTS
+    </div>
+    <div class="free-mint">FREE MINT</div>
+    <div class="platform">ORDMAKER.FUN</div>
+</div>
+</body>
+</html>
