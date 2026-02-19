@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Star, Users, BookOpen, Award, ArrowRight, TrendingUp, Zap, Shield, Clock } from "lucide-react";
+import { Star, Users, BookOpen, Award, ArrowRight, TrendingUp, Zap, Shield, Clock, Search, CreditCard, GraduationCap } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
 
 async function getFeaturedCourses() {
@@ -178,6 +178,70 @@ export default async function HomePage() {
                 </span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="px-4 py-16 border-t border-zinc-800/50">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+              How It Works
+            </h2>
+            <p className="text-zinc-500 max-w-xl mx-auto">
+              From zero to income in three steps
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connector line (desktop) */}
+            <div className="hidden md:block absolute top-8 left-[calc(33%+1rem)] right-[calc(33%+1rem)] h-px bg-gradient-to-r from-purple-600 to-purple-600/20" />
+            {[
+              {
+                step: "01",
+                icon: Search,
+                title: "Browse & Choose",
+                desc: "Pick from 10+ courses taught by practitioners actively earning in their niche. Filter by category, level, or income potential.",
+                color: "text-purple-400",
+                bg: "bg-purple-400/10",
+              },
+              {
+                step: "02",
+                icon: CreditCard,
+                title: "Enroll & Pay",
+                desc: "Pay securely with card, Solana, or Bitcoin. Instant access — no waiting, no approval needed.",
+                color: "text-blue-400",
+                bg: "bg-blue-400/10",
+              },
+              {
+                step: "03",
+                icon: GraduationCap,
+                title: "Learn & Earn",
+                desc: "Watch at your pace, complete lessons, get certified. Apply the strategies immediately and start generating income.",
+                color: "text-green-400",
+                bg: "bg-green-400/10",
+              },
+            ].map((item) => (
+              <div key={item.step} className="relative flex flex-col items-center text-center">
+                <div className={`relative z-10 inline-flex p-4 rounded-2xl ${item.bg} mb-5`}>
+                  <item.icon className={`h-7 w-7 ${item.color}`} />
+                  <span className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-400 flex items-center justify-center">
+                    {item.step}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              href="/courses"
+              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25"
+            >
+              Start Your Journey
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -388,17 +452,20 @@ export default async function HomePage() {
               <h4 className="text-sm font-semibold text-zinc-300 mb-3">Account</h4>
               <ul className="space-y-2 text-sm text-zinc-600">
                 <li><Link href="/auth/signin" className="hover:text-zinc-400 transition-colors">Sign In</Link></li>
-                <li><Link href="/auth/signup" className="hover:text-zinc-400 transition-colors">Sign Up</Link></li>
+                <li><Link href="/auth/signup" className="hover:text-zinc-400 transition-colors">Sign Up Free</Link></li>
                 <li><Link href="/dashboard" className="hover:text-zinc-400 transition-colors">Dashboard</Link></li>
+                <li><Link href="/bundles" className="hover:text-zinc-400 transition-colors">Course Bundles</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-zinc-300 mb-3">Payments</h4>
+              <h4 className="text-sm font-semibold text-zinc-300 mb-3">Company</h4>
               <ul className="space-y-2 text-sm text-zinc-600">
-                <li className="text-zinc-600">💳 Credit Card</li>
-                <li className="text-zinc-600">◎ Solana (SOL)</li>
-                <li className="text-zinc-600">₿ Bitcoin (BTC)</li>
+                <li><Link href="/about" className="hover:text-zinc-400 transition-colors">About</Link></li>
+                <li><Link href="/instructors" className="hover:text-zinc-400 transition-colors">Instructors</Link></li>
+                <li><Link href="/bundles" className="hover:text-zinc-400 transition-colors">Bundles</Link></li>
+                <li><Link href="/privacy" className="hover:text-zinc-400 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-zinc-400 transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
@@ -407,9 +474,13 @@ export default async function HomePage() {
             <p className="text-xs text-zinc-700">
               © 2026 SkillMint. All rights reserved.
             </p>
-            <p className="text-xs text-zinc-700">
-              Not financial advice. Educational content only.
-            </p>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Privacy</Link>
+              <Link href="/terms" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Terms</Link>
+              <p className="text-xs text-zinc-700">
+                Not financial advice. Educational content only.
+              </p>
+            </div>
           </div>
         </div>
       </footer>

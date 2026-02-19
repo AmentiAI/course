@@ -24,6 +24,7 @@ interface CourseCardProps {
   avgRating: number;
   isNew?: boolean;
   isPopular?: boolean;
+  initialWishlisted?: boolean;
 }
 
 export default function CourseCard({
@@ -31,10 +32,11 @@ export default function CourseCard({
   avgRating,
   isNew,
   isPopular,
+  initialWishlisted = false,
 }: CourseCardProps) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [wishlisted, setWishlisted] = useState(false);
+  const [wishlisted, setWishlisted] = useState(initialWishlisted);
   const [wishlistLoading, setWishlistLoading] = useState(false);
 
   const handleWishlist = async (e: React.MouseEvent) => {
@@ -51,7 +53,8 @@ export default function CourseCard({
         body: JSON.stringify({ courseId: course.id }),
       });
       if (res.ok) {
-        setWishlisted(!wishlisted);
+        const data = await res.json();
+        setWishlisted(data.wishlisted ?? !wishlisted);
       }
     } finally {
       setWishlistLoading(false);

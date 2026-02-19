@@ -16,8 +16,10 @@ import {
   ArrowRight,
   Globe,
   BarChart3,
+  MessageSquare,
 } from "lucide-react";
 import CourseEnrollButton from "@/components/CourseEnrollButton";
+import ReviewForm from "@/components/ReviewForm";
 
 async function getCourse(slug: string) {
   return prisma.course.findUnique({
@@ -358,6 +360,34 @@ export default async function CourseDetailPage({
                     ({course._count.reviews})
                   </span>
                 </div>
+              </div>
+
+              {/* Review form for enrolled users */}
+              {enrollment && (
+                <div className="mb-6">
+                  <ReviewForm courseId={course.id} />
+                </div>
+              )}
+
+              {/* Discussion board link */}
+              <div className="mb-6">
+                <Link
+                  href={`/c/${course.slug}/discuss`}
+                  className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-purple-500/40 transition-all group"
+                >
+                  <div className="h-10 w-10 rounded-lg bg-purple-600/20 flex items-center justify-center shrink-0">
+                    <MessageSquare className="h-5 w-5 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
+                      Join the Discussion
+                    </p>
+                    <p className="text-xs text-zinc-500">
+                      Ask questions, get answers from the instructor & community
+                    </p>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-purple-400 ml-auto transition-colors" />
+                </Link>
               </div>
 
               {course.reviews.length > 0 ? (

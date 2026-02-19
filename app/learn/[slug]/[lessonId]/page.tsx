@@ -11,8 +11,10 @@ import {
   Lock,
   BookOpen,
   Award,
+  Menu,
 } from "lucide-react";
 import LessonContent from "@/components/LessonContent";
+import MobileSidebarToggle from "@/components/MobileSidebarToggle";
 
 async function getLessonData(slug: string, lessonId: string, userId?: string) {
   const course = await prisma.course.findUnique({
@@ -93,7 +95,20 @@ export default async function LessonPage({
 
   return (
     <div className="flex h-[calc(100vh-64px)] bg-[#09090b]">
-      {/* Sidebar */}
+      {/* Mobile sidebar toggle */}
+      <MobileSidebarToggle
+        courseSlug={slug}
+        courseTitle={course.title}
+        modules={course.modules}
+        currentLessonId={lessonId}
+        completedIds={Array.from(completedIds)}
+        isEnrolled={!!enrollment}
+        progressPct={progressPct}
+        completedCount={completedCount}
+        totalLessons={totalLessons}
+      />
+
+      {/* Sidebar (desktop) */}
       <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-zinc-800 overflow-hidden">
         {/* Course header */}
         <div className="p-4 border-b border-zinc-800">

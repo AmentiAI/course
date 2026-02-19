@@ -13,9 +13,10 @@ import {
   ChevronRight,
   Zap,
 } from "lucide-react";
+import MobileNav from "@/components/MobileNav";
 
 async function getDashboardData(userId: string) {
-  const [enrollments, certificates, notifications, recommendedCourses] =
+  const [enrollments, certificates, notifications, recommendedCourses, lessonProgress] =
     await Promise.all([
       prisma.enrollment.findMany({
         where: { userId },
@@ -23,7 +24,7 @@ async function getDashboardData(userId: string) {
           course: {
             include: {
               modules: {
-                include: { lessons: { orderBy: { order: "asc" }, take: 1 } },
+                include: { lessons: { orderBy: { order: "asc" } } },
                 orderBy: { order: "asc" },
               },
               _count: { select: { enrollments: true } },
@@ -54,17 +55,25 @@ async function getDashboardData(userId: string) {
         take: 3,
         orderBy: { enrollments: { _count: "desc" } },
       }),
+      prisma.lessonProgress.findMany({
+        where: { userId, completed: true },
+        orderBy: { completedAt: "desc" },
+        select: { lessonId: true, completedAt: true },
+      }),
     ]);
 
-  return { enrollments, certificates, notifications, recommendedCourses };
+  return { enrollments, certificates, notifications, recommendedCourses, lessonProgress };
 }
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/auth/signin?redirect=/dashboard");
 
-  const { enrollments, certificates, notifications, recommendedCourses } =
+  const { enrollments, certificates, notifications, recommendedCourses, lessonProgress } =
     await getDashboardData(session.user.id);
+
+  // Build a map of courseId -> last completed lessonId for the "resume" feature
+  const completedLessonIds = new Set(lessonProgress.map((p) => p.lessonId));
 
   const inProgress = enrollments.filter(
     (e) => e.progress > 0 && !e.completedAt
@@ -73,7 +82,7 @@ export default async function DashboardPage() {
   const completed = enrollments.filter((e) => e.completedAt);
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-10">
+    <div className="min-h-screen bg-[#09090b] px-4 py-10 pb-24 md:pb-10">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
@@ -143,8 +152,9 @@ export default async function DashboardPage() {
                 </h2>
                 <div className="space-y-3">
                   {inProgress.map((enrollment) => {
-                    const firstLesson =
-                      enrollment.course.modules[0]?.lessons[0];
+                    const allLessons = enrollment.course.modules.flatMap((m) => m.lessons);
+                    // Find next incomplete lesson
+                    const nextLesson = allLessons.find((l) => !completedLessonIds.has(l.id)) || allLessons[0];
                     return (
                       <div
                         key={enrollment.id}
@@ -172,8 +182,8 @@ export default async function DashboardPage() {
                           </div>
                           <Link
                             href={
-                              firstLesson
-                                ? `/learn/${enrollment.course.slug}/${firstLesson.id}`
+                              nextLesson
+                                ? `/learn/${enrollment.course.slug}/${nextLesson.id}`
                                 : `/courses/${enrollment.course.slug}`
                             }
                             className="inline-flex items-center gap-1.5 text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
@@ -402,6 +412,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+      <MobileNav />
     </div>
   );
 }
