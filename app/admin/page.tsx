@@ -219,7 +219,7 @@ export default async function AdminPage() {
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
             <h2 className="font-semibold text-white mb-4">Recent Users</h2>
             <div className="space-y-2">
-              {stats.recentUsers.map((u) => (
+              {stats.recentUsers.map((u: any) => (
                 <div
                   key={u.id}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-zinc-800 transition-colors"
