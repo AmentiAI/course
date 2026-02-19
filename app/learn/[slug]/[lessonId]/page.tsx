@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import LessonContent from "@/components/LessonContent";
 import MobileSidebarToggle from "@/components/MobileSidebarToggle";
+import LessonAudioPlayer from "@/components/LessonAudioPlayer";
 
 async function getLessonData(slug: string, lessonId: string, userId?: string) {
   const course = await prisma.course.findUnique({
@@ -255,6 +256,14 @@ export default async function LessonPage({
                 completedCount={completedCount}
               />
             </div>
+
+            {/* Audio Player */}
+            {lesson.content && (
+              <LessonAudioPlayer
+                content={lesson.content}
+                lessonTitle={lesson.title}
+              />
+            )}
 
             {/* Lesson content */}
             <div className="prose prose-invert prose-sm max-w-none">
