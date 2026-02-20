@@ -55,20 +55,24 @@ export default function WishlistButton({
 
       console.log('Wishlist API response:', res.status);
       
+      const data = await res.json();
+      console.log('Wishlist API response:', data);
+      
       if (!res.ok) {
-        const errorData = await res.json();
-        console.error('Wishlist API error:', errorData);
-        throw new Error(errorData.error || 'Failed to update wishlist');
+        console.error('Wishlist API error:', data);
+        const errorMsg = data.details 
+          ? `${data.error}: ${data.details}` 
+          : data.error || 'Failed to update wishlist';
+        throw new Error(errorMsg);
       }
 
-      const data = await res.json();
-      console.log('Wishlist updated:', data);
-      
       if (data.wishlisted !== undefined) {
+        console.log('Wishlist updated successfully:', data.wishlisted);
         setWishlisted(data.wishlisted);
         // Refresh the page data to update counts
         router.refresh();
       } else {
+        console.error('Invalid response:', data);
         throw new Error('Invalid response from server');
       }
     } catch (error: any) {
