@@ -146,7 +146,6 @@ Thanks for testing! 🚀`,
   const discussion = await prisma.discussion.create({
     data: {
       courseId: course.id,
-      title: 'Test Course Discussion',
     },
   });
 
