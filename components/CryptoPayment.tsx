@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Bitcoin, Loader2, Check, AlertCircle, ExternalLink } from 'lucide-react';
+import { Bitcoin, Loader2, Check, AlertCircle, ExternalLink, Wallet } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useLaserEyes } from '@omnisat/lasereyes';
 
@@ -21,6 +21,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [txHash, setTxHash] = useState<string>('');
+  const [showWalletPicker, setShowWalletPicker] = useState(false);
 
   // Bitcoin wallet hooks
   const { connect: connectBTC, address: btcAddress, sendBTC, connected: btcConnected } = useLaserEyes();
@@ -54,18 +55,32 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
     return coursePrice / solPrice;
   };
 
+  const handleConnectWallet = async (walletType: string) => {
+    setLoading(true);
+    setError(null);
+    setShowWalletPicker(false);
+
+    try {
+      await connectBTC(walletType as any);
+      setLoading(false);
+    } catch (err: any) {
+      console.error('Wallet connection error:', err);
+      setError(err.message || 'Failed to connect wallet');
+      setLoading(false);
+    }
+  };
+
   const handleBitcoinPayment = async () => {
+    // If not connected, show wallet picker
+    if (!btcConnected) {
+      setShowWalletPicker(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     try {
-      // Connect wallet if not connected
-      if (!btcConnected) {
-        await connectBTC();
-        setLoading(false);
-        return;
-      }
-
       const paymentAddress = process.env.NEXT_PUBLIC_BTC_PAYMENT_ADDRESS!;
       const satsAmount = calculateSatsAmount();
 
@@ -95,25 +110,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
   };
 
   const handleSolanaPayment = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Dynamic import to avoid SSR issues
-      const { useWallet } = await import('@solana/wallet-adapter-react');
-      const { WalletNotConnectedError } = await import('@solana/wallet-adapter-base');
-      const { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } = await import('@solana/web3.js');
-      
-      setError('Solana wallet integration coming soon. Please use Bitcoin for now.');
-      
-      // TODO: Implement Solana wallet adapter properly
-      // Need to wrap the app in WalletProvider first
-    } catch (err: any) {
-      console.error('Solana payment error:', err);
-      setError(err.message || 'Failed to process Solana payment');
-    } finally {
-      setLoading(false);
-    }
+    setError('Solana wallet integration coming soon. Please use Bitcoin for now.');
   };
 
   const verifyBitcoinPayment = async (txid: string, payAddr: string, expectedSats: number) => {
@@ -205,6 +202,14 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
     );
   }
 
+  const wallets = [
+    { id: 'unisat', name: 'Unisat Wallet', icon: '🟠' },
+    { id: 'xverse', name: 'Xverse', icon: '⚡' },
+    { id: 'leather', name: 'Leather (Hiro)', icon: '🟤' },
+    { id: 'okx', name: 'OKX Wallet', icon: '⚫' },
+    { id: 'magiceden', name: 'Magic Eden', icon: '🔮' },
+  ];
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">Pay with Crypto</h3>
@@ -216,57 +221,88 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
         </div>
       )}
 
-      {/* Currency selection */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          onClick={() => setSelectedCrypto('BTC')}
-          disabled={!btcPrice || loading || verifying}
-          className={`p-4 rounded-xl border transition-all ${
-            selectedCrypto === 'BTC'
-              ? 'border-orange-500 bg-orange-500/10'
-              : 'border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <Bitcoin className="h-5 w-5 text-orange-400" />
-            <span className="font-semibold text-white">Bitcoin</span>
+      {/* Wallet picker modal */}
+      {showWalletPicker && (
+        <div className="rounded-xl border border-zinc-700 bg-zinc-900 p-4">
+          <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+            <Wallet className="h-4 w-4" />
+            Choose Bitcoin Wallet
+          </h4>
+          <div className="space-y-2">
+            {wallets.map((wallet) => (
+              <button
+                key={wallet.id}
+                onClick={() => handleConnectWallet(wallet.id)}
+                disabled={loading}
+                className="w-full flex items-center gap-3 p-3 rounded-lg border border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800 hover:border-purple-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-2xl">{wallet.icon}</span>
+                <span className="text-sm font-medium text-white">{wallet.name}</span>
+              </button>
+            ))}
           </div>
-          {btcPrice ? (
-            <div className="text-xs text-zinc-400">
-              {(coursePrice / btcPrice).toFixed(6)} BTC
-              <br />({calculateSatsAmount().toLocaleString()} sats)
-            </div>
-          ) : (
-            <div className="text-xs text-zinc-500">Loading price...</div>
-          )}
-        </button>
+          <button
+            onClick={() => setShowWalletPicker(false)}
+            className="mt-3 text-xs text-zinc-500 hover:text-zinc-300 w-full text-center"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
 
-        <button
-          onClick={() => setSelectedCrypto('SOL')}
-          disabled={!solPrice || loading || verifying}
-          className={`p-4 rounded-xl border transition-all ${
-            selectedCrypto === 'SOL'
-              ? 'border-purple-500 bg-purple-500/10'
-              : 'border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <div className="h-5 w-5 rounded-full bg-gradient-to-r from-purple-400 to-blue-400" />
-            <span className="font-semibold text-white">Solana</span>
-          </div>
-          {solPrice ? (
-            <div className="text-xs text-zinc-400">
-              {calculateSolAmount().toFixed(4)} SOL
-              <div className="text-zinc-600 text-[10px] mt-1">Coming soon</div>
+      {/* Currency selection */}
+      {!showWalletPicker && (
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => setSelectedCrypto('BTC')}
+            disabled={!btcPrice || loading || verifying}
+            className={`p-4 rounded-xl border transition-all ${
+              selectedCrypto === 'BTC'
+                ? 'border-orange-500 bg-orange-500/10'
+                : 'border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800'
+            } disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Bitcoin className="h-5 w-5 text-orange-400" />
+              <span className="font-semibold text-white">Bitcoin</span>
             </div>
-          ) : (
-            <div className="text-xs text-zinc-500">Loading price...</div>
-          )}
-        </button>
-      </div>
+            {btcPrice ? (
+              <div className="text-xs text-zinc-400">
+                {(coursePrice / btcPrice).toFixed(6)} BTC
+                <br />({calculateSatsAmount().toLocaleString()} sats)
+              </div>
+            ) : (
+              <div className="text-xs text-zinc-500">Loading price...</div>
+            )}
+          </button>
+
+          <button
+            onClick={() => setSelectedCrypto('SOL')}
+            disabled={!solPrice || loading || verifying}
+            className={`p-4 rounded-xl border transition-all ${
+              selectedCrypto === 'SOL'
+                ? 'border-purple-500 bg-purple-500/10'
+                : 'border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800'
+            } disabled:opacity-50 disabled:cursor-not-allowed`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <div className="h-5 w-5 rounded-full bg-gradient-to-r from-purple-400 to-blue-400" />
+              <span className="font-semibold text-white">Solana</span>
+            </div>
+            {solPrice ? (
+              <div className="text-xs text-zinc-400">
+                {calculateSolAmount().toFixed(4)} SOL
+                <div className="text-zinc-600 text-[10px] mt-1">Coming soon</div>
+              </div>
+            ) : (
+              <div className="text-xs text-zinc-500">Loading price...</div>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Wallet status */}
-      {selectedCrypto === 'BTC' && btcConnected && btcAddress && (
+      {!showWalletPicker && selectedCrypto === 'BTC' && btcConnected && btcAddress && (
         <div className="text-xs text-green-400 flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-lg p-2">
           <Check className="h-3 w-3" />
           Wallet connected: {btcAddress.slice(0, 6)}...{btcAddress.slice(-4)}
@@ -274,7 +310,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
       )}
 
       {/* Payment button */}
-      {selectedCrypto === 'BTC' && (
+      {!showWalletPicker && selectedCrypto === 'BTC' && (
         <button
           onClick={handleBitcoinPayment}
           disabled={loading || verifying}
@@ -283,7 +319,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
           {loading ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" />
-              {btcConnected ? 'Processing payment...' : 'Connect wallet...'}
+              {btcConnected ? 'Processing payment...' : 'Connecting...'}
             </>
           ) : verifying ? (
             <>
@@ -296,12 +332,15 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
               Pay {calculateSatsAmount().toLocaleString()} sats
             </>
           ) : (
-            'Connect Bitcoin Wallet'
+            <>
+              <Wallet className="h-5 w-5" />
+              Connect Bitcoin Wallet
+            </>
           )}
         </button>
       )}
 
-      {selectedCrypto === 'SOL' && (
+      {!showWalletPicker && selectedCrypto === 'SOL' && (
         <button
           onClick={handleSolanaPayment}
           disabled={true}
@@ -341,15 +380,17 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
       )}
 
       {/* Info */}
-      <div className="text-xs text-zinc-500 space-y-1 bg-zinc-800/30 rounded-lg p-3">
-        <p className="font-medium text-zinc-400 mb-2">How it works:</p>
-        <p>1. Click "Connect Bitcoin Wallet"</p>
-        <p>2. Choose your wallet (Unisat, Xverse, etc.)</p>
-        <p>3. Sign the transaction in your wallet</p>
-        <p>4. Wait 1-2 minutes for confirmation</p>
-        <p>5. Instant access to the course!</p>
-        <p className="text-zinc-600 mt-2">• Minimum: 600 sats • Prices update every 30s</p>
-      </div>
+      {!showWalletPicker && (
+        <div className="text-xs text-zinc-500 space-y-1 bg-zinc-800/30 rounded-lg p-3">
+          <p className="font-medium text-zinc-400 mb-2">How it works:</p>
+          <p>1. Click "Connect Bitcoin Wallet"</p>
+          <p>2. Choose your wallet (Unisat, Xverse, etc.)</p>
+          <p>3. Sign the transaction in your wallet</p>
+          <p>4. Wait 1-2 minutes for confirmation</p>
+          <p>5. Instant access to the course!</p>
+          <p className="text-zinc-600 mt-2">• Minimum: 600 sats • Prices update every 30s</p>
+        </div>
+      )}
     </div>
   );
 }
