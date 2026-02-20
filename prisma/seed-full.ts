@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Level } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import bcrypt from "bcryptjs";
@@ -1272,6 +1272,7 @@ Phase 3 Optimization (Month 2+): Run retargeting ads (target people who visited 
     await prisma.course.create({
       data: {
         ...courseFields,
+        level: courseFields.level as Level,
         modules: {
           create: modules.map((module) => ({
             title: module.title,
