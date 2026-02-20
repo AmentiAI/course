@@ -5,11 +5,13 @@ import { SlidersHorizontal } from "lucide-react";
 
 const CATEGORIES = [
   "Web3 & Crypto",
-  "AI & Automation",
-  "Trading",
+  "Marketing & Social",
   "E-Commerce",
-  "Social Media",
-  "Freelancing",
+  "Tech & Development",
+  "Tech & AI",
+  "Finance & Investing",
+  "Business",
+  "Productivity & Tools",
 ];
 
 const LEVELS = ["BEGINNER", "INTERMEDIATE", "ADVANCED"];
