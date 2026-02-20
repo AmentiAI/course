@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, SkipForward, SkipBack } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Play, Pause, Volume2, VolumeX, Loader2, AlertCircle } from 'lucide-react';
 
 interface LessonAudioPlayerProps {
   content: string;
@@ -10,166 +10,150 @@ interface LessonAudioPlayerProps {
 
 export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [volume, setVolume] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
-  const [isSupported, setIsSupported] = useState(false);
-  const [rate, setRate] = useState(1);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Cleanup audio URL on unmount
   useEffect(() => {
-    // Check if speech synthesis is supported
-    setIsSupported('speechSynthesis' in window);
-    
     return () => {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
       }
     };
-  }, []);
+  }, [audioUrl]);
 
-  const cleanTextForSpeech = (text: string): string => {
-    // Remove markdown formatting
-    return text
-      .replace(/#{1,6}\s/g, '') // Remove headers
-      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
-      .replace(/\*(.*?)\*/g, '$1') // Remove italic
-      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links
-      .replace(/`(.*?)`/g, '$1') // Remove code blocks
-      .replace(/^[-*+]\s/gm, '') // Remove list markers
-      .replace(/^\d+\.\s/gm, '') // Remove numbered list markers
-      .trim();
-  };
-
-  const startSpeaking = () => {
-    if (!isSupported || !content) return;
-
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
-
-    const cleanText = cleanTextForSpeech(content);
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    
-    // Configure voice settings
-    utterance.rate = rate;
-    utterance.pitch = 1;
-    utterance.volume = isMuted ? 0 : volume;
-    
-    // Try to use a good English voice
-    const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(voice => 
-      voice.lang.startsWith('en') && voice.name.includes('Google')
-    ) || voices.find(voice => voice.lang.startsWith('en'));
-    
-    if (englishVoice) {
-      utterance.voice = englishVoice;
+  // Update audio element when volume/mute/rate changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+      audioRef.current.playbackRate = playbackRate;
     }
+  }, [volume, isMuted, playbackRate]);
 
-    // Event handlers
-    utterance.onstart = () => {
+  const generateAudio = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate audio');
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+
+      // Create audio element
+      const audio = new Audio(url);
+      audio.volume = isMuted ? 0 : volume;
+      audio.playbackRate = playbackRate;
+
+      audio.addEventListener('loadedmetadata', () => {
+        setDuration(audio.duration);
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        setCurrentTime(audio.currentTime);
+      });
+
+      audio.addEventListener('ended', () => {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      });
+
+      audio.addEventListener('error', () => {
+        setError('Failed to play audio');
+        setIsPlaying(false);
+      });
+
+      audioRef.current = audio;
+      
+      // Auto-play after generation
+      audio.play();
       setIsPlaying(true);
-      setIsPaused(false);
-    };
-
-    utterance.onend = () => {
-      setIsPlaying(false);
-      setIsPaused(false);
-      setProgress(100);
-    };
-
-    utterance.onerror = (event) => {
-      console.error('Speech error:', event);
-      setIsPlaying(false);
-      setIsPaused(false);
-    };
-
-    utterance.onboundary = (event) => {
-      // Update progress based on character position
-      const progressPercent = (event.charIndex / cleanText.length) * 100;
-      setProgress(progressPercent);
-    };
-
-    utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const pauseSpeaking = () => {
-    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-      window.speechSynthesis.pause();
-      setIsPaused(true);
-      setIsPlaying(false);
+    } catch (err) {
+      console.error('Audio generation error:', err);
+      setError('Failed to generate audio. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const resumeSpeaking = () => {
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-      setIsPaused(false);
+  const togglePlay = async () => {
+    if (!audioUrl) {
+      await generateAudio();
+      return;
+    }
+
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
       setIsPlaying(true);
     }
   };
 
-  const stopSpeaking = () => {
-    window.speechSynthesis.cancel();
+  const handleStop = () => {
+    if (!audioRef.current) return;
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
     setIsPlaying(false);
-    setIsPaused(false);
-    setProgress(0);
-  };
-
-  const skipForward = () => {
-    stopSpeaking();
-    // Could implement chapter-based skipping if we parse the content
-  };
-
-  const skipBackward = () => {
-    stopSpeaking();
-    startSpeaking();
+    setCurrentTime(0);
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    if (utteranceRef.current) {
-      utteranceRef.current.volume = isMuted ? volume : 0;
-    }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    if (utteranceRef.current) {
-      utteranceRef.current.volume = isMuted ? 0 : newVolume;
+    if (isMuted) setIsMuted(false);
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = parseFloat(e.target.value);
+    setCurrentTime(newTime);
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
     }
   };
 
-  const handleRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newRate = parseFloat(e.target.value);
-    setRate(newRate);
-    // If currently playing, restart with new rate
-    if (isPlaying || isPaused) {
-      stopSpeaking();
-      setTimeout(startSpeaking, 100);
-    }
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!isSupported) {
-    return (
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-sm text-yellow-800">
-        <p>🔊 Audio playback is not supported in your browser. Try Chrome, Safari, or Edge.</p>
-      </div>
-    );
-  }
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6 mb-6">
+    <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-5 mb-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center shrink-0">
             <Volume2 className="w-5 h-5 text-white" />
           </div>
           <div>
             <h3 className="font-bold text-gray-900">Listen to Lesson</h3>
-            <p className="text-sm text-gray-600">Audio narration of this lesson</p>
+            <p className="text-sm text-gray-600">Natural AI voice narration</p>
           </div>
         </div>
         
@@ -177,27 +161,47 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-600">Speed:</span>
           <select
-            value={rate}
-            onChange={(e) => handleRateChange({ target: { value: e.target.value } } as any)}
+            value={playbackRate}
+            onChange={(e) => setPlaybackRate(parseFloat(e.target.value))}
             className="text-sm border border-gray-300 rounded px-2 py-1 bg-white"
+            disabled={isLoading}
           >
             <option value="0.75">0.75x</option>
             <option value="1">1x</option>
             <option value="1.25">1.25x</option>
             <option value="1.5">1.5x</option>
+            <option value="1.75">1.75x</option>
             <option value="2">2x</option>
           </select>
         </div>
       </div>
 
+      {/* Error message */}
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+          <p className="text-sm text-red-800">{error}</p>
+        </div>
+      )}
+
       {/* Progress bar */}
-      {(isPlaying || isPaused) && (
+      {audioUrl && duration > 0 && (
         <div className="mb-4">
-          <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-purple-600 transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
+          <input
+            type="range"
+            min="0"
+            max={duration}
+            step="0.1"
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-600 [&::-webkit-slider-thumb]:cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, rgb(147 51 234) 0%, rgb(147 51 234) ${progressPercent}%, rgb(229 231 235) ${progressPercent}%, rgb(229 231 235) 100%)`
+            }}
+          />
+          <div className="flex justify-between text-xs text-gray-600 mt-1">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
           </div>
         </div>
       )}
@@ -205,48 +209,28 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {/* Skip back */}
+          {/* Play/Pause */}
           <button
-            onClick={skipBackward}
-            disabled={!isPlaying && !isPaused}
-            className="p-2 rounded-lg hover:bg-white/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            title="Restart"
+            onClick={togglePlay}
+            disabled={isLoading}
+            className="p-3 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 rounded-full transition-colors shadow-lg disabled:cursor-not-allowed"
+            title={isPlaying ? 'Pause' : 'Play'}
           >
-            <SkipBack className="w-5 h-5 text-gray-700" />
+            {isLoading ? (
+              <Loader2 className="w-6 h-6 text-white animate-spin" />
+            ) : isPlaying ? (
+              <Pause className="w-6 h-6 text-white" />
+            ) : (
+              <Play className="w-6 h-6 text-white fill-white" />
+            )}
           </button>
 
-          {/* Play/Pause */}
-          {!isPlaying && !isPaused ? (
-            <button
-              onClick={startSpeaking}
-              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors shadow-lg"
-              title="Play"
-            >
-              <Play className="w-6 h-6 text-white fill-white" />
-            </button>
-          ) : isPaused ? (
-            <button
-              onClick={resumeSpeaking}
-              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors shadow-lg"
-              title="Resume"
-            >
-              <Play className="w-6 h-6 text-white fill-white" />
-            </button>
-          ) : (
-            <button
-              onClick={pauseSpeaking}
-              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors shadow-lg"
-              title="Pause"
-            >
-              <Pause className="w-6 h-6 text-white" />
-            </button>
-          )}
-
           {/* Stop */}
-          {(isPlaying || isPaused) && (
+          {audioUrl && (
             <button
-              onClick={stopSpeaking}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-lg text-sm font-medium transition-colors"
+              onClick={handleStop}
+              disabled={isLoading}
+              className="px-4 py-2 bg-gray-700 hover:bg-gray-800 disabled:bg-gray-400 text-white rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed"
             >
               Stop
             </button>
@@ -258,7 +242,7 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
           <button
             onClick={toggleMute}
             className="p-2 rounded-lg hover:bg-white/50 transition-colors"
-            title={isMuted ? "Unmute" : "Mute"}
+            title={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted ? (
               <VolumeX className="w-5 h-5 text-gray-700" />
@@ -270,17 +254,26 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
             type="range"
             min="0"
             max="1"
-            step="0.1"
+            step="0.05"
             value={isMuted ? 0 : volume}
             onChange={handleVolumeChange}
-            className="w-24"
+            className="w-24 h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-600 [&::-webkit-slider-thumb]:cursor-pointer"
           />
+          <span className="text-xs text-gray-600 w-8 text-right">
+            {Math.round((isMuted ? 0 : volume) * 100)}%
+          </span>
         </div>
       </div>
 
-      {(isPlaying || isPaused) && (
+      {isPlaying && (
         <p className="text-xs text-gray-600 mt-3 text-center">
-          {isPlaying ? '🔊 Playing...' : '⏸️ Paused'} • {lessonTitle}
+          🔊 Playing • {lessonTitle}
+        </p>
+      )}
+
+      {isLoading && (
+        <p className="text-xs text-purple-600 mt-3 text-center">
+          Generating natural voice audio...
         </p>
       )}
     </div>
