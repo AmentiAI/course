@@ -159,7 +159,7 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
           </div>
           <div>
             <h3 className="font-bold text-gray-900">Listen to Lesson</h3>
-            <p className="text-sm text-gray-600">Natural AI voice narration</p>
+            <p className="text-sm text-gray-600">Natural AI voice narration {content.length > 4000 && '(intro preview)'}</p>
           </div>
         </div>
         

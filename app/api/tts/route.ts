@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Clean text for speech (remove markdown formatting)
-    const cleanText = text
+    let cleanText = text
       .replace(/#{1,6}\s/g, '') // Remove headers
       .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
       .replace(/\*(.*?)\*/g, '$1') // Remove italic
@@ -23,6 +23,26 @@ export async function POST(req: NextRequest) {
       .replace(/^[-*+]\s/gm, '') // Remove list markers
       .replace(/^\d+\.\s/gm, '') // Remove numbered list markers
       .trim();
+
+    // OpenAI TTS has 4096 character limit - truncate intelligently if needed
+    const MAX_CHARS = 3800; // Safe margin under 4096
+    if (cleanText.length > MAX_CHARS) {
+      // Find the last sentence boundary before MAX_CHARS
+      const truncated = cleanText.substring(0, MAX_CHARS);
+      const lastPeriod = truncated.lastIndexOf('.');
+      const lastQuestion = truncated.lastIndexOf('?');
+      const lastExclamation = truncated.lastIndexOf('!');
+      
+      const lastSentenceEnd = Math.max(lastPeriod, lastQuestion, lastExclamation);
+      
+      if (lastSentenceEnd > 0) {
+        cleanText = truncated.substring(0, lastSentenceEnd + 1) + ' The full lesson content continues below.';
+      } else {
+        // No sentence boundary found, just truncate at word boundary
+        const lastSpace = truncated.lastIndexOf(' ');
+        cleanText = truncated.substring(0, lastSpace > 0 ? lastSpace : MAX_CHARS) + '... The full lesson content continues below.';
+      }
+    }
 
     // Use OpenAI TTS - alloy is a balanced, natural-sounding voice
     const mp3 = await openai.audio.speech.create({
