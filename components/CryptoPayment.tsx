@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Bitcoin, Loader2, Check, AlertCircle, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useLaserEyes } from '@omnisat/lasereyes';
 
 interface CryptoPaymentProps {
   courseId: string;
@@ -19,13 +20,15 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [paymentAddress, setPaymentAddress] = useState<string>('');
   const [txHash, setTxHash] = useState<string>('');
+
+  // Bitcoin wallet hooks
+  const { connect: connectBTC, address: btcAddress, sendBTC, connected: btcConnected } = useLaserEyes();
 
   // Fetch crypto prices
   useEffect(() => {
     fetchPrices();
-    const interval = setInterval(fetchPrices, 30000); // Refresh every 30s
+    const interval = setInterval(fetchPrices, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,20 +43,15 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
     }
   };
 
-  const calculateAmount = (crypto: 'BTC' | 'SOL'): number => {
-    if (crypto === 'BTC' && btcPrice) {
-      return coursePrice / btcPrice;
-    }
-    if (crypto === 'SOL' && solPrice) {
-      return coursePrice / solPrice;
-    }
-    return 0;
-  };
-
   const calculateSatsAmount = (): number => {
     if (!btcPrice) return 0;
     const btcAmount = coursePrice / btcPrice;
-    return Math.ceil(btcAmount * 100000000); // Convert to sats
+    return Math.ceil(btcAmount * 100000000);
+  };
+
+  const calculateSolAmount = (): number => {
+    if (!solPrice) return 0;
+    return coursePrice / solPrice;
   };
 
   const handleBitcoinPayment = async () => {
@@ -61,19 +59,14 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
     setError(null);
 
     try {
-      // Dynamic import of LaserEyes
-      const { useLaserEyes } = await import('@omnisat/lasereyes');
-      const { connect, sendBTC, address } = useLaserEyes();
-
-      // Connect wallet
-      if (!address) {
-        await connect();
+      // Connect wallet if not connected
+      if (!btcConnected) {
+        await connectBTC();
+        setLoading(false);
+        return;
       }
 
-      // Generate payment address (in production, get this from your backend)
-      const payAddr = process.env.NEXT_PUBLIC_BTC_PAYMENT_ADDRESS || 'YOUR_BTC_ADDRESS';
-      setPaymentAddress(payAddr);
-
+      const paymentAddress = process.env.NEXT_PUBLIC_BTC_PAYMENT_ADDRESS!;
       const satsAmount = calculateSatsAmount();
 
       if (satsAmount < 600) {
@@ -82,15 +75,20 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
         return;
       }
 
-      // Send BTC
-      const txid = await sendBTC(payAddr, satsAmount);
+      // Send BTC transaction
+      const txid = await sendBTC(paymentAddress, satsAmount);
+      console.log('Bitcoin transaction sent:', txid);
       setTxHash(txid);
 
-      // Verify transaction
-      await verifyBitcoinPayment(txid, payAddr, satsAmount);
+      // Start verification
+      await verifyBitcoinPayment(txid, paymentAddress, satsAmount);
     } catch (err: any) {
       console.error('Bitcoin payment error:', err);
-      setError(err.message || 'Failed to process Bitcoin payment');
+      if (err.message?.includes('User rejected')) {
+        setError('Transaction cancelled');
+      } else {
+        setError(err.message || 'Failed to process Bitcoin payment');
+      }
     } finally {
       setLoading(false);
     }
@@ -101,48 +99,15 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
     setError(null);
 
     try {
-      // Dynamic import of Solana wallet adapter
+      // Dynamic import to avoid SSR issues
       const { useWallet } = await import('@solana/wallet-adapter-react');
+      const { WalletNotConnectedError } = await import('@solana/wallet-adapter-base');
       const { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } = await import('@solana/web3.js');
       
-      const { publicKey, sendTransaction, connected, connect } = useWallet();
-
-      // Connect wallet if not connected
-      if (!connected || !publicKey) {
-        await connect();
-        return;
-      }
-
-      // Generate payment address
-      const payAddr = process.env.NEXT_PUBLIC_SOL_PAYMENT_ADDRESS || 'YOUR_SOL_ADDRESS';
-      setPaymentAddress(payAddr);
-
-      const solAmount = calculateAmount('SOL');
-      const lamports = Math.round(solAmount * LAMPORTS_PER_SOL);
-
-      // Create transaction
-      const connection = new Connection(
-        process.env.NEXT_PUBLIC_SOLANA_RPC || 'https://api.mainnet-beta.solana.com',
-        'confirmed'
-      );
-
-      const transaction = new Transaction().add(
-        SystemProgram.transfer({
-          fromPubkey: publicKey,
-          toPubkey: new PublicKey(payAddr),
-          lamports,
-        })
-      );
-
-      // Send transaction
-      const signature = await sendTransaction(transaction, connection);
-
-      // Wait for confirmation
-      await connection.confirmTransaction(signature, 'confirmed');
-      setTxHash(signature);
-
-      // Verify transaction
-      await verifySolanaPayment(signature, payAddr, solAmount);
+      setError('Solana wallet integration coming soon. Please use Bitcoin for now.');
+      
+      // TODO: Implement Solana wallet adapter properly
+      // Need to wrap the app in WalletProvider first
     } catch (err: any) {
       console.error('Solana payment error:', err);
       setError(err.message || 'Failed to process Solana payment');
@@ -153,64 +118,69 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
 
   const verifyBitcoinPayment = async (txid: string, payAddr: string, expectedSats: number) => {
     setVerifying(true);
-    try {
-      const res = await fetch('/api/crypto/verify-btc', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          txid,
-          courseId,
-          expectedAmount: expectedSats,
-          paymentAddress: payAddr,
-        }),
-      });
+    setError(null);
+    
+    // Poll for confirmation with exponential backoff
+    const maxAttempts = 20;
+    let attempt = 0;
+    
+    const verify = async (): Promise<boolean> => {
+      try {
+        const res = await fetch('/api/crypto/verify-btc', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            txid,
+            courseId,
+            expectedAmount: expectedSats,
+            paymentAddress: payAddr,
+          }),
+        });
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Verification failed');
+        if (res.ok) {
+          setSuccess(true);
+          setTimeout(() => {
+            router.push(`/learn/${courseSlug}`);
+          }, 2000);
+          return true;
+        } else if (data.error?.includes('not found')) {
+          // Transaction not in mempool yet, retry
+          return false;
+        } else {
+          // Real error
+          throw new Error(data.error || 'Verification failed');
+        }
+      } catch (err: any) {
+        if (attempt < maxAttempts - 1) {
+          return false; // Will retry
+        }
+        throw err;
       }
+    };
 
-      setSuccess(true);
-      setTimeout(() => {
-        router.push(`/learn/${courseSlug}`);
-      }, 2000);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setVerifying(false);
-    }
-  };
-
-  const verifySolanaPayment = async (signature: string, payAddr: string, expectedSol: number) => {
-    setVerifying(true);
-    try {
-      const res = await fetch('/api/crypto/verify-sol', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          signature,
-          courseId,
-          expectedAmount: expectedSol,
-          paymentAddress: payAddr,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Verification failed');
+    while (attempt < maxAttempts) {
+      try {
+        const verified = await verify();
+        if (verified) {
+          setVerifying(false);
+          return;
+        }
+        
+        // Wait before retry (exponential backoff: 2s, 4s, 8s, 16s, 30s max)
+        const delay = Math.min(2000 * Math.pow(2, attempt), 30000);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        attempt++;
+      } catch (err: any) {
+        setError(err.message);
+        setVerifying(false);
+        return;
       }
-
-      setSuccess(true);
-      setTimeout(() => {
-        router.push(`/learn/${courseSlug}`);
-      }, 2000);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setVerifying(false);
     }
+
+    setError('Transaction verification timeout. Please contact support with your transaction ID: ' + txid);
+    setVerifying(false);
   };
 
   if (success) {
@@ -223,11 +193,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
         </p>
         {txHash && (
           <a
-            href={
-              selectedCrypto === 'BTC'
-                ? `https://mempool.space/tx/${txHash}`
-                : `https://solscan.io/tx/${txHash}`
-            }
+            href={`https://mempool.space/tx/${txHash}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
@@ -242,6 +208,13 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-white">Pay with Crypto</h3>
+
+      {/* Live price display */}
+      {btcPrice && (
+        <div className="text-xs text-zinc-500 mb-2">
+          Live price: 1 BTC = ${btcPrice.toLocaleString()} USD
+        </div>
+      )}
 
       {/* Currency selection */}
       <div className="grid grid-cols-2 gap-3">
@@ -260,7 +233,7 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
           </div>
           {btcPrice ? (
             <div className="text-xs text-zinc-400">
-              {calculateAmount('BTC').toFixed(8)} BTC
+              {(coursePrice / btcPrice).toFixed(6)} BTC
               <br />({calculateSatsAmount().toLocaleString()} sats)
             </div>
           ) : (
@@ -283,7 +256,8 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
           </div>
           {solPrice ? (
             <div className="text-xs text-zinc-400">
-              {calculateAmount('SOL').toFixed(4)} SOL
+              {calculateSolAmount().toFixed(4)} SOL
+              <div className="text-zinc-600 text-[10px] mt-1">Coming soon</div>
             </div>
           ) : (
             <div className="text-xs text-zinc-500">Loading price...</div>
@@ -291,26 +265,49 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
         </button>
       </div>
 
+      {/* Wallet status */}
+      {selectedCrypto === 'BTC' && btcConnected && btcAddress && (
+        <div className="text-xs text-green-400 flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-lg p-2">
+          <Check className="h-3 w-3" />
+          Wallet connected: {btcAddress.slice(0, 6)}...{btcAddress.slice(-4)}
+        </div>
+      )}
+
       {/* Payment button */}
-      {selectedCrypto && (
+      {selectedCrypto === 'BTC' && (
         <button
-          onClick={selectedCrypto === 'BTC' ? handleBitcoinPayment : handleSolanaPayment}
+          onClick={handleBitcoinPayment}
           disabled={loading || verifying}
-          className="w-full rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-purple-800 px-6 py-4 text-base font-semibold text-white transition-all disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full rounded-xl bg-orange-600 hover:bg-orange-500 disabled:bg-orange-800 px-6 py-4 text-base font-semibold text-white transition-all disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" />
-              Connecting wallet...
+              {btcConnected ? 'Processing payment...' : 'Connect wallet...'}
             </>
           ) : verifying ? (
             <>
               <Loader2 className="h-5 w-5 animate-spin" />
-              Verifying payment...
+              Verifying on blockchain...
+            </>
+          ) : btcConnected ? (
+            <>
+              <Bitcoin className="h-5 w-5" />
+              Pay {calculateSatsAmount().toLocaleString()} sats
             </>
           ) : (
-            `Pay ${calculateSatsAmount().toLocaleString()} sats with ${selectedCrypto === 'BTC' ? 'Bitcoin' : 'Solana'}`
+            'Connect Bitcoin Wallet'
           )}
+        </button>
+      )}
+
+      {selectedCrypto === 'SOL' && (
+        <button
+          onClick={handleSolanaPayment}
+          disabled={true}
+          className="w-full rounded-xl bg-purple-600/50 px-6 py-4 text-base font-semibold text-white cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          Solana coming soon - Use Bitcoin
         </button>
       )}
 
@@ -322,11 +319,36 @@ export default function CryptoPayment({ courseId, coursePrice, courseSlug }: Cry
         </div>
       )}
 
+      {/* Transaction pending */}
+      {verifying && txHash && (
+        <div className="rounded-lg border border-yellow-500/30 bg-yellow-900/10 p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Loader2 className="h-4 w-4 text-yellow-400 animate-spin" />
+            <span className="text-sm font-medium text-yellow-300">Waiting for confirmation...</span>
+          </div>
+          <p className="text-xs text-zinc-400 mb-2">
+            This usually takes 1-2 minutes. Don't close this page.
+          </p>
+          <a
+            href={`https://mempool.space/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
+          >
+            Track on mempool.space <ExternalLink className="h-3 w-3" />
+          </a>
+        </div>
+      )}
+
       {/* Info */}
-      <div className="text-xs text-zinc-500 space-y-1">
-        <p>• Prices update every 30 seconds</p>
-        <p>• Bitcoin payments require minimum 600 sats</p>
-        <p>• Access granted after mempool confirmation</p>
+      <div className="text-xs text-zinc-500 space-y-1 bg-zinc-800/30 rounded-lg p-3">
+        <p className="font-medium text-zinc-400 mb-2">How it works:</p>
+        <p>1. Click "Connect Bitcoin Wallet"</p>
+        <p>2. Choose your wallet (Unisat, Xverse, etc.)</p>
+        <p>3. Sign the transaction in your wallet</p>
+        <p>4. Wait 1-2 minutes for confirmation</p>
+        <p>5. Instant access to the course!</p>
+        <p className="text-zinc-600 mt-2">• Minimum: 600 sats • Prices update every 30s</p>
       </div>
     </div>
   );
