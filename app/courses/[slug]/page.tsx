@@ -15,6 +15,7 @@ import {
   Globe,
   BarChart3,
   MessageSquare,
+  CreditCard,
 } from "lucide-react";
 import CourseEnrollButton from "@/components/CourseEnrollButton";
 
@@ -110,51 +111,48 @@ export default async function CourseDetailPage({
       {/* Hero */}
       <div className="bg-zinc-900 border-b border-zinc-800">
         <div className="mx-auto max-w-7xl px-4 py-4 lg:py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left: Course Info */}
-            <div className="lg:col-span-2">
-              {/* Breadcrumb */}
-              <div className="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-                <Link href="/courses" className="hover:text-zinc-300">
-                  Courses
-                </Link>
-                <span>/</span>
-                <span className="text-zinc-400">{course.category}</span>
-              </div>
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+            <Link href="/courses" className="hover:text-zinc-300">
+              Courses
+            </Link>
+            <span>/</span>
+            <span className="text-zinc-400">{course.category}</span>
+          </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
-                {course.title}
-              </h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
+            {course.title}
+          </h1>
 
-              <p className="text-zinc-400 text-base mb-3 leading-relaxed">
-                {course.shortDesc}
-              </p>
+          <p className="text-zinc-400 text-base mb-4 leading-relaxed">
+            {course.shortDesc}
+          </p>
 
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2">
-                <span className="text-xs border border-zinc-700 text-zinc-400 px-2.5 py-1 rounded-full">
-                  {course.level.charAt(0) + course.level.slice(1).toLowerCase()}
-                </span>
-                <span className="text-xs border border-zinc-700 text-zinc-400 px-2.5 py-1 rounded-full flex items-center gap-1">
-                  <Globe className="h-3 w-3" />
-                  {course.language}
-                </span>
-                {course.tags.slice(0, 4).map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs border border-zinc-700 text-zinc-500 px-2.5 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            <span className="text-xs border border-zinc-700 text-zinc-400 px-2.5 py-1 rounded-full">
+              {course.level.charAt(0) + course.level.slice(1).toLowerCase()}
+            </span>
+            <span className="text-xs border border-zinc-700 text-zinc-400 px-2.5 py-1 rounded-full flex items-center gap-1">
+              <Globe className="h-3 w-3" />
+              {course.language}
+            </span>
+            {course.tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="text-xs border border-zinc-700 text-zinc-500 px-2.5 py-1 rounded-full"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
 
-            {/* Right: Purchase Card */}
-            <div className="lg:col-span-1">
-              <div className="rounded-2xl border border-zinc-700 bg-zinc-950 overflow-hidden sticky top-20">
-                {/* Thumbnail */}
-                <div className="relative aspect-video">
+          {/* Horizontal Purchase Card */}
+          <div className="rounded-xl border border-zinc-700 bg-zinc-950 overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
+              {/* Thumbnail - left side */}
+              <div className="md:col-span-3">
+                <div className="relative aspect-video rounded-lg overflow-hidden">
                   <img
                     src={course.thumbnail}
                     alt={course.title}
@@ -162,78 +160,75 @@ export default async function CourseDetailPage({
                   />
                   {course.previewVideo && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-                        <Play className="h-6 w-6 text-white fill-white" />
+                      <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                        <Play className="h-5 w-5 text-white fill-white" />
                       </div>
                     </div>
                   )}
                 </div>
+              </div>
 
-                <div className="p-5">
-                  {/* Price */}
-                  <div className="flex items-baseline gap-3 mb-4">
-                    <span className="text-3xl font-bold text-amber-400">
-                      ${course.price}
-                    </span>
-                    {course.originalPrice && (
-                      <>
-                        <span className="text-lg text-zinc-500 line-through">
-                          ${course.originalPrice}
+              {/* Price & Enroll - middle */}
+              <div className="md:col-span-4 flex flex-col justify-center">
+                <div className="flex items-baseline gap-2 mb-3">
+                  <span className="text-3xl font-bold text-amber-400">
+                    ${course.price}
+                  </span>
+                  {course.originalPrice && (
+                    <>
+                      <span className="text-base text-zinc-500 line-through">
+                        ${course.originalPrice}
+                      </span>
+                      {discount && (
+                        <span className="text-xs font-bold text-green-400">
+                          {discount}% OFF
                         </span>
-                        {discount && (
-                          <span className="text-sm font-bold text-green-400">
-                            {discount}% OFF
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </div>
+                      )}
+                    </>
+                  )}
+                </div>
+                <CourseEnrollButton
+                  courseId={course.id}
+                  courseSlug={course.slug}
+                  enrolled={!!enrollment}
+                  firstLessonId={firstFreeLesson?.id}
+                />
+              </div>
 
-                  {/* Enroll Button */}
-                  <CourseEnrollButton
-                    courseId={course.id}
-                    courseSlug={course.slug}
-                    enrolled={!!enrollment}
-                    firstLessonId={firstFreeLesson?.id}
-                  />
-
-                  {/* Course Stats */}
-                  <div className="mt-5 space-y-2.5 text-sm">
-                    {[
-                      {
-                        icon: Clock,
-                        label: `${course.totalHours} hours of content`,
-                      },
-                      {
-                        icon: BookOpen,
-                        label: `${course.totalLessons} lessons`,
-                      },
-                      {
-                        icon: BarChart3,
-                        label: `${course.level.charAt(0) + course.level.slice(1).toLowerCase()} level`,
-                      },
-                      { icon: Globe, label: course.language },
-                      {
-                        icon: Award,
-                        label: "Certificate of completion",
-                      },
-                    ].map(({ icon: Icon, label }) => (
-                      <div
-                        key={label}
-                        className="flex items-center gap-2.5 text-zinc-400"
-                      >
-                        <Icon className="h-4 w-4 text-zinc-500 shrink-0" />
-                        {label}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Crypto payment mention */}
-                  <div className="mt-4 pt-4 border-t border-zinc-800">
-                    <p className="text-xs text-zinc-600 text-center">
-                      💳 Card · ◎ SOL · ₿ BTC accepted
-                    </p>
-                  </div>
+              {/* Stats - right side */}
+              <div className="md:col-span-5 flex flex-col justify-center">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                  {[
+                    {
+                      icon: Clock,
+                      label: `${course.totalHours}h content`,
+                    },
+                    {
+                      icon: BookOpen,
+                      label: `${course.totalLessons} lessons`,
+                    },
+                    {
+                      icon: BarChart3,
+                      label: `${course.level.charAt(0) + course.level.slice(1).toLowerCase()}`,
+                    },
+                    { icon: Globe, label: course.language },
+                    {
+                      icon: Award,
+                      label: "Certificate",
+                    },
+                    {
+                      icon: CreditCard,
+                      label: "Card · SOL · BTC",
+                    },
+                  ].map(({ icon: Icon, label }) => (
+                    <div
+                      key={label}
+                      className="flex items-center gap-1.5 text-zinc-400"
+                    >
+                      <Icon className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
+                      <span className="truncate">{label}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -243,8 +238,7 @@ export default async function CourseDetailPage({
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 py-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-4">
+        <div className="space-y-4">
             {/* What You'll Learn */}
             <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
               <h2 className="text-xl font-bold text-white mb-4">
@@ -312,10 +306,6 @@ export default async function CourseDetailPage({
                 </Link>
               </div>
             </section>
-          </div>
-
-          {/* Sidebar (desktop duplicate of purchase card - hidden) */}
-          <div className="hidden lg:block" />
         </div>
       </div>
     </div>
