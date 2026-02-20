@@ -40,8 +40,20 @@ export async function POST(req: NextRequest) {
         'Content-Length': buffer.length.toString(),
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('TTS Error:', error);
-    return new Response('Failed to generate audio', { status: 500 });
+    
+    // Return detailed error for debugging
+    return new Response(
+      JSON.stringify({
+        error: 'Failed to generate audio',
+        details: error.message,
+        hint: 'Try a shorter text or check OpenAI API key'
+      }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
   }
 }
