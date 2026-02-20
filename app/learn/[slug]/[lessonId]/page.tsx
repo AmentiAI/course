@@ -214,8 +214,8 @@ export default async function LessonPage({
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Lesson content */}
         <div className="flex-1 overflow-y-auto">
-          {/* Video area */}
-          {lesson.videoUrl ? (
+          {/* Video area - only show if there's actually a video */}
+          {lesson.videoUrl && (
             <div className="relative bg-black aspect-video max-h-[55vh]">
               <iframe
                 src={lesson.videoUrl.replace("watch?v=", "embed/")}
@@ -224,17 +224,10 @@ export default async function LessonPage({
                 allowFullScreen
               />
             </div>
-          ) : (
-            <div className="aspect-video max-h-[40vh] bg-zinc-900 border-b border-zinc-800 flex items-center justify-center">
-              <div className="text-center">
-                <BookOpen className="h-12 w-12 text-zinc-700 mx-auto mb-3" />
-                <p className="text-zinc-500 text-sm">Reading lesson</p>
-              </div>
-            </div>
           )}
 
           {/* Lesson info and content */}
-          <div className="max-w-3xl mx-auto px-4 py-8">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
                 <p className="text-sm text-zinc-500 mb-1">
