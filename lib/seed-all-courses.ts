@@ -51,9 +51,17 @@ const generateCourseStructure = (
         globalLessonIndex
       );
       
+      // Calculate realistic duration based on word count
+      // Average reading speed: 200-250 words/min for educational content
+      // Add time for pausing, note-taking, and comprehension
+      const wordCount = content.split(/\s+/).length;
+      const readingTimeMin = Math.ceil(wordCount / 200); // Conservative reading speed
+      const practiceTimeMin = Math.ceil(readingTimeMin * 0.3); // 30% extra for practice/reflection
+      const totalDuration = readingTimeMin + practiceTimeMin;
+      
       lessons.push({
         title: fullLessonTitle,
-        duration: 15 + Math.floor(Math.random() * 20),
+        duration: Math.max(5, Math.min(totalDuration, 45)), // Clamp between 5-45 min
         order: j + 1,
         isFree: i === 0 && j === 0,
         content: content,
