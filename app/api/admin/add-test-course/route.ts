@@ -57,7 +57,6 @@ export async function POST(req: NextRequest) {
       data: {
         courseId: course.id,
         title: 'Test Module',
-        description: 'Quick test lessons',
         order: 1,
       },
     });
