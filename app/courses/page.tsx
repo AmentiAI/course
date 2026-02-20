@@ -28,7 +28,7 @@ async function getCourses(params: SearchParams) {
   }
 
   if (category && category !== "all") {
-    where.category = { contains: category, mode: "insensitive" };
+    where.category = category;
   }
 
   if (level && level !== "all") {
