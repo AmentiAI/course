@@ -26,12 +26,12 @@ async function getAllCourses() {
 }
 
 const CATEGORIES = [
-  { name: "Web3 & Crypto", icon: "⛓️", color: "from-purple-600 to-purple-800" },
-  { name: "AI & Automation", icon: "🤖", color: "from-blue-600 to-blue-800" },
-  { name: "Trading", icon: "📈", color: "from-green-600 to-green-800" },
-  { name: "E-Commerce", icon: "🛒", color: "from-orange-600 to-orange-800" },
-  { name: "Social Media", icon: "📱", color: "from-pink-600 to-pink-800" },
-  { name: "Freelancing", icon: "💼", color: "from-yellow-600 to-yellow-800" },
+  { name: "Web3 & Crypto", color: "from-purple-600 to-purple-800" },
+  { name: "AI & Automation", color: "from-blue-600 to-blue-800" },
+  { name: "Trading", color: "from-green-600 to-green-800" },
+  { name: "E-Commerce", color: "from-orange-600 to-orange-800" },
+  { name: "Social Media", color: "from-pink-600 to-pink-800" },
+  { name: "Freelancing", color: "from-yellow-600 to-yellow-800" },
 ];
 
 const TESTIMONIALS = [
@@ -165,8 +165,7 @@ export default async function HomePage() {
                 href={`/courses?category=${encodeURIComponent(cat.name)}`}
                 className="group flex flex-col items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-purple-500/50 hover:bg-zinc-900 transition-all cursor-pointer"
               >
-                <span className="text-2xl">{cat.icon}</span>
-                <span className="text-xs font-medium text-zinc-400 group-hover:text-white text-center transition-colors">
+                <span className="text-sm font-medium text-zinc-400 group-hover:text-white text-center transition-colors">
                   {cat.name}
                 </span>
               </Link>
