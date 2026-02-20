@@ -54,7 +54,7 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
 
     // Calculate score
     const score = selectedAnswers.reduce((acc, answer, idx) => {
-      return answer === questions[idx].correctAnswer ? acc + 1 : acc;
+      return answer !== null && answer === questions[idx].correctAnswer ? acc + 1 : acc;
     }, 0);
 
     // Submit to backend
@@ -83,7 +83,7 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
 
   const calculateScore = () => {
     return selectedAnswers.reduce((acc, answer, idx) => {
-      return answer === questions[idx].correctAnswer ? acc + 1 : acc;
+      return answer !== null && answer === questions[idx].correctAnswer ? acc + 1 : acc;
     }, 0);
   };
 
