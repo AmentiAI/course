@@ -10,9 +10,7 @@ export const generateLessonContent = (
   const category = courseCategory.toLowerCase();
   
   // Generate unique, detailed content based on lesson type and category
-  const content = `# ${lessonTitle}
-
-## Overview
+  const content = `## Overview
 
 ${getOverview(lessonTitle, courseTitle, category)}
 
@@ -223,19 +221,19 @@ function getCommonMistakes(lessonTitle: string, category: string): string {
   const topic = lessonTitle.toLowerCase();
   
   const mistakes = [
-    `❌ **Mistake #1: Analysis Paralysis** - Overthinking without taking action. Knowledge accumulation without implementation is procrastination in disguise.`,
-    `❌ **Mistake #2: Shiny Object Syndrome** - Jumping to the next strategy before mastering the current one. Depth beats breadth every time.`,
-    `❌ **Mistake #3: Ignoring Fundamentals** - Trying advanced tactics without mastering basics. You can't skip steps and expect results.`,
+    `**Mistake 1: Analysis Paralysis** - Overthinking without taking action. Knowledge accumulation without implementation is procrastination in disguise.`,
+    `**Mistake 2: Shiny Object Syndrome** - Jumping to the next strategy before mastering the current one. Depth beats breadth every time.`,
+    `**Mistake 3: Ignoring Fundamentals** - Trying advanced tactics without mastering basics. You can't skip steps and expect results.`,
   ];
   
   if (category.includes('crypto') || category.includes('trading')) {
-    mistakes.push(`❌ **Mistake #4: Emotional Trading** - Making decisions based on fear or greed instead of data. The market rewards discipline, not emotions.`);
-    mistakes.push(`❌ **Mistake #5: Over-Leveraging** - Risking too much capital on a single trade. Preserve capital first, make profits second.`);
+    mistakes.push(`**Mistake 4: Emotional Trading** - Making decisions based on fear or greed instead of data. The market rewards discipline, not emotions.`);
+    mistakes.push(`**Mistake 5: Over-Leveraging** - Risking too much capital on a single trade. Preserve capital first, make profits second.`);
   }
   
   if (category.includes('marketing') || category.includes('content')) {
-    mistakes.push(`❌ **Mistake #4: Inconsistency** - Posting when you feel like it instead of showing up consistently. The algorithm rewards consistency.`);
-    mistakes.push(`❌ **Mistake #5: Copying Others** - Imitating successful creators without understanding why their content works. Find your unique angle.`);
+    mistakes.push(`**Mistake 4: Inconsistency** - Posting when you feel like it instead of showing up consistently. The algorithm rewards consistency.`);
+    mistakes.push(`**Mistake 5: Copying Others** - Imitating successful creators without understanding why their content works. Find your unique angle.`);
   }
   
   return mistakes.join('\n\n');
@@ -243,17 +241,17 @@ function getCommonMistakes(lessonTitle: string, category: string): string {
 
 function getProTips(lessonTitle: string, category: string, index: number): string {
   const tips = [
-    `💡 **Pro Tip #1**: The best time to start was yesterday. The second best time is now. Stop waiting for the "perfect" moment—it doesn't exist.`,
-    `💡 **Pro Tip #2**: Track everything. You can't improve what you don't measure. Create a simple spreadsheet to monitor your key metrics.`,
-    `💡 **Pro Tip #3**: Find a mentor or join a community. Learning from others' mistakes saves years of trial and error.`,
+    `**Pro Tip 1**: The best time to start was yesterday. The second best time is now. Stop waiting for the "perfect" moment—it doesn't exist.`,
+    `**Pro Tip 2**: Track everything. You can't improve what you don't measure. Create a simple spreadsheet to monitor your key metrics.`,
+    `**Pro Tip 3**: Find a mentor or join a community. Learning from others' mistakes saves years of trial and error.`,
   ];
   
   if (category.includes('crypto') || category.includes('nft')) {
-    tips.push(`💡 **Pro Tip #4**: DYOR (Do Your Own Research) is not optional. Never invest based solely on someone's recommendation, even experts.`);
+    tips.push(`**Pro Tip 4**: DYOR (Do Your Own Research) is not optional. Never invest based solely on someone's recommendation, even experts.`);
   }
   
   if (category.includes('business') || category.includes('freelance')) {
-    tips.push(`💡 **Pro Tip #4**: Your network is your net worth. Build genuine relationships, not transactional ones.`);
+    tips.push(`**Pro Tip 4**: Your network is your net worth. Build genuine relationships, not transactional ones.`);
   }
   
   return tips.join('\n\n');
@@ -262,32 +260,32 @@ function getProTips(lessonTitle: string, category: string, index: number): strin
 function getActionItems(lessonTitle: string, category: string): string {
   return `Before moving to the next lesson, complete these action items:
 
-□ **Immediate (Next 24 Hours)**
-  - Review your notes and highlight the 3 most important concepts
-  - Identify one quick win you can implement today
-  - Set up any necessary tools or accounts mentioned in this lesson
+**Immediate (Next 24 Hours)**
+- Review your notes and highlight the 3 most important concepts
+- Identify one quick win you can implement today
+- Set up any necessary tools or accounts mentioned in this lesson
 
-□ **Short-Term (This Week)**
-  - Create your action plan based on the frameworks taught
-  - Start implementing the core strategies
-  - Track your initial results and document what you learn
+**Short-Term (This Week)**
+- Create your action plan based on the frameworks taught
+- Start implementing the core strategies
+- Track your initial results and document what you learn
 
-□ **Ongoing**
-  - Apply these principles consistently in your daily routine
-  - Revisit this lesson in 30 days to assess your progress
-  - Share your learnings with others to reinforce your understanding
+**Ongoing**
+- Apply these principles consistently in your daily routine
+- Revisit this lesson in 30 days to assess your progress
+- Share your learnings with others to reinforce your understanding
 
 Success leaves clues. Follow the steps, track your progress, and adjust based on results.`;
 }
 
 function getKeyTakeaways(lessonTitle: string, category: string): string {
-  return `🎯 **Key Takeaway #1**: ${lessonTitle} is not just theory—it's a practical skill that improves with practice and application.
+  return `**Key Takeaway 1**: ${lessonTitle} is not just theory—it's a practical skill that improves with practice and application.
 
-🎯 **Key Takeaway #2**: Success comes from consistent execution of fundamentals, not chasing advanced tactics prematurely.
+**Key Takeaway 2**: Success comes from consistent execution of fundamentals, not chasing advanced tactics prematurely.
 
-🎯 **Key Takeaway #3**: Your results are a direct reflection of your systems and habits. Improve your processes, improve your outcomes.
+**Key Takeaway 3**: Your results are a direct reflection of your systems and habits. Improve your processes, improve your outcomes.
 
-🎯 **Key Takeaway #4**: The gap between where you are and where you want to be is bridged by daily action, not overnight miracles.
+**Key Takeaway 4**: The gap between where you are and where you want to be is bridged by daily action, not overnight miracles.
 
 Remember: Small, consistent actions compound into extraordinary results over time. Stay focused, stay consistent, and trust the process.`;
 }
@@ -301,9 +299,7 @@ export const generateCourseIntroduction = (
   totalHours: number,
   totalLessons: number
 ): string => {
-  return `# Welcome to ${courseTitle}
-
-## Course Overview
+  return `## Course Overview
 
 ${courseDescription}
 
@@ -311,23 +307,23 @@ This ${level.toLowerCase()}-level course is designed to take you from ${getStart
 
 ## What Makes This Course Different
 
-❶ **Practical, Not Theoretical** - Every lesson includes actionable steps you can implement immediately. No fluff, no filler.
+**1. Practical, Not Theoretical** - Every lesson includes actionable steps you can implement immediately. No fluff, no filler.
 
-❷ **Real-World Examples** - Learn from actual case studies and proven strategies that have generated measurable results.
+**2. Real-World Examples** - Learn from actual case studies and proven strategies that have generated measurable results.
 
-❸ **Step-by-Step System** - Follow a clear, logical progression that builds your skills systematically.
+**3. Step-by-Step System** - Follow a clear, logical progression that builds your skills systematically.
 
-❹ **Community Support** - Join the discussion board to ask questions, share wins, and learn from fellow students.
+**4. Community Support** - Join the discussion board to ask questions, share wins, and learn from fellow students.
 
 ## Who This Course Is For
 
-✅ **Perfect for you if:**
+**Perfect for you if:**
 - You're serious about ${getCourseGoal(category, level)} and willing to put in the work
 - You want proven strategies, not experimental theories
 - You're ready to take consistent action and track your results
 - You value practical application over passive learning
 
-❌ **Not for you if:**
+**Not for you if:**
 - You're looking for a "get rich quick" scheme or magic button
 - You're not willing to invest time in learning and implementation
 - You expect results without effort or consistent practice
@@ -373,7 +369,7 @@ Click "Start Learning" to begin with Module 1, Lesson 1.
 
 ---
 
-**Remember**: Knowledge without action is just entertainment. Commit to implementation, track your progress, and trust the process. See you in Lesson 1! 🚀
+**Remember**: Knowledge without action is just entertainment. Commit to implementation, track your progress, and trust the process. See you in Lesson 1!
 `;
 };
 
