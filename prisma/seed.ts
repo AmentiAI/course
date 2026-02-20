@@ -383,8 +383,8 @@ The NFT market remains one of the most lucrative opportunities for fast, asymmet
 **What You'll Learn:** How to read on-chain signals and understand rarity mechanics, tools that 99% of retail buyers don't know exist, real examples of 10x+ flips with exact entry and exit points, and building a complete flipping workflow you can run daily in under 2 hours.
 
 **Who This Is For:** Whether you're new to NFTs or have been trading casually, this course transforms your approach from guessing to systematic execution.`,
-      thumbnail: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1920&q=80",
+      thumbnail: "/courses/web3-thumb.svg",
+      banner: "/courses/web3-banner.svg",
       price: 49,
       originalPrice: 129,
       category: "Web3 & Crypto",
@@ -404,8 +404,8 @@ Twitter (now X) remains the most powerful platform for building an audience in t
 **What You'll Learn:** The new X algorithm and how to make it work for you, content templates that consistently go viral with examples, engagement strategies that build real relationships, and how to monetize your audience once you hit 1K+ followers.
 
 **Results:** Students have used these exact tactics to go from 0 to 5K followers in 90 days.`,
-      thumbnail: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1920&q=80",
+      thumbnail: "/courses/social-thumb.svg",
+      banner: "/courses/social-banner.svg",
       price: 39,
       originalPrice: 99,
       category: "Marketing & Social",
@@ -425,8 +425,8 @@ Instagram's algorithm and monetization options have evolved dramatically. Reels 
 **What You'll Learn:** The 2026 Instagram algorithm, content formats that drive follower growth and engagement, how to land brand deals even with a small following, and setting up and selling digital products directly through Instagram.
 
 **Results:** Our students have grown from 0 to 10K followers in under 6 months and secured brand partnerships paying $500-$5K per post.`,
-      thumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 49,
       originalPrice: 119,
       category: "Marketing & Social",
@@ -446,8 +446,8 @@ Digital products are the ultimate business model: create once, sell infinitely. 
 **What You'll Learn:** How to validate product ideas before building them, creating eBooks Notion templates and mini-courses from scratch, setting up sales funnels, and marketing strategies that drive consistent sales.
 
 **Results:** Our students have launched products generating $500-$5K/month in passive income within 90 days.`,
-      thumbnail: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 59,
       originalPrice: 149,
       category: "Business & Entrepreneurship",
@@ -467,8 +467,8 @@ LinkedIn is the most underrated platform for building career opportunities. Whet
 **What You'll Learn:** How to optimize your LinkedIn profile for maximum visibility, content strategies that build authority and attract opportunities, networking tactics that turn connections into relationships, and monetization paths.
 
 **Results:** Our students have landed 6-figure job offers, consulting clients paying $5K+/month, and speaking opportunities all through LinkedIn.`,
-      thumbnail: "https://images.unsplash.com/photo-1611944212129-29977ae1398c?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 39,
       originalPrice: 99,
       category: "Marketing & Social",
@@ -488,8 +488,8 @@ Notion is the ultimate productivity tool but only if you know how to use it. Mos
 **What You'll Learn:** Building a Notion workspace from scratch, creating databases for tasks projects notes and goals, advanced features like relations rollups templates and automations, and real-world templates you can duplicate and customize.
 
 **Results:** Students report 5-10 hours saved per week, better focus, and finally feeling on top of things.`,
-      thumbnail: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 29,
       originalPrice: 79,
       category: "Productivity & Tools",
@@ -509,8 +509,8 @@ Dropshipping remains one of the best ways to start an online business with minim
 **What You'll Learn:** Finding winning products using data, setting up a Shopify store that converts, running Facebook and TikTok ads profitably, and scaling from $0 to $10K/month in revenue.
 
 **Results:** Students have launched their first store in under 2 weeks and scaled to $5K-$20K/month within 90 days.`,
-      thumbnail: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 79,
       originalPrice: 199,
       category: "Business & Entrepreneurship",
@@ -532,8 +532,8 @@ AI is only as good as your prompts. Most people use AI like a basic search engin
 **What You'll Learn:** Prompt engineering frameworks, advanced techniques for ChatGPT Claude and Gemini, image generation mastery for Midjourney and DALL-E, and building custom GPTs and automation workflows.
 
 **Results:** Students report 50-80% time savings on creative and analytical work after mastering prompt engineering.`,
-      thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 79,
       originalPrice: 179,
       category: "Tech & AI",
@@ -553,8 +553,8 @@ Web3 companies pay 2-5x more than traditional clients if you know where to look 
 **What You'll Learn:** Skills Web3 companies need, where to find Web3 freelance opportunities, how to price and negotiate in crypto, and building a portfolio that stands out in the space.
 
 **Results:** Students have landed $5K-$20K/month retainers from DAOs NFT projects and blockchain startups.`,
-      thumbnail: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 89,
       originalPrice: 199,
       category: "Web3 & Crypto",
@@ -574,8 +574,8 @@ Print on demand lets you sell custom products without holding inventory. Design 
 **What You'll Learn:** Finding profitable niches and design trends, creating designs even if you're not a designer, setting up stores on Printful Printify and Etsy, and running ads and organic marketing strategies.
 
 **Results:** Students have launched POD stores generating $2K-$10K/month in passive income.`,
-      thumbnail: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1556740758-90de374c12ad?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 69,
       originalPrice: 159,
       category: "Business & Entrepreneurship",
@@ -595,8 +595,8 @@ AI automation is the biggest productivity unlock of the decade. This course show
 **What You'll Learn:** Building AI workflows with Zapier Make and n8n, automating content creation and social media, AI-powered customer support and CRM, and creating custom AI agents for your business.
 
 **Results:** Students report 50-70% time savings on routine tasks allowing them to focus on high-value work.`,
-      thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80",
+      thumbnail: "/courses/tech-thumb.svg",
+      banner: "/courses/tech-banner.svg",
       price: 99,
       originalPrice: 229,
       category: "Tech & AI",
@@ -616,8 +616,8 @@ Web development is one of the most in-demand freelance skills. This bootcamp tea
 **What You'll Learn:** Front-end development HTML CSS JavaScript React, back-end basics Node.js databases APIs, building portfolio projects that attract clients, and finding and landing freelance web dev gigs.
 
 **Results:** Students have landed their first $2K-$5K web dev projects within 60-90 days.`,
-      thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 129,
       originalPrice: 299,
       category: "Tech & Development",
@@ -637,8 +637,8 @@ Podcasting is booming but most shows fail because of poor audio quality inconsis
 **What You'll Learn:** Recording and editing professional-quality audio, podcast hosting distribution and RSS feeds, guest outreach and interview techniques, and growing your audience and monetizing.
 
 **Results:** Students have launched podcasts reaching 1K-10K downloads per month within 6 months.`,
-      thumbnail: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 89,
       originalPrice: 199,
       category: "Content Creation",
@@ -658,8 +658,8 @@ Amazon FBA (Fulfillment by Amazon) lets you build a real e-commerce brand withou
 **What You'll Learn:** Product research and validation for Amazon, sourcing from Alibaba and creating your brand, Amazon listing optimization and PPC ads, and scaling to consistent $10K+/month revenue.
 
 **Results:** Students have launched successful Amazon brands generating $5K-$30K/month within their first year.`,
-      thumbnail: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80",
+      thumbnail: "/courses/ecommerce-thumb.svg",
+      banner: "/courses/ecommerce-banner.svg",
       price: 119,
       originalPrice: 279,
       category: "Business & Entrepreneurship",
@@ -679,8 +679,8 @@ Email marketing has the highest ROI of any marketing channel when done right. Th
 **What You'll Learn:** Email list building strategies that actually work, writing high-converting email copy and subject lines, building automation flows in ConvertKit Klaviyo and Mailchimp, and segmentation and personalization tactics that boost opens and clicks.
 
 **Results:** Students have grown email lists from 0 to 5K+ subscribers and generate $1K-$10K/month through automated email sequences.`,
-      thumbnail: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 79,
       originalPrice: 189,
       category: "Marketing & Social",
@@ -702,8 +702,8 @@ Bitcoin Ordinals brought NFTs to Bitcoin creating a new market for digital artif
 **What You'll Learn:** Understanding Bitcoin Ordinals and inscription theory, how to mint and trade Ordinals on marketplaces, building Ordinals projects and collections, and advanced strategies for Ordinals investing and flipping.
 
 **Results:** Early adopters have minted collections that sold for 100x+ and built successful Ordinals projects generating significant Bitcoin revenue.`,
-      thumbnail: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 149,
       originalPrice: 349,
       category: "Web3 & Crypto",
@@ -723,8 +723,8 @@ Solana's speed and low fees make it the ideal blockchain for DeFi. This advanced
 **What You'll Learn:** Solana DeFi fundamentals and wallet setup, yield farming and liquidity providing strategies, using Jupiter Raydium Orca and other Solana protocols, and advanced risk management and portfolio allocation.
 
 **Results:** Students have generated 20-100%+ APY through strategic DeFi positions while managing risk effectively.`,
-      thumbnail: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 139,
       originalPrice: 329,
       category: "Web3 & Crypto",
@@ -744,8 +744,8 @@ Crypto markets are volatile and 24/7 creating opportunities for skilled day trad
 **What You'll Learn:** Technical analysis and chart reading for crypto, day trading strategies that work in crypto markets, risk management and position sizing, and using advanced tools like TradingView Binance and leverage platforms.
 
 **Results:** Successful students generate consistent daily profits while managing risk through disciplined strategies and emotional control.`,
-      thumbnail: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 159,
       originalPrice: 379,
       category: "Web3 & Crypto",
@@ -765,8 +765,8 @@ Blockchain developers are in massive demand with salaries reaching $150K-$300K+.
 **What You'll Learn:** Solidity programming and smart contract fundamentals, building and deploying dApps on Ethereum, security best practices and auditing smart contracts, and advanced topics like upgradeable contracts and gas optimization.
 
 **Results:** Students have landed blockchain developer roles paying $120K-$250K+ and built successful Web3 projects.`,
-      thumbnail: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 149,
       originalPrice: 349,
       category: "Tech & Development",
@@ -786,8 +786,8 @@ Options trading offers leverage and flexibility that stocks alone can't provide.
 **What You'll Learn:** Options fundamentals and the Greeks, advanced strategies like iron condors credit spreads and butterflies, income generation through covered calls and cash-secured puts, and risk management and position sizing for options.
 
 **Results:** Students have built options portfolios generating $2K-$10K+/month in premium income while managing risk effectively.`,
-      thumbnail: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
-      banner: "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=1920&q=80",
+      thumbnail: "/courses/default-thumb.svg",
+      banner: "/courses/default-banner.svg",
       price: 179,
       originalPrice: 399,
       category: "Finance & Investing",
