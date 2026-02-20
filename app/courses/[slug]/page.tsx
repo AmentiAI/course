@@ -4,8 +4,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import {
-  Star,
-  Users,
   Clock,
   BookOpen,
   Award,
@@ -19,7 +17,6 @@ import {
   MessageSquare,
 } from "lucide-react";
 import CourseEnrollButton from "@/components/CourseEnrollButton";
-import ReviewForm from "@/components/ReviewForm";
 
 async function getCourse(slug: string) {
   return prisma.course.findUnique({
@@ -40,21 +37,9 @@ async function getCourse(slug: string) {
           },
         },
       },
-      reviews: {
-        include: {
-          user: { select: { name: true, image: true } },
-        },
-        orderBy: { createdAt: "desc" },
-        take: 10,
-      },
-      _count: { select: { enrollments: true, reviews: true } },
+      _count: { select: { enrollments: true } },
     },
   });
-}
-
-function getAvgRating(reviews: { rating: number }[]) {
-  if (!reviews.length) return 4.8;
-  return reviews.reduce((a, b) => a + b.rating, 0) / reviews.length;
 }
 
 const WHAT_YOU_LEARN: Record<string, string[]> = {
@@ -113,7 +98,6 @@ export default async function CourseDetailPage({
       })
     : null;
 
-  const avgRating = getAvgRating(course.reviews);
   const firstFreeLesson = course.modules[0]?.lessons.find((l) => l.isFree);
   const whatYouLearn = WHAT_YOU_LEARN[slug] || DEFAULT_LEARN;
 
@@ -148,30 +132,7 @@ export default async function CourseDetailPage({
 
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
-                <div className="flex items-center gap-1">
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <Star
-                        key={s}
-                        className={`h-4 w-4 ${
-                          s <= Math.round(avgRating)
-                            ? "fill-amber-400 text-amber-400"
-                            : "fill-zinc-700 text-zinc-700"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="font-bold text-amber-400 ml-1">
-                    {avgRating.toFixed(1)}
-                  </span>
-                  <span className="text-zinc-500">
-                    ({course._count.reviews} ratings)
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 text-zinc-400">
-                  <Users className="h-4 w-4" />
-                  {course._count.enrollments} students
-                </div>
+                {/* Student count and reviews removed */}
               </div>
 
               {/* Tags */}
@@ -334,42 +295,8 @@ export default async function CourseDetailPage({
               </div>
             </section>
 
-            {/* Reviews */}
+            {/* Discussion board link */}
             <section>
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-xl font-bold text-white">
-                  Student Reviews
-                </h2>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-0.5">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <Star
-                        key={s}
-                        className={`h-5 w-5 ${
-                          s <= Math.round(avgRating)
-                            ? "fill-amber-400 text-amber-400"
-                            : "fill-zinc-700 text-zinc-700"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="font-bold text-white text-lg">
-                    {avgRating.toFixed(1)}
-                  </span>
-                  <span className="text-zinc-500 text-sm">
-                    ({course._count.reviews})
-                  </span>
-                </div>
-              </div>
-
-              {/* Review form for enrolled users */}
-              {enrollment && (
-                <div className="mb-6">
-                  <ReviewForm courseId={course.id} />
-                </div>
-              )}
-
-              {/* Discussion board link */}
               <div className="mb-6">
                 <Link
                   href={`/c/${course.slug}/discuss`}
@@ -389,60 +316,6 @@ export default async function CourseDetailPage({
                   <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-purple-400 ml-auto transition-colors" />
                 </Link>
               </div>
-
-              {course.reviews.length > 0 ? (
-                <div className="space-y-4">
-                  {course.reviews.map((review) => (
-                    <div
-                      key={review.id}
-                      className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        {review.user.image ? (
-                          <img
-                            src={review.user.image}
-                            alt=""
-                            className="h-8 w-8 rounded-full"
-                          />
-                        ) : (
-                          <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white">
-                            {review.user.name?.[0]?.toUpperCase() ?? "?"}
-                          </div>
-                        )}
-                        <div>
-                          <div className="text-sm font-medium text-white">
-                            {review.user.name}
-                          </div>
-                          <div className="flex items-center gap-0.5">
-                            {[1, 2, 3, 4, 5].map((s) => (
-                              <Star
-                                key={s}
-                                className={`h-3 w-3 ${
-                                  s <= review.rating
-                                    ? "fill-amber-400 text-amber-400"
-                                    : "fill-zinc-700 text-zinc-700"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                        <span className="ml-auto text-xs text-zinc-600">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="text-sm text-zinc-400 leading-relaxed">
-                        {review.comment}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
-                  <p className="text-zinc-500">
-                    No reviews yet. Be the first to review this course!
-                  </p>
-                </div>
-              )}
             </section>
           </div>
 
