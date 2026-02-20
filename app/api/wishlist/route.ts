@@ -18,6 +18,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    console.log('[Wishlist API] User ID from session:', session.user.id);
+
+    // Verify user exists in database
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true, email: true },
+    });
+
+    if (!user) {
+      console.log('[Wishlist API] User not found in database:', session.user.id);
+      return NextResponse.json(
+        { error: 'User not found - Please sign out and sign in again' },
+        { status: 404 }
+      );
+    }
+
+    console.log('[Wishlist API] User verified:', user.email);
+
     const { courseId } = await req.json();
     console.log('[Wishlist API] Course ID:', courseId);
 
