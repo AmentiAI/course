@@ -169,7 +169,7 @@ export async function seedAllCourses() {
         await prisma.quiz.create({
           data: {
             lessonId: lesson.id,
-            questions: quizQuestions,
+            questions: quizQuestions as any,
           },
         });
         quizCount++;
