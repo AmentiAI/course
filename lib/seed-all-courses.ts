@@ -61,6 +61,8 @@ export async function seedAllCourses() {
   await prisma.quiz.deleteMany();
   await prisma.lesson.deleteMany();
   await prisma.module.deleteMany();
+  await prisma.discussionMessage.deleteMany();
+  await prisma.discussion.deleteMany();
   await prisma.enrollment.deleteMany();
   await prisma.review.deleteMany();
   await prisma.wishlist.deleteMany();
@@ -83,12 +85,12 @@ export async function seedAllCourses() {
     ],
   });
 
-  // Create courses
+  // Create courses with discussions
   let created = 0;
   for (const courseData of coursesData) {
     const modules = generateCourseStructure(courseData.title, courseData.totalHours);
     
-    await prisma.course.create({
+    const course = await prisma.course.create({
       data: {
         ...courseData,
         level: courseData.level as Level,
@@ -96,8 +98,16 @@ export async function seedAllCourses() {
         modules: { create: modules },
       },
     });
+    
+    // Create empty discussion for each course
+    await prisma.discussion.create({
+      data: {
+        courseId: course.id,
+      },
+    });
+    
     created++;
-    console.log(`Created course ${created}: ${courseData.title}`);
+    console.log(`Created course ${created}: ${courseData.title} (with discussion)`);
   }
 
   return { created, total: coursesData.length };

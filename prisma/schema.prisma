@@ -18,16 +18,17 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts       Account[]
-  sessions       Session[]
-  enrollments    Enrollment[]
-  reviews        Review[]
-  wishlist       Wishlist[]
-  payments       Payment[]
-  notifications  Notification[]
-  certificates   Certificate[]
-  quizAttempts   QuizAttempt[]
-  lessonProgress LessonProgress[]
+  accounts          Account[]
+  sessions          Session[]
+  enrollments       Enrollment[]
+  reviews           Review[]
+  wishlist          Wishlist[]
+  payments          Payment[]
+  notifications     Notification[]
+  certificates      Certificate[]
+  quizAttempts      QuizAttempt[]
+  lessonProgress    LessonProgress[]
+  discussionMessages DiscussionMessage[]
 }
 
 enum Role {
@@ -98,6 +99,7 @@ model Course {
   wishlist     Wishlist[]
   payments     Payment[]
   certificates Certificate[]
+  discussion   Discussion?
 }
 
 enum Level {
@@ -239,4 +241,22 @@ model Notification {
   link      String?
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Discussion {
+  id        String   @id @default(cuid())
+  courseId  String   @unique
+  createdAt DateTime @default(now())
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  messages  DiscussionMessage[]
+}
+
+model DiscussionMessage {
+  id           String     @id @default(cuid())
+  discussionId String
+  userId       String
+  message      String     @db.Text
+  createdAt    DateTime   @default(now())
+  discussion   Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
