@@ -16,7 +16,8 @@
       "Trading"
     ],
     "isFeatured": true,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Bitcoin Ordinals Mastery",
@@ -35,7 +36,8 @@
       "NFT"
     ],
     "isFeatured": true,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "Solana DeFi Trading",
@@ -54,7 +56,8 @@
       "Trading"
     ],
     "isFeatured": false,
-    "totalHours": 11
+    "totalHours": 11,
+    "isPublished": true
   },
   {
     "title": "Crypto Day Trading",
@@ -73,7 +76,8 @@
       "Technical Analysis"
     ],
     "isFeatured": true,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "Blockchain Development with Solidity",
@@ -92,7 +96,8 @@
       "Smart Contracts"
     ],
     "isFeatured": false,
-    "totalHours": 14
+    "totalHours": 14,
+    "isPublished": true
   },
   {
     "title": "Web3 Freelancing",
@@ -111,7 +116,8 @@
       "Crypto"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Cryptocurrency Fundamentals",
@@ -130,7 +136,8 @@
       "Investing"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "DeFi Yield Farming Strategies",
@@ -149,7 +156,8 @@
       "Crypto"
     ],
     "isFeatured": true,
-    "totalHours": 9
+    "totalHours": 9,
+    "isPublished": true
   },
   {
     "title": "NFT Collection Launch Guide",
@@ -168,7 +176,8 @@
       "Marketing"
     ],
     "isFeatured": false,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "Smart Contract Auditing",
@@ -187,7 +196,8 @@
       "Auditing"
     ],
     "isFeatured": true,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "Twitter/X Growth Hacking 2026",
@@ -206,7 +216,8 @@
       "Growth"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Instagram Growth & Monetization",
@@ -225,7 +236,8 @@
       "Social Media"
     ],
     "isFeatured": true,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "TikTok Viral Content Mastery",
@@ -244,7 +256,8 @@
       "Content"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "YouTube Shorts Monetization",
@@ -263,7 +276,8 @@
       "Monetization"
     ],
     "isFeatured": true,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "LinkedIn Personal Branding",
@@ -282,7 +296,8 @@
       "Career"
     ],
     "isFeatured": true,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Facebook Ads Mastery 2026",
@@ -301,7 +316,8 @@
       "Marketing"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Google Ads for Beginners",
@@ -320,7 +336,8 @@
       "Marketing"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "SEO Fundamentals 2026",
@@ -339,7 +356,8 @@
       "Marketing"
     ],
     "isFeatured": true,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Email Marketing Automation",
@@ -358,7 +376,8 @@
       "Conversion"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Content Marketing Strategy",
@@ -377,7 +396,8 @@
       "Growth"
     ],
     "isFeatured": true,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Influencer Marketing Campaigns",
@@ -396,7 +416,8 @@
       "Campaigns"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Pinterest Marketing for Business",
@@ -415,7 +436,8 @@
       "Traffic"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Snapchat Ads and Marketing",
@@ -434,7 +456,8 @@
       "Marketing"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Podcast Marketing and Growth",
@@ -453,7 +476,8 @@
       "Growth"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Affiliate Marketing Empire",
@@ -472,7 +496,8 @@
       "Marketing"
     ],
     "isFeatured": true,
-    "totalHours": 9
+    "totalHours": 9,
+    "isPublished": true
   },
   {
     "title": "Shopify Dropshipping 2026",
@@ -491,7 +516,8 @@
       "E-Commerce"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Amazon FBA Private Label",
@@ -510,7 +536,8 @@
       "E-Commerce"
     ],
     "isFeatured": true,
-    "totalHours": 9
+    "totalHours": 9,
+    "isPublished": true
   },
   {
     "title": "Etsy Shop Empire",
@@ -529,7 +556,8 @@
       "E-Commerce"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Print on Demand Business",
@@ -548,7 +576,8 @@
       "E-Commerce"
     ],
     "isFeatured": true,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Amazon KDP Publishing",
@@ -567,7 +596,8 @@
       "Passive Income"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "eBay Reselling Profits",
@@ -586,7 +616,8 @@
       "Flipping"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Wholesale Distribution Business",
@@ -605,7 +636,8 @@
       "Business"
     ],
     "isFeatured": false,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "Digital Products Empire",
@@ -624,7 +656,8 @@
       "Online"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Subscription Box Business",
@@ -643,7 +676,8 @@
       "Business"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "WooCommerce Store Setup",
@@ -662,7 +696,8 @@
       "E-Commerce"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Shopify App Development",
@@ -681,7 +716,8 @@
       "SaaS"
     ],
     "isFeatured": false,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "E-Commerce Email Funnels",
@@ -700,7 +736,8 @@
       "E-Commerce"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Local Business Consulting",
@@ -719,7 +756,8 @@
       "Services"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Business Plan Mastery",
@@ -738,7 +776,8 @@
       "Startups"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Virtual Assistant Business",
@@ -757,7 +796,8 @@
       "Services"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Web Development Bootcamp",
@@ -776,7 +816,8 @@
       "Coding"
     ],
     "isFeatured": true,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "Python Automation Mastery",
@@ -795,7 +836,8 @@
       "Coding"
     ],
     "isFeatured": false,
-    "totalHours": 9
+    "totalHours": 9,
+    "isPublished": true
   },
   {
     "title": "React & Next.js Development",
@@ -814,7 +856,8 @@
       "Web Development"
     ],
     "isFeatured": true,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "Mobile App Development",
@@ -833,7 +876,8 @@
       "React Native"
     ],
     "isFeatured": false,
-    "totalHours": 14
+    "totalHours": 14,
+    "isPublished": true
   },
   {
     "title": "WordPress Development Pro",
@@ -852,7 +896,8 @@
       "PHP"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Full Stack JavaScript",
@@ -871,7 +916,8 @@
       "Node.js"
     ],
     "isFeatured": true,
-    "totalHours": 16
+    "totalHours": 16,
+    "isPublished": true
   },
   {
     "title": "DevOps & Cloud Engineering",
@@ -890,7 +936,8 @@
       "Cloud"
     ],
     "isFeatured": false,
-    "totalHours": 14
+    "totalHours": 14,
+    "isPublished": true
   },
   {
     "title": "Data Science with Python",
@@ -909,7 +956,8 @@
       "Analytics"
     ],
     "isFeatured": true,
-    "totalHours": 15
+    "totalHours": 15,
+    "isPublished": true
   },
   {
     "title": "Cybersecurity Fundamentals",
@@ -928,7 +976,8 @@
       "Security"
     ],
     "isFeatured": false,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "SQL Database Mastery",
@@ -947,7 +996,8 @@
       "Data"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "iOS App Development Swift",
@@ -966,7 +1016,8 @@
       "Mobile"
     ],
     "isFeatured": false,
-    "totalHours": 13
+    "totalHours": 13,
+    "isPublished": true
   },
   {
     "title": "Android App Development Kotlin",
@@ -985,7 +1036,8 @@
       "Mobile"
     ],
     "isFeatured": false,
-    "totalHours": 13
+    "totalHours": 13,
+    "isPublished": true
   },
   {
     "title": "AI Automation for Business",
@@ -1004,7 +1056,8 @@
       "Business"
     ],
     "isFeatured": false,
-    "totalHours": 9
+    "totalHours": 9,
+    "isPublished": true
   },
   {
     "title": "ChatGPT Mastery & Prompts",
@@ -1023,7 +1076,8 @@
       "Prompts"
     ],
     "isFeatured": true,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Midjourney AI Art Mastery",
@@ -1042,7 +1096,8 @@
       "Design"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "AI Content Creation",
@@ -1061,7 +1116,8 @@
       "Writing"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Machine Learning Basics",
@@ -1080,7 +1136,8 @@
       "Python"
     ],
     "isFeatured": true,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "AI Video Generation",
@@ -1099,7 +1156,8 @@
       "Generation"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Building AI Chatbots",
@@ -1118,7 +1176,8 @@
       "Automation"
     ],
     "isFeatured": false,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "AI Side Hustle Ideas",
@@ -1137,7 +1196,8 @@
       "Income"
     ],
     "isFeatured": true,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Stock Market Options Trading",
@@ -1156,7 +1216,8 @@
       "Stocks"
     ],
     "isFeatured": true,
-    "totalHours": 12
+    "totalHours": 12,
+    "isPublished": true
   },
   {
     "title": "Real Estate Investing 101",
@@ -1175,7 +1236,8 @@
       "Property"
     ],
     "isFeatured": false,
-    "totalHours": 8
+    "totalHours": 8,
+    "isPublished": true
   },
   {
     "title": "Day Trading for Beginners",
@@ -1194,7 +1256,8 @@
       "Trading"
     ],
     "isFeatured": true,
-    "totalHours": 10
+    "totalHours": 10,
+    "isPublished": true
   },
   {
     "title": "Dividend Investing Strategy",
@@ -1213,7 +1276,8 @@
       "Passive Income"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   },
   {
     "title": "Personal Finance Mastery",
@@ -1232,7 +1296,8 @@
       "Money"
     ],
     "isFeatured": false,
-    "totalHours": 5
+    "totalHours": 5,
+    "isPublished": true
   },
   {
     "title": "Notion Productivity System",
@@ -1251,7 +1316,8 @@
       "Organization"
     ],
     "isFeatured": false,
-    "totalHours": 4
+    "totalHours": 4,
+    "isPublished": true
   },
   {
     "title": "Excel Advanced Formulas",
@@ -1270,7 +1336,8 @@
       "Data"
     ],
     "isFeatured": false,
-    "totalHours": 7
+    "totalHours": 7,
+    "isPublished": true
   },
   {
     "title": "Time Management Mastery",
@@ -1289,7 +1356,8 @@
       "Efficiency"
     ],
     "isFeatured": false,
-    "totalHours": 4
+    "totalHours": 4,
+    "isPublished": true
   },
   {
     "title": "Project Management PMP Prep",
@@ -1308,7 +1376,8 @@
       "Certification"
     ],
     "isFeatured": true,
-    "totalHours": 20
+    "totalHours": 20,
+    "isPublished": true
   },
   {
     "title": "Airtable Business Systems",
@@ -1327,6 +1396,7 @@
       "Systems"
     ],
     "isFeatured": false,
-    "totalHours": 6
+    "totalHours": 6,
+    "isPublished": true
   }
 ]
