@@ -146,14 +146,16 @@ model LessonProgress {
 }
 
 model Enrollment {
-  id          String    @id @default(cuid())
-  userId      String
-  courseId    String
-  enrolledAt  DateTime  @default(now())
-  completedAt DateTime?
-  progress    Int       @default(0)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  id            String    @id @default(cuid())
+  userId        String
+  courseId      String
+  enrolledAt    DateTime  @default(now())
+  completedAt   DateTime?
+  progress      Int       @default(0)
+  paymentMethod String?
+  paymentStatus String?
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course        Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
 }
@@ -193,18 +195,20 @@ model Certificate {
 }
 
 model Payment {
-  id          String        @id @default(cuid())
-  userId      String
-  courseId    String
-  amount      Float
-  currency    String
-  chain       String?
-  txHash      String?
-  status      PaymentStatus @default(PENDING)
-  createdAt   DateTime      @default(now())
-  confirmedAt DateTime?
-  user        User          @relation(fields: [userId], references: [id])
-  course      Course        @relation(fields: [courseId], references: [id])
+  id             String        @id @default(cuid())
+  userId         String
+  courseId       String
+  amount         Float
+  currency       String
+  chain          String?
+  txHash         String?       @unique
+  paymentAddress String?
+  usdAmount      Float?
+  status         PaymentStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+  confirmedAt    DateTime?
+  user           User          @relation(fields: [userId], references: [id])
+  course         Course        @relation(fields: [courseId], references: [id])
 }
 
 enum PaymentStatus {
