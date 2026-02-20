@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Level } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import bcrypt from "bcryptjs";
@@ -807,6 +807,7 @@ Options trading offers leverage and flexibility that stocks alone can't provide.
     const createdCourse = await prisma.course.create({
       data: {
         ...course,
+        level: course.level as Level,
         modules: {
           create: [
             {
