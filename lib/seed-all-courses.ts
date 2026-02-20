@@ -2,49 +2,68 @@
 import { prisma } from "@/lib/prisma";
 import { Level } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { generateLessonContent, generateCourseIntroduction } from "./lesson-content-generator";
 
 import coursesDataJSON from "../courses-data.json";
 
 const coursesData = coursesDataJSON;
 
-const createLessonContent = (courseTitle: string, lessonTitle: string, focus: string): string => {
-  return `# ${lessonTitle}\n\nWelcome to ${courseTitle}. This lesson covers ${focus}.\n\n## Key Points\n\nYou'll learn the fundamentals and best practices.\n\n## Next Steps\n\nApply what you learn immediately.`;
-};
-
-const generateCourseStructure = (courseTitle: string, totalHours: number) => {
+const generateCourseStructure = (
+  courseTitle: string,
+  courseDescription: string,
+  category: string,
+  level: Level,
+  totalHours: number
+) => {
   const modulesCount = Math.ceil(totalHours / 2.5);
   const modules: any[] = [];
   
   const moduleTemplates = [
-    { title: "Fundamentals", lessons: ["Introduction", "Core Concepts", "Setup", "Tools"] },
-    { title: "Strategy", lessons: ["Framework", "Planning", "Goals", "Roadmap"] },
-    { title: "Implementation", lessons: ["Step by Step", "Techniques", "Pitfalls", "Quality"] },
-    { title: "Optimization", lessons: ["Analysis", "Optimization", "Scaling", "Automation"] },
-    { title: "Advanced", lessons: ["Expert Strategies", "Case Studies", "Advantages", "Techniques"] },
-    { title: "Mastery", lessons: ["Mastering", "Teaching", "Authority", "Next Steps"] },
+    { title: "Fundamentals", lessons: ["Introduction", "Core Concepts", "Setup & Tools", "Essential Framework"] },
+    { title: "Strategy", lessons: ["Strategic Framework", "Planning Process", "Goal Setting", "Roadmap Development"] },
+    { title: "Implementation", lessons: ["Step-by-Step Process", "Key Techniques", "Common Pitfalls", "Quality Control"] },
+    { title: "Optimization", lessons: ["Performance Analysis", "Optimization Strategies", "Scaling Methods", "Automation Systems"] },
+    { title: "Advanced", lessons: ["Expert Strategies", "Real Case Studies", "Competitive Advantages", "Advanced Techniques"] },
+    { title: "Mastery", lessons: ["Mastering the Craft", "Teaching Others", "Building Authority", "Long-term Success"] },
   ];
   
   const totalMinutes = totalHours * 60;
   const targetLessonsCount = Math.floor(totalMinutes / 20);
   const lessonsPerModule = Math.ceil(targetLessonsCount / modulesCount);
   
+  let globalLessonIndex = 0;
+  
   for (let i = 0; i < modulesCount; i++) {
     const template = moduleTemplates[i % moduleTemplates.length];
+    const moduleTitle = `Module ${i + 1}: ${template.title}`;
     const lessons: any[] = [];
     
     for (let j = 0; j < lessonsPerModule; j++) {
       const lessonTemplate = template.lessons[j % template.lessons.length];
+      const fullLessonTitle = `${lessonTemplate}${j > 3 ? ` (Part ${Math.floor(j / 4) + 1})` : ''}`.trim();
+      
+      // Use comprehensive content generator
+      const content = generateLessonContent(
+        courseTitle,
+        category,
+        fullLessonTitle,
+        moduleTitle,
+        globalLessonIndex
+      );
+      
       lessons.push({
-        title: `${lessonTemplate} ${j > 3 ? `(Part ${Math.floor(j / 4) + 1})` : ''}`.trim(),
+        title: fullLessonTitle,
         duration: 15 + Math.floor(Math.random() * 20),
         order: j + 1,
         isFree: i === 0 && j === 0,
-        content: createLessonContent(courseTitle, lessonTemplate, lessonTemplate.toLowerCase()),
+        content: content,
       });
+      
+      globalLessonIndex++;
     }
     
     modules.push({
-      title: `Module ${i + 1}: ${template.title}`,
+      title: moduleTitle,
       order: i + 1,
       lessons: { create: lessons },
     });
@@ -88,12 +107,33 @@ export async function seedAllCourses() {
   // Create courses with discussions
   let created = 0;
   for (const courseData of coursesData) {
-    const modules = generateCourseStructure(courseData.title, courseData.totalHours);
+    const levelEnum = courseData.level as Level;
+    const totalLessonsCount = Math.floor((courseData.totalHours * 60) / 20);
+    
+    // Generate comprehensive course introduction
+    const introduction = generateCourseIntroduction(
+      courseData.title,
+      courseData.description,
+      courseData.category,
+      courseData.level,
+      courseData.totalHours,
+      totalLessonsCount
+    );
+    
+    // Generate modules with detailed lesson content
+    const modules = generateCourseStructure(
+      courseData.title,
+      courseData.description,
+      courseData.category,
+      levelEnum,
+      courseData.totalHours
+    );
     
     const course = await prisma.course.create({
       data: {
         ...courseData,
-        level: courseData.level as Level,
+        level: levelEnum,
+        introduction: introduction,
         totalLessons: modules.reduce((sum: number, m: any) => sum + m.lessons.create.length, 0),
         modules: { create: modules },
       },
@@ -107,7 +147,7 @@ export async function seedAllCourses() {
     });
     
     created++;
-    console.log(`Created course ${created}: ${courseData.title} (with discussion)`);
+    console.log(`Created course ${created}: ${courseData.title} (with comprehensive content + discussion)`);
   }
 
   return { created, total: coursesData.length };
