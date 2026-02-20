@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Star, Users, BookOpen, Award, ArrowRight, TrendingUp, Zap, Shield, Clock, Search, CreditCard, GraduationCap } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 async function getFeaturedCourses() {
   return prisma.course.findMany({
@@ -80,6 +82,17 @@ export default async function HomePage() {
   ]);
 
   const coursesToShow = featuredCourses.length > 0 ? featuredCourses : allCourses.slice(0, 6);
+  
+  // Get current user's wishlist
+  const session = await getServerSession(authOptions);
+  const wishlistCourseIds = session?.user?.id
+    ? (
+        await prisma.wishlist.findMany({
+          where: { userId: session.user.id },
+          select: { courseId: true },
+        })
+      ).map((w) => w.courseId)
+    : [];
 
   return (
     <div className="min-h-screen bg-[#09090b]">
@@ -263,6 +276,7 @@ export default async function HomePage() {
                 course={course}
                 isNew={idx >= 7}
                 isPopular={idx < 3}
+                initialWishlisted={wishlistCourseIds.includes(course.id)}
               />
             ))}
           </div>

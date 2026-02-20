@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import CourseCard from "@/components/CourseCard";
 import CoursesFilter from "@/components/CoursesFilter";
 import { SlidersHorizontal } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 interface SearchParams {
   q?: string;
@@ -67,6 +69,17 @@ export default async function CoursesPage({
 }) {
   const params = await searchParams;
   const { courses, total, pages, pageNum } = await getCourses(params);
+  
+  // Get current user's wishlist
+  const session = await getServerSession(authOptions);
+  const wishlistCourseIds = session?.user?.id
+    ? (
+        await prisma.wishlist.findMany({
+          where: { userId: session.user.id },
+          select: { courseId: true },
+        })
+      ).map((w) => w.courseId)
+    : [];
 
   return (
     <div className="min-h-screen bg-[#09090b] px-4 py-10">
@@ -119,6 +132,7 @@ export default async function CoursesPage({
                       new Date(course.createdAt).getTime() >
                       Date.now() - 7 * 24 * 60 * 60 * 1000
                     }
+                    initialWishlisted={wishlistCourseIds.includes(course.id)}
                   />
                 ))}
               </div>
