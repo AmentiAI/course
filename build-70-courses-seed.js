@@ -86,16 +86,40 @@ const courses = [
   { title: "Airtable Business Systems", slug: "airtable-business-systems", desc: "Build powerful business systems and databases with Airtable no-code platform", category: "Productivity & Tools", level: "INTERMEDIATE", hours: 6, price: 59, original: 129, featured: false, tags: ["Airtable", "No-Code", "Systems"] },
 ];
 
-// Map to banner categories
-const categoryToBanner = {
-  "Web3 & Crypto": "web3",
-  "Marketing & Social": "social",
-  "E-Commerce": "ecommerce",
-  "Business": "business",
-  "Tech & Development": "tech",
-  "Tech & AI": "tech",
-  "Finance & Investing": "finance",
-  "Productivity & Tools": "tech",
+// Map to banner images (Pexels - free, no API key needed, reliable CDN)
+const categoryToImage = {
+  "Web3 & Crypto": {
+    banner: "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Marketing & Social": {
+    banner: "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "E-Commerce": {
+    banner: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Business": {
+    banner: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Tech & Development": {
+    banner: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Tech & AI": {
+    banner: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Finance & Investing": {
+    banner: "https://images.pexels.com/photos/534216/pexels-photo-534216.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/534216/pexels-photo-534216.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  "Productivity & Tools": {
+    banner: "https://images.pexels.com/photos/7688465/pexels-photo-7688465.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800&fit=crop",
+    thumb: "https://images.pexels.com/photos/7688465/pexels-photo-7688465.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
 };
 
 // Generate seed file content
@@ -324,8 +348,8 @@ async function main() {
     slug: c.slug,
     shortDesc: c.desc,
     description: c.desc + ". Complete comprehensive training with real-world examples and actionable strategies.",
-    thumbnail: `/courses/${categoryToBanner[c.category]}-thumb.svg`,
-    banner: `/courses/${categoryToBanner[c.category]}-banner.svg`,
+    thumbnail: categoryToImage[c.category].thumb,
+    banner: categoryToImage[c.category].banner,
     price: c.price,
     originalPrice: c.original,
     category: c.category,
@@ -333,7 +357,7 @@ async function main() {
     tags: c.tags,
     isFeatured: c.featured,
     totalHours: c.hours,
-  })), null, 2)};
+  })), null, 2).replace(/"(https:\/\/[^"]+)"/g, '"$1"')};
 
   // Create courses with proper structure
   let totalLessons = 0;
