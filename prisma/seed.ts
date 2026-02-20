@@ -163,7 +163,7 @@ const generateCourseStructure = (courseTitle: string, totalHours: number, slug: 
 };
 
 async function main() {
-  console.log("🌱 Starting comprehensive database seed with all 20 courses...");
+  console.log("🌱 Starting comprehensive database seed with ALL 70 COURSES...");
 
   // Clear existing data
   await prisma.quizAttempt.deleteMany();
@@ -217,316 +217,1344 @@ async function main() {
 
   console.log(`✅ Created ${users.length} users`);
 
-  // ALL 20 COURSES
+  // ALL 70 COURSES
   const coursesData = [
-    // === BEGINNER COURSES (7) ===
-    {
-      title: "NFT Flipping Masterclass",
-      slug: "nft-flipping-masterclass",
-      shortDesc: "Learn to spot undervalued NFTs, execute floor sweeps, and build a consistent flipping system that generates income.",
-      description: "Master the art of profitable NFT trading with data-driven strategies and proven frameworks.",
-      thumbnail: "/courses/web3-thumb.svg",
-      banner: "/courses/web3-banner.svg",
-      price: 49,
-      originalPrice: 129,
-      category: "Web3 & Crypto",
-      level: "BEGINNER",
-      tags: ["NFT", "Web3", "Trading", "Crypto", "Passive Income"],
-      isFeatured: true,
-      totalHours: 6,
-    },
-    {
-      title: "Twitter/X Growth Hacking 2026",
-      slug: "twitter-x-growth-2026",
-      shortDesc: "Build a Twitter following from 0 to 10K+ using proven engagement tactics, algorithm hacks, and content templates.",
-      description: "Grow your Twitter following and build genuine influence with cutting-edge strategies.",
-      thumbnail: "/courses/social-thumb.svg",
-      banner: "/courses/social-banner.svg",
-      price: 39,
-      originalPrice: 99,
-      category: "Marketing & Social",
-      level: "BEGINNER",
-      tags: ["Twitter", "Social Media", "Marketing", "Personal Brand", "Growth"],
-      isFeatured: false,
-      totalHours: 5,
-    },
-    {
-      title: "Instagram Growth & Monetization 2026",
-      slug: "instagram-growth-monetization-2026",
-      shortDesc: "Grow your Instagram to 10K+ followers and monetize through brand deals, digital products, and affiliate marketing.",
-      description: "Build a profitable Instagram presence with Reels, Stories, and creator monetization tools.",
-      thumbnail: "/courses/social-thumb.svg",
-      banner: "/courses/social-banner.svg",
-      price: 49,
-      originalPrice: 119,
-      category: "Marketing & Social",
-      level: "BEGINNER",
-      tags: ["Instagram", "Social Media", "Marketing", "Monetization", "Influencer"],
-      isFeatured: true,
-      totalHours: 6,
-    },
-    {
-      title: "Digital Products: Create, Launch, Sell",
-      slug: "digital-products-create-launch-sell",
-      shortDesc: "Build a digital product business from scratch. Learn to create eBooks, templates, courses, and sell them online.",
-      description: "Turn your knowledge into scalable income with digital products that sell on autopilot.",
-      thumbnail: "/courses/marketing-thumb.svg",
-      banner: "/courses/marketing-banner.svg",
-      price: 59,
-      originalPrice: 149,
-      category: "Business & Entrepreneurship",
-      level: "BEGINNER",
-      tags: ["Digital Products", "Passive Income", "Online Business", "eBooks", "Templates"],
-      isFeatured: false,
-      totalHours: 7,
-    },
-    {
-      title: "Personal Branding on LinkedIn",
-      slug: "personal-branding-linkedin",
-      shortDesc: "Build authority on LinkedIn, grow your network, and attract career opportunities through strategic content and engagement.",
-      description: "Turn LinkedIn into your professional growth engine with authority-building strategies.",
-      thumbnail: "/courses/social-thumb.svg",
-      banner: "/courses/social-banner.svg",
-      price: 39,
-      originalPrice: 99,
-      category: "Marketing & Social",
-      level: "BEGINNER",
-      tags: ["LinkedIn", "Personal Brand", "Networking", "Career", "B2B"],
-      isFeatured: true,
-      totalHours: 5,
-    },
-    {
-      title: "Notion Productivity System",
-      slug: "notion-productivity-system",
-      shortDesc: "Build a complete life operating system in Notion. Manage tasks projects notes goals and habits in one place.",
-      description: "Organize your entire life in Notion with databases, templates, and automation workflows.",
-      thumbnail: "/courses/tech-thumb.svg",
-      banner: "/courses/tech-banner.svg",
-      price: 29,
-      originalPrice: 79,
-      category: "Productivity & Tools",
-      level: "BEGINNER",
-      tags: ["Notion", "Productivity", "Organization", "Time Management", "Systems"],
-      isFeatured: false,
-      totalHours: 4,
-    },
-    {
-      title: "Dropshipping Mastery 2026",
-      slug: "dropshipping-mastery-2026",
-      shortDesc: "Build a profitable dropshipping business from scratch. Learn product research store setup and scaling with paid ads.",
-      description: "Launch your e-commerce business without inventory using proven dropshipping strategies.",
-      thumbnail: "/courses/ecommerce-thumb.svg",
-      banner: "/courses/ecommerce-banner.svg",
-      price: 79,
-      originalPrice: 199,
-      category: "Business & Entrepreneurship",
-      level: "BEGINNER",
-      tags: ["Dropshipping", "E-Commerce", "Shopify", "Online Business", "Ads"],
-      isFeatured: false,
-      totalHours: 8,
-    },
-
-    // === INTERMEDIATE COURSES (8) ===
-    {
-      title: "Prompt Engineering Mastery",
-      slug: "prompt-engineering-mastery",
-      shortDesc: "Master the art of AI prompting. Get better outputs from ChatGPT Claude Midjourney and other AI tools.",
-      description: "Unlock the full potential of AI tools with advanced prompt engineering techniques.",
-      thumbnail: "/courses/tech-thumb.svg",
-      banner: "/courses/tech-banner.svg",
-      price: 79,
-      originalPrice: 179,
-      category: "Tech & AI",
-      level: "INTERMEDIATE",
-      tags: ["AI", "ChatGPT", "Prompt Engineering", "Midjourney", "Automation"],
-      isFeatured: true,
-      totalHours: 7,
-    },
-    {
-      title: "Web3 Freelancing: Get Paid in Crypto",
-      slug: "web3-freelancing",
-      shortDesc: "Land high-paying Web3 freelance gigs. Learn crypto-native skills and build a portfolio that attracts DAO and blockchain clients.",
-      description: "Freelance in the crypto economy and earn 2-5x more than traditional freelancing.",
-      thumbnail: "/courses/web3-thumb.svg",
-      banner: "/courses/web3-banner.svg",
-      price: 89,
-      originalPrice: 199,
-      category: "Web3 & Crypto",
-      level: "INTERMEDIATE",
-      tags: ["Web3", "Freelancing", "Crypto", "DAO", "Remote Work"],
-      isFeatured: false,
-      totalHours: 8,
-    },
-    {
-      title: "Print on Demand Business Blueprint",
-      slug: "print-on-demand-blueprint",
-      shortDesc: "Launch a print-on-demand business selling custom apparel and products. No inventory no upfront costs.",
-      description: "Build a profitable POD business selling custom products without holding inventory.",
-      thumbnail: "/courses/ecommerce-thumb.svg",
-      banner: "/courses/ecommerce-banner.svg",
-      price: 69,
-      originalPrice: 159,
-      category: "Business & Entrepreneurship",
-      level: "INTERMEDIATE",
-      tags: ["Print on Demand", "E-Commerce", "Passive Income", "Design", "Shopify"],
-      isFeatured: true,
-      totalHours: 7,
-    },
-    {
-      title: "AI Automation for Business",
-      slug: "ai-automation-business",
-      shortDesc: "Automate repetitive business tasks with AI. Save 10-20 hours per week using ChatGPT Zapier and no-code tools.",
-      description: "Work smarter not harder with AI automation workflows that save time and increase productivity.",
-      thumbnail: "/courses/tech-thumb.svg",
-      banner: "/courses/tech-banner.svg",
-      price: 99,
-      originalPrice: 229,
-      category: "Tech & AI",
-      level: "INTERMEDIATE",
-      tags: ["AI", "Automation", "Productivity", "No-Code", "Business"],
-      isFeatured: false,
-      totalHours: 9,
-    },
-    {
-      title: "Freelance Web Development Bootcamp",
-      slug: "freelance-web-dev-bootcamp",
-      shortDesc: "Learn full-stack web development and land your first freelance clients. Build real projects and get paid.",
-      description: "Become a freelance web developer with HTML, CSS, JavaScript, React, and client acquisition skills.",
-      thumbnail: "/courses/tech-thumb.svg",
-      banner: "/courses/tech-banner.svg",
-      price: 129,
-      originalPrice: 299,
-      category: "Tech & Development",
-      level: "INTERMEDIATE",
-      tags: ["Web Development", "Freelancing", "JavaScript", "React", "Programming"],
-      isFeatured: true,
-      totalHours: 10,
-    },
-    {
-      title: "Podcast Production Masterclass",
-      slug: "podcast-production-masterclass",
-      shortDesc: "Launch a professional podcast from scratch. Learn recording editing growth strategies and monetization.",
-      description: "Start and grow a successful podcast with professional production and marketing strategies.",
-      thumbnail: "/courses/marketing-thumb.svg",
-      banner: "/courses/marketing-banner.svg",
-      price: 89,
-      originalPrice: 199,
-      category: "Content Creation",
-      level: "INTERMEDIATE",
-      tags: ["Podcast", "Audio", "Content", "Monetization", "Marketing"],
-      isFeatured: false,
-      totalHours: 8,
-    },
-    {
-      title: "Amazon FBA Private Label Business",
-      slug: "amazon-fba-private-label",
-      shortDesc: "Build an Amazon brand from scratch. Source products create your brand and scale to $10K+/month in sales.",
-      description: "Launch your own Amazon brand with product sourcing, branding, and scaling strategies.",
-      thumbnail: "/courses/ecommerce-thumb.svg",
-      banner: "/courses/ecommerce-banner.svg",
-      price: 119,
-      originalPrice: 279,
-      category: "Business & Entrepreneurship",
-      level: "INTERMEDIATE",
-      tags: ["Amazon FBA", "E-Commerce", "Private Label", "Product Sourcing", "Online Business"],
-      isFeatured: true,
-      totalHours: 9,
-    },
-    {
-      title: "Email Marketing Automation Mastery",
-      slug: "email-marketing-automation",
-      shortDesc: "Master email marketing automation. Build sequences that convert subscribers into customers on autopilot.",
-      description: "Turn email into your #1 revenue channel with automated sequences and high-converting copy.",
-      thumbnail: "/courses/marketing-thumb.svg",
-      banner: "/courses/marketing-banner.svg",
-      price: 79,
-      originalPrice: 189,
-      category: "Marketing & Social",
-      level: "INTERMEDIATE",
-      tags: ["Email Marketing", "Automation", "ConvertKit", "Klaviyo", "Copywriting"],
-      isFeatured: false,
-      totalHours: 6,
-    },
-
-    // === ADVANCED COURSES (5) ===
-    {
-      title: "Bitcoin Ordinals: Digital Artifacts on Bitcoin",
-      slug: "bitcoin-ordinals",
-      shortDesc: "Master Bitcoin Ordinals and inscriptions. Learn to mint trade and build on the Bitcoin blockchain.",
-      description: "Navigate the Bitcoin Ordinals ecosystem and capitalize on digital artifacts on Bitcoin.",
-      thumbnail: "/courses/web3-thumb.svg",
-      banner: "/courses/web3-banner.svg",
-      price: 149,
-      originalPrice: 349,
-      category: "Web3 & Crypto",
-      level: "ADVANCED",
-      tags: ["Bitcoin", "Ordinals", "NFT", "Blockchain", "Crypto"],
-      isFeatured: true,
-      totalHours: 10,
-    },
-    {
-      title: "Solana DeFi Mastery",
-      slug: "solana-defi-mastery",
-      shortDesc: "Master DeFi on Solana. Learn yield farming liquidity providing and advanced trading strategies.",
-      description: "Navigate the Solana DeFi ecosystem with yield farming and risk management strategies.",
-      thumbnail: "/courses/web3-thumb.svg",
-      banner: "/courses/web3-banner.svg",
-      price: 139,
-      originalPrice: 329,
-      category: "Web3 & Crypto",
-      level: "ADVANCED",
-      tags: ["Solana", "DeFi", "Yield Farming", "Crypto", "Trading"],
-      isFeatured: false,
-      totalHours: 11,
-    },
-    {
-      title: "Crypto Day Trading Mastery",
-      slug: "crypto-day-trading",
-      shortDesc: "Learn professional crypto day trading strategies. Master technical analysis risk management and execution.",
-      description: "Trade crypto like a professional with proven strategies and disciplined execution.",
-      thumbnail: "/courses/finance-thumb.svg",
-      banner: "/courses/finance-banner.svg",
-      price: 159,
-      originalPrice: 379,
-      category: "Web3 & Crypto",
-      level: "ADVANCED",
-      tags: ["Trading", "Crypto", "Day Trading", "Technical Analysis", "Bitcoin"],
-      isFeatured: true,
-      totalHours: 12,
-    },
-    {
-      title: "Blockchain Development with Solidity",
-      slug: "blockchain-development-solidity",
-      shortDesc: "Become a blockchain developer. Learn Solidity smart contract development and build dApps on Ethereum.",
-      description: "Build the decentralized future with Solidity smart contract development and dApp creation.",
-      thumbnail: "/courses/tech-thumb.svg",
-      banner: "/courses/tech-banner.svg",
-      price: 149,
-      originalPrice: 349,
-      category: "Tech & Development",
-      level: "ADVANCED",
-      tags: ["Blockchain", "Solidity", "Smart Contracts", "Ethereum", "Web3"],
-      isFeatured: false,
-      totalHours: 14,
-    },
-    {
-      title: "Stock Market Options Trading Mastery",
-      slug: "stock-options-trading",
-      shortDesc: "Master advanced options trading strategies. Learn spreads iron condors and income generation techniques.",
-      description: "Advanced options strategies for consistent income with professional risk management.",
-      thumbnail: "/courses/finance-thumb.svg",
-      banner: "/courses/finance-banner.svg",
-      price: 179,
-      originalPrice: 399,
-      category: "Finance & Investing",
-      level: "ADVANCED",
-      tags: ["Options Trading", "Stock Market", "Investing", "Income", "Trading"],
-      isFeatured: true,
-      totalHours: 12,
-    },
-  ];
+  {
+    "title": "NFT Flipping Masterclass",
+    "slug": "nft-flipping-masterclass",
+    "shortDesc": "Learn to spot undervalued NFTs execute floor sweeps and build a consistent flipping system",
+    "description": "Learn to spot undervalued NFTs execute floor sweeps and build a consistent flipping system. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 49,
+    "originalPrice": 129,
+    "category": "Web3 & Crypto",
+    "level": "BEGINNER",
+    "tags": [
+      "NFT",
+      "Web3",
+      "Trading"
+    ],
+    "isFeatured": true,
+    "totalHours": 6
+  },
+  {
+    "title": "Bitcoin Ordinals Mastery",
+    "slug": "bitcoin-ordinals",
+    "shortDesc": "Master Bitcoin Ordinals and inscriptions Learn to mint trade and build on Bitcoin",
+    "description": "Master Bitcoin Ordinals and inscriptions Learn to mint trade and build on Bitcoin. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 149,
+    "originalPrice": 349,
+    "category": "Web3 & Crypto",
+    "level": "ADVANCED",
+    "tags": [
+      "Bitcoin",
+      "Ordinals",
+      "NFT"
+    ],
+    "isFeatured": true,
+    "totalHours": 10
+  },
+  {
+    "title": "Solana DeFi Trading",
+    "slug": "solana-defi-mastery",
+    "shortDesc": "Master DeFi on Solana Learn yield farming liquidity providing and advanced strategies",
+    "description": "Master DeFi on Solana Learn yield farming liquidity providing and advanced strategies. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 139,
+    "originalPrice": 329,
+    "category": "Web3 & Crypto",
+    "level": "ADVANCED",
+    "tags": [
+      "Solana",
+      "DeFi",
+      "Trading"
+    ],
+    "isFeatured": false,
+    "totalHours": 11
+  },
+  {
+    "title": "Crypto Day Trading",
+    "slug": "crypto-day-trading",
+    "shortDesc": "Learn professional crypto day trading strategies Master technical analysis and execution",
+    "description": "Learn professional crypto day trading strategies Master technical analysis and execution. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 159,
+    "originalPrice": 379,
+    "category": "Web3 & Crypto",
+    "level": "ADVANCED",
+    "tags": [
+      "Trading",
+      "Crypto",
+      "Technical Analysis"
+    ],
+    "isFeatured": true,
+    "totalHours": 12
+  },
+  {
+    "title": "Blockchain Development with Solidity",
+    "slug": "blockchain-development-solidity",
+    "shortDesc": "Become a blockchain developer Learn Solidity smart contracts and build dApps",
+    "description": "Become a blockchain developer Learn Solidity smart contracts and build dApps. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 149,
+    "originalPrice": 349,
+    "category": "Web3 & Crypto",
+    "level": "ADVANCED",
+    "tags": [
+      "Blockchain",
+      "Solidity",
+      "Smart Contracts"
+    ],
+    "isFeatured": false,
+    "totalHours": 14
+  },
+  {
+    "title": "Web3 Freelancing",
+    "slug": "web3-freelancing",
+    "shortDesc": "Land high-paying Web3 freelance gigs Get paid in crypto and work with DAOs",
+    "description": "Land high-paying Web3 freelance gigs Get paid in crypto and work with DAOs. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 89,
+    "originalPrice": 199,
+    "category": "Web3 & Crypto",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Web3",
+      "Freelancing",
+      "Crypto"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Cryptocurrency Fundamentals",
+    "slug": "crypto-fundamentals",
+    "shortDesc": "Master cryptocurrency basics blockchain technology and digital asset investing",
+    "description": "Master cryptocurrency basics blockchain technology and digital asset investing. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 39,
+    "originalPrice": 99,
+    "category": "Web3 & Crypto",
+    "level": "BEGINNER",
+    "tags": [
+      "Crypto",
+      "Blockchain",
+      "Investing"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "DeFi Yield Farming Strategies",
+    "slug": "defi-yield-farming",
+    "shortDesc": "Maximize returns with advanced DeFi yield farming and liquidity strategies",
+    "description": "Maximize returns with advanced DeFi yield farming and liquidity strategies. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 99,
+    "originalPrice": 229,
+    "category": "Web3 & Crypto",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "DeFi",
+      "Yield Farming",
+      "Crypto"
+    ],
+    "isFeatured": true,
+    "totalHours": 9
+  },
+  {
+    "title": "NFT Collection Launch Guide",
+    "slug": "nft-collection-launch",
+    "shortDesc": "Launch your own NFT collection From art creation to smart contracts to marketing",
+    "description": "Launch your own NFT collection From art creation to smart contracts to marketing. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 119,
+    "originalPrice": 279,
+    "category": "Web3 & Crypto",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "NFT",
+      "Launch",
+      "Marketing"
+    ],
+    "isFeatured": false,
+    "totalHours": 10
+  },
+  {
+    "title": "Smart Contract Auditing",
+    "slug": "smart-contract-auditing",
+    "shortDesc": "Learn to audit and secure smart contracts Professional security analysis skills",
+    "description": "Learn to audit and secure smart contracts Professional security analysis skills. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/web3-thumb.svg",
+    "banner": "/courses/web3-banner.svg",
+    "price": 169,
+    "originalPrice": 399,
+    "category": "Web3 & Crypto",
+    "level": "ADVANCED",
+    "tags": [
+      "Smart Contracts",
+      "Security",
+      "Auditing"
+    ],
+    "isFeatured": true,
+    "totalHours": 12
+  },
+  {
+    "title": "Twitter/X Growth Hacking 2026",
+    "slug": "twitter-x-growth-2026",
+    "shortDesc": "Build a Twitter following from 0 to 10K+ using proven engagement tactics",
+    "description": "Build a Twitter following from 0 to 10K+ using proven engagement tactics. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 39,
+    "originalPrice": 99,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "Twitter",
+      "Social Media",
+      "Growth"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Instagram Growth & Monetization",
+    "slug": "instagram-growth-monetization-2026",
+    "shortDesc": "Grow Instagram to 10K+ and monetize through brand deals and digital products",
+    "description": "Grow Instagram to 10K+ and monetize through brand deals and digital products. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 49,
+    "originalPrice": 119,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "Instagram",
+      "Monetization",
+      "Social Media"
+    ],
+    "isFeatured": true,
+    "totalHours": 6
+  },
+  {
+    "title": "TikTok Viral Content Mastery",
+    "slug": "tiktok-viral-content",
+    "shortDesc": "Create viral TikTok content and build a massive engaged following fast",
+    "description": "Create viral TikTok content and build a massive engaged following fast. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 39,
+    "originalPrice": 99,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "TikTok",
+      "Viral",
+      "Content"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "YouTube Shorts Monetization",
+    "slug": "youtube-shorts-monetization",
+    "shortDesc": "Monetize YouTube Shorts with views sponsorships and affiliate income",
+    "description": "Monetize YouTube Shorts with views sponsorships and affiliate income. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 69,
+    "originalPrice": 159,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "YouTube",
+      "Shorts",
+      "Monetization"
+    ],
+    "isFeatured": true,
+    "totalHours": 7
+  },
+  {
+    "title": "LinkedIn Personal Branding",
+    "slug": "personal-branding-linkedin",
+    "shortDesc": "Build authority on LinkedIn and attract career opportunities through content",
+    "description": "Build authority on LinkedIn and attract career opportunities through content. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 39,
+    "originalPrice": 99,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "LinkedIn",
+      "Personal Brand",
+      "Career"
+    ],
+    "isFeatured": true,
+    "totalHours": 5
+  },
+  {
+    "title": "Facebook Ads Mastery 2026",
+    "slug": "facebook-ads-mastery",
+    "shortDesc": "Run profitable Facebook and Instagram ad campaigns with proven strategies",
+    "description": "Run profitable Facebook and Instagram ad campaigns with proven strategies. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 89,
+    "originalPrice": 199,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Facebook Ads",
+      "Advertising",
+      "Marketing"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Google Ads for Beginners",
+    "slug": "google-ads-beginners",
+    "shortDesc": "Master Google Ads from search campaigns to shopping ads and remarketing",
+    "description": "Master Google Ads from search campaigns to shopping ads and remarketing. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 59,
+    "originalPrice": 139,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "Google Ads",
+      "PPC",
+      "Marketing"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "SEO Fundamentals 2026",
+    "slug": "seo-fundamentals-2026",
+    "shortDesc": "Rank on Google with modern SEO strategies keyword research and link building",
+    "description": "Rank on Google with modern SEO strategies keyword research and link building. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 49,
+    "originalPrice": 119,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "SEO",
+      "Google",
+      "Marketing"
+    ],
+    "isFeatured": true,
+    "totalHours": 7
+  },
+  {
+    "title": "Email Marketing Automation",
+    "slug": "email-marketing-automation",
+    "shortDesc": "Build automated email sequences that convert subscribers into customers",
+    "description": "Build automated email sequences that convert subscribers into customers. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 79,
+    "originalPrice": 189,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Email Marketing",
+      "Automation",
+      "Conversion"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Content Marketing Strategy",
+    "slug": "content-marketing-strategy",
+    "shortDesc": "Create and distribute valuable content that attracts and converts customers",
+    "description": "Create and distribute valuable content that attracts and converts customers. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 89,
+    "originalPrice": 199,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Content Marketing",
+      "Strategy",
+      "Growth"
+    ],
+    "isFeatured": true,
+    "totalHours": 8
+  },
+  {
+    "title": "Influencer Marketing Campaigns",
+    "slug": "influencer-marketing",
+    "shortDesc": "Partner with influencers to drive brand awareness and sales effectively",
+    "description": "Partner with influencers to drive brand awareness and sales effectively. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 79,
+    "originalPrice": 179,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Influencer",
+      "Marketing",
+      "Campaigns"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Pinterest Marketing for Business",
+    "slug": "pinterest-marketing",
+    "shortDesc": "Drive traffic and sales with Pinterest marketing strategies and visual content",
+    "description": "Drive traffic and sales with Pinterest marketing strategies and visual content. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 49,
+    "originalPrice": 109,
+    "category": "Marketing & Social",
+    "level": "BEGINNER",
+    "tags": [
+      "Pinterest",
+      "Marketing",
+      "Traffic"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Snapchat Ads and Marketing",
+    "slug": "snapchat-marketing",
+    "shortDesc": "Reach younger audiences with Snapchat ads and creative marketing campaigns",
+    "description": "Reach younger audiences with Snapchat ads and creative marketing campaigns. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 69,
+    "originalPrice": 149,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Snapchat",
+      "Ads",
+      "Marketing"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Podcast Marketing and Growth",
+    "slug": "podcast-marketing",
+    "shortDesc": "Grow your podcast audience and monetize through sponsorships and products",
+    "description": "Grow your podcast audience and monetize through sponsorships and products. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 79,
+    "originalPrice": 169,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Podcast",
+      "Marketing",
+      "Growth"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Affiliate Marketing Empire",
+    "slug": "affiliate-marketing-empire",
+    "shortDesc": "Build passive income through affiliate marketing without creating products",
+    "description": "Build passive income through affiliate marketing without creating products. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/social-thumb.svg",
+    "banner": "/courses/social-banner.svg",
+    "price": 99,
+    "originalPrice": 229,
+    "category": "Marketing & Social",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Affiliate",
+      "Passive Income",
+      "Marketing"
+    ],
+    "isFeatured": true,
+    "totalHours": 9
+  },
+  {
+    "title": "Shopify Dropshipping 2026",
+    "slug": "dropshipping-mastery-2026",
+    "shortDesc": "Build a profitable dropshipping business with product research and paid ads",
+    "description": "Build a profitable dropshipping business with product research and paid ads. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 79,
+    "originalPrice": 199,
+    "category": "E-Commerce",
+    "level": "BEGINNER",
+    "tags": [
+      "Dropshipping",
+      "Shopify",
+      "E-Commerce"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Amazon FBA Private Label",
+    "slug": "amazon-fba-private-label",
+    "shortDesc": "Build an Amazon brand from scratch and scale to 10K+ per month",
+    "description": "Build an Amazon brand from scratch and scale to 10K+ per month. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 119,
+    "originalPrice": 279,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Amazon FBA",
+      "Private Label",
+      "E-Commerce"
+    ],
+    "isFeatured": true,
+    "totalHours": 9
+  },
+  {
+    "title": "Etsy Shop Empire",
+    "slug": "etsy-shop-empire",
+    "shortDesc": "Build a profitable Etsy shop selling handmade vintage or digital products",
+    "description": "Build a profitable Etsy shop selling handmade vintage or digital products. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 59,
+    "originalPrice": 139,
+    "category": "E-Commerce",
+    "level": "BEGINNER",
+    "tags": [
+      "Etsy",
+      "Handmade",
+      "E-Commerce"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Print on Demand Business",
+    "slug": "print-on-demand-blueprint",
+    "shortDesc": "Launch a print-on-demand business selling custom products without inventory",
+    "description": "Launch a print-on-demand business selling custom products without inventory. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 69,
+    "originalPrice": 159,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Print on Demand",
+      "POD",
+      "E-Commerce"
+    ],
+    "isFeatured": true,
+    "totalHours": 7
+  },
+  {
+    "title": "Amazon KDP Publishing",
+    "slug": "amazon-kdp-publishing",
+    "shortDesc": "Publish and sell books on Amazon KDP and build passive royalty income",
+    "description": "Publish and sell books on Amazon KDP and build passive royalty income. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 49,
+    "originalPrice": 119,
+    "category": "E-Commerce",
+    "level": "BEGINNER",
+    "tags": [
+      "KDP",
+      "Publishing",
+      "Passive Income"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "eBay Reselling Profits",
+    "slug": "ebay-reselling",
+    "shortDesc": "Find undervalued items and flip them for profit on eBay consistently",
+    "description": "Find undervalued items and flip them for profit on eBay consistently. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 39,
+    "originalPrice": 99,
+    "category": "E-Commerce",
+    "level": "BEGINNER",
+    "tags": [
+      "eBay",
+      "Reselling",
+      "Flipping"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Wholesale Distribution Business",
+    "slug": "wholesale-distribution",
+    "shortDesc": "Start a wholesale distribution business and work with retailers and brands",
+    "description": "Start a wholesale distribution business and work with retailers and brands. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 129,
+    "originalPrice": 299,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Wholesale",
+      "Distribution",
+      "Business"
+    ],
+    "isFeatured": false,
+    "totalHours": 10
+  },
+  {
+    "title": "Digital Products Empire",
+    "slug": "digital-products-create-launch-sell",
+    "shortDesc": "Create and sell digital products like eBooks templates and courses online",
+    "description": "Create and sell digital products like eBooks templates and courses online. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 59,
+    "originalPrice": 149,
+    "category": "E-Commerce",
+    "level": "BEGINNER",
+    "tags": [
+      "Digital Products",
+      "Passive Income",
+      "Online"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Subscription Box Business",
+    "slug": "subscription-box-business",
+    "shortDesc": "Launch and scale a subscription box business with recurring revenue",
+    "description": "Launch and scale a subscription box business with recurring revenue. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 99,
+    "originalPrice": 219,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Subscription",
+      "Recurring Revenue",
+      "Business"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "WooCommerce Store Setup",
+    "slug": "woocommerce-ecommerce",
+    "shortDesc": "Build a professional WooCommerce store on WordPress and start selling",
+    "description": "Build a professional WooCommerce store on WordPress and start selling. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 79,
+    "originalPrice": 179,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "WooCommerce",
+      "WordPress",
+      "E-Commerce"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Shopify App Development",
+    "slug": "shopify-app-development",
+    "shortDesc": "Build and sell Shopify apps and earn recurring income from merchants",
+    "description": "Build and sell Shopify apps and earn recurring income from merchants. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 149,
+    "originalPrice": 339,
+    "category": "E-Commerce",
+    "level": "ADVANCED",
+    "tags": [
+      "Shopify",
+      "App Development",
+      "SaaS"
+    ],
+    "isFeatured": false,
+    "totalHours": 12
+  },
+  {
+    "title": "E-Commerce Email Funnels",
+    "slug": "ecommerce-email-funnels",
+    "shortDesc": "Build automated email funnels that drive consistent e-commerce sales",
+    "description": "Build automated email funnels that drive consistent e-commerce sales. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/ecommerce-thumb.svg",
+    "banner": "/courses/ecommerce-banner.svg",
+    "price": 69,
+    "originalPrice": 149,
+    "category": "E-Commerce",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Email",
+      "Funnels",
+      "E-Commerce"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Local Business Consulting",
+    "slug": "local-business-consulting",
+    "shortDesc": "Start a consulting business helping local businesses grow and succeed",
+    "description": "Start a consulting business helping local businesses grow and succeed. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/business-thumb.svg",
+    "banner": "/courses/business-banner.svg",
+    "price": 89,
+    "originalPrice": 199,
+    "category": "Business",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Consulting",
+      "Local Business",
+      "Services"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Business Plan Mastery",
+    "slug": "business-plan-mastery",
+    "shortDesc": "Write compelling business plans that attract investors and secure funding",
+    "description": "Write compelling business plans that attract investors and secure funding. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/business-thumb.svg",
+    "banner": "/courses/business-banner.svg",
+    "price": 49,
+    "originalPrice": 119,
+    "category": "Business",
+    "level": "BEGINNER",
+    "tags": [
+      "Business Plan",
+      "Funding",
+      "Startups"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Virtual Assistant Business",
+    "slug": "virtual-assistant-business",
+    "shortDesc": "Start a virtual assistant business and work remotely with global clients",
+    "description": "Start a virtual assistant business and work remotely with global clients. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/business-thumb.svg",
+    "banner": "/courses/business-banner.svg",
+    "price": 39,
+    "originalPrice": 89,
+    "category": "Business",
+    "level": "BEGINNER",
+    "tags": [
+      "Virtual Assistant",
+      "Remote",
+      "Services"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Web Development Bootcamp",
+    "slug": "freelance-web-dev-bootcamp",
+    "shortDesc": "Learn full-stack web development and land freelance clients fast",
+    "description": "Learn full-stack web development and land freelance clients fast. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 129,
+    "originalPrice": 299,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Web Development",
+      "Freelancing",
+      "Coding"
+    ],
+    "isFeatured": true,
+    "totalHours": 10
+  },
+  {
+    "title": "Python Automation Mastery",
+    "slug": "python-automation",
+    "shortDesc": "Automate repetitive tasks and save hours every day with Python scripts",
+    "description": "Automate repetitive tasks and save hours every day with Python scripts. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 99,
+    "originalPrice": 229,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Python",
+      "Automation",
+      "Coding"
+    ],
+    "isFeatured": false,
+    "totalHours": 9
+  },
+  {
+    "title": "React & Next.js Development",
+    "slug": "react-nextjs-development",
+    "shortDesc": "Build modern web applications with React and Next.js from scratch",
+    "description": "Build modern web applications with React and Next.js from scratch. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 139,
+    "originalPrice": 319,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "React",
+      "Next.js",
+      "Web Development"
+    ],
+    "isFeatured": true,
+    "totalHours": 12
+  },
+  {
+    "title": "Mobile App Development",
+    "slug": "mobile-app-development",
+    "shortDesc": "Build iOS and Android apps with React Native and launch on app stores",
+    "description": "Build iOS and Android apps with React Native and launch on app stores. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 149,
+    "originalPrice": 349,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Mobile",
+      "Apps",
+      "React Native"
+    ],
+    "isFeatured": false,
+    "totalHours": 14
+  },
+  {
+    "title": "WordPress Development Pro",
+    "slug": "wordpress-development",
+    "shortDesc": "Build custom WordPress themes and plugins and earn as a freelancer",
+    "description": "Build custom WordPress themes and plugins and earn as a freelancer. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 79,
+    "originalPrice": 179,
+    "category": "Tech & Development",
+    "level": "BEGINNER",
+    "tags": [
+      "WordPress",
+      "Development",
+      "PHP"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Full Stack JavaScript",
+    "slug": "fullstack-javascript",
+    "shortDesc": "Master full-stack JavaScript development with Node Express and MongoDB",
+    "description": "Master full-stack JavaScript development with Node Express and MongoDB. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 179,
+    "originalPrice": 399,
+    "category": "Tech & Development",
+    "level": "ADVANCED",
+    "tags": [
+      "JavaScript",
+      "Full Stack",
+      "Node.js"
+    ],
+    "isFeatured": true,
+    "totalHours": 16
+  },
+  {
+    "title": "DevOps & Cloud Engineering",
+    "slug": "devops-cloud-engineering",
+    "shortDesc": "Master DevOps practices AWS cloud and CI/CD pipelines for production",
+    "description": "Master DevOps practices AWS cloud and CI/CD pipelines for production. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 159,
+    "originalPrice": 369,
+    "category": "Tech & Development",
+    "level": "ADVANCED",
+    "tags": [
+      "DevOps",
+      "AWS",
+      "Cloud"
+    ],
+    "isFeatured": false,
+    "totalHours": 14
+  },
+  {
+    "title": "Data Science with Python",
+    "slug": "data-science-python",
+    "shortDesc": "Analyze data build models and create insights with Python and libraries",
+    "description": "Analyze data build models and create insights with Python and libraries. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 169,
+    "originalPrice": 389,
+    "category": "Tech & Development",
+    "level": "ADVANCED",
+    "tags": [
+      "Data Science",
+      "Python",
+      "Analytics"
+    ],
+    "isFeatured": true,
+    "totalHours": 15
+  },
+  {
+    "title": "Cybersecurity Fundamentals",
+    "slug": "cybersecurity-fundamentals",
+    "shortDesc": "Learn cybersecurity basics ethical hacking and how to protect systems",
+    "description": "Learn cybersecurity basics ethical hacking and how to protect systems. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 119,
+    "originalPrice": 269,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Cybersecurity",
+      "Hacking",
+      "Security"
+    ],
+    "isFeatured": false,
+    "totalHours": 10
+  },
+  {
+    "title": "SQL Database Mastery",
+    "slug": "sql-database-mastery",
+    "shortDesc": "Master SQL databases queries and database design for applications",
+    "description": "Master SQL databases queries and database design for applications. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 69,
+    "originalPrice": 149,
+    "category": "Tech & Development",
+    "level": "BEGINNER",
+    "tags": [
+      "SQL",
+      "Database",
+      "Data"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "iOS App Development Swift",
+    "slug": "ios-app-development",
+    "shortDesc": "Build native iOS apps with Swift and publish to the Apple App Store",
+    "description": "Build native iOS apps with Swift and publish to the Apple App Store. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 139,
+    "originalPrice": 319,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "iOS",
+      "Swift",
+      "Mobile"
+    ],
+    "isFeatured": false,
+    "totalHours": 13
+  },
+  {
+    "title": "Android App Development Kotlin",
+    "slug": "android-app-development",
+    "shortDesc": "Build native Android apps with Kotlin and publish to Google Play Store",
+    "description": "Build native Android apps with Kotlin and publish to Google Play Store. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 139,
+    "originalPrice": 319,
+    "category": "Tech & Development",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Android",
+      "Kotlin",
+      "Mobile"
+    ],
+    "isFeatured": false,
+    "totalHours": 13
+  },
+  {
+    "title": "AI Automation for Business",
+    "slug": "ai-automation-business",
+    "shortDesc": "Automate business tasks with AI and save 10-20 hours per week",
+    "description": "Automate business tasks with AI and save 10-20 hours per week. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 99,
+    "originalPrice": 229,
+    "category": "Tech & AI",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "AI",
+      "Automation",
+      "Business"
+    ],
+    "isFeatured": false,
+    "totalHours": 9
+  },
+  {
+    "title": "ChatGPT Mastery & Prompts",
+    "slug": "prompt-engineering-mastery",
+    "shortDesc": "Master ChatGPT prompt engineering for exceptional AI outputs",
+    "description": "Master ChatGPT prompt engineering for exceptional AI outputs. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 79,
+    "originalPrice": 179,
+    "category": "Tech & AI",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "ChatGPT",
+      "AI",
+      "Prompts"
+    ],
+    "isFeatured": true,
+    "totalHours": 7
+  },
+  {
+    "title": "Midjourney AI Art Mastery",
+    "slug": "midjourney-ai-art",
+    "shortDesc": "Create stunning AI art with Midjourney and monetize your creations",
+    "description": "Create stunning AI art with Midjourney and monetize your creations. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 59,
+    "originalPrice": 139,
+    "category": "Tech & AI",
+    "level": "BEGINNER",
+    "tags": [
+      "Midjourney",
+      "AI Art",
+      "Design"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "AI Content Creation",
+    "slug": "ai-content-creation",
+    "shortDesc": "Create high-quality content faster using AI writing and generation tools",
+    "description": "Create high-quality content faster using AI writing and generation tools. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 49,
+    "originalPrice": 109,
+    "category": "Tech & AI",
+    "level": "BEGINNER",
+    "tags": [
+      "AI",
+      "Content",
+      "Writing"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Machine Learning Basics",
+    "slug": "machine-learning-basics",
+    "shortDesc": "Understand machine learning fundamentals and build your first ML models",
+    "description": "Understand machine learning fundamentals and build your first ML models. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 129,
+    "originalPrice": 289,
+    "category": "Tech & AI",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Machine Learning",
+      "AI",
+      "Python"
+    ],
+    "isFeatured": true,
+    "totalHours": 12
+  },
+  {
+    "title": "AI Video Generation",
+    "slug": "ai-video-generation",
+    "shortDesc": "Generate videos with AI tools like Runway Synthesia and Pictory",
+    "description": "Generate videos with AI tools like Runway Synthesia and Pictory. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 79,
+    "originalPrice": 169,
+    "category": "Tech & AI",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "AI",
+      "Video",
+      "Generation"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Building AI Chatbots",
+    "slug": "building-ai-chatbots",
+    "shortDesc": "Build intelligent chatbots for customer service and automation",
+    "description": "Build intelligent chatbots for customer service and automation. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 119,
+    "originalPrice": 259,
+    "category": "Tech & AI",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "AI",
+      "Chatbots",
+      "Automation"
+    ],
+    "isFeatured": false,
+    "totalHours": 10
+  },
+  {
+    "title": "AI Side Hustle Ideas",
+    "slug": "ai-side-hustle-ideas",
+    "shortDesc": "Discover profitable side hustles powered by AI tools and automation",
+    "description": "Discover profitable side hustles powered by AI tools and automation. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 39,
+    "originalPrice": 89,
+    "category": "Tech & AI",
+    "level": "BEGINNER",
+    "tags": [
+      "AI",
+      "Side Hustle",
+      "Income"
+    ],
+    "isFeatured": true,
+    "totalHours": 5
+  },
+  {
+    "title": "Stock Market Options Trading",
+    "slug": "stock-options-trading",
+    "shortDesc": "Master advanced options trading strategies for consistent income",
+    "description": "Master advanced options trading strategies for consistent income. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/finance-thumb.svg",
+    "banner": "/courses/finance-banner.svg",
+    "price": 179,
+    "originalPrice": 399,
+    "category": "Finance & Investing",
+    "level": "ADVANCED",
+    "tags": [
+      "Options",
+      "Trading",
+      "Stocks"
+    ],
+    "isFeatured": true,
+    "totalHours": 12
+  },
+  {
+    "title": "Real Estate Investing 101",
+    "slug": "real-estate-investing",
+    "shortDesc": "Start investing in real estate with rentals flips and wholesaling",
+    "description": "Start investing in real estate with rentals flips and wholesaling. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/finance-thumb.svg",
+    "banner": "/courses/finance-banner.svg",
+    "price": 89,
+    "originalPrice": 199,
+    "category": "Finance & Investing",
+    "level": "BEGINNER",
+    "tags": [
+      "Real Estate",
+      "Investing",
+      "Property"
+    ],
+    "isFeatured": false,
+    "totalHours": 8
+  },
+  {
+    "title": "Day Trading for Beginners",
+    "slug": "day-trading-beginners",
+    "shortDesc": "Learn to day trade stocks with technical analysis and risk management",
+    "description": "Learn to day trade stocks with technical analysis and risk management. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/finance-thumb.svg",
+    "banner": "/courses/finance-banner.svg",
+    "price": 129,
+    "originalPrice": 289,
+    "category": "Finance & Investing",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Day Trading",
+      "Stocks",
+      "Trading"
+    ],
+    "isFeatured": true,
+    "totalHours": 10
+  },
+  {
+    "title": "Dividend Investing Strategy",
+    "slug": "dividend-investing",
+    "shortDesc": "Build passive income through dividend stocks and long-term investing",
+    "description": "Build passive income through dividend stocks and long-term investing. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/finance-thumb.svg",
+    "banner": "/courses/finance-banner.svg",
+    "price": 59,
+    "originalPrice": 139,
+    "category": "Finance & Investing",
+    "level": "BEGINNER",
+    "tags": [
+      "Dividends",
+      "Investing",
+      "Passive Income"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  },
+  {
+    "title": "Personal Finance Mastery",
+    "slug": "personal-finance-mastery",
+    "shortDesc": "Take control of your money with budgeting saving and investing strategies",
+    "description": "Take control of your money with budgeting saving and investing strategies. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/finance-thumb.svg",
+    "banner": "/courses/finance-banner.svg",
+    "price": 39,
+    "originalPrice": 89,
+    "category": "Finance & Investing",
+    "level": "BEGINNER",
+    "tags": [
+      "Personal Finance",
+      "Budgeting",
+      "Money"
+    ],
+    "isFeatured": false,
+    "totalHours": 5
+  },
+  {
+    "title": "Notion Productivity System",
+    "slug": "notion-productivity-system",
+    "shortDesc": "Build a complete life operating system in Notion for maximum productivity",
+    "description": "Build a complete life operating system in Notion for maximum productivity. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 29,
+    "originalPrice": 79,
+    "category": "Productivity & Tools",
+    "level": "BEGINNER",
+    "tags": [
+      "Notion",
+      "Productivity",
+      "Organization"
+    ],
+    "isFeatured": false,
+    "totalHours": 4
+  },
+  {
+    "title": "Excel Advanced Formulas",
+    "slug": "excel-advanced-formulas",
+    "shortDesc": "Master advanced Excel formulas PivotTables and data analysis techniques",
+    "description": "Master advanced Excel formulas PivotTables and data analysis techniques. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 69,
+    "originalPrice": 149,
+    "category": "Productivity & Tools",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Excel",
+      "Formulas",
+      "Data"
+    ],
+    "isFeatured": false,
+    "totalHours": 7
+  },
+  {
+    "title": "Time Management Mastery",
+    "slug": "time-management-mastery",
+    "shortDesc": "Master time management techniques and multiply your productivity",
+    "description": "Master time management techniques and multiply your productivity. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 29,
+    "originalPrice": 69,
+    "category": "Productivity & Tools",
+    "level": "BEGINNER",
+    "tags": [
+      "Time Management",
+      "Productivity",
+      "Efficiency"
+    ],
+    "isFeatured": false,
+    "totalHours": 4
+  },
+  {
+    "title": "Project Management PMP Prep",
+    "slug": "pmp-certification-prep",
+    "shortDesc": "Prepare for PMP certification and master professional project management",
+    "description": "Prepare for PMP certification and master professional project management. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 199,
+    "originalPrice": 449,
+    "category": "Productivity & Tools",
+    "level": "ADVANCED",
+    "tags": [
+      "PMP",
+      "Project Management",
+      "Certification"
+    ],
+    "isFeatured": true,
+    "totalHours": 20
+  },
+  {
+    "title": "Airtable Business Systems",
+    "slug": "airtable-business-systems",
+    "shortDesc": "Build powerful business systems and databases with Airtable no-code platform",
+    "description": "Build powerful business systems and databases with Airtable no-code platform. Complete comprehensive training with real-world examples and actionable strategies.",
+    "thumbnail": "/courses/tech-thumb.svg",
+    "banner": "/courses/tech-banner.svg",
+    "price": 59,
+    "originalPrice": 129,
+    "category": "Productivity & Tools",
+    "level": "INTERMEDIATE",
+    "tags": [
+      "Airtable",
+      "No-Code",
+      "Systems"
+    ],
+    "isFeatured": false,
+    "totalHours": 6
+  }
+];
 
   // Create courses with proper structure
+  let totalLessons = 0;
+  let totalModules = 0;
+  
   for (const courseData of coursesData) {
     const modules = generateCourseStructure(courseData.title, courseData.totalHours, courseData.slug);
     
@@ -539,11 +1567,15 @@ async function main() {
       },
     });
 
+    totalLessons += course.totalLessons;
+    totalModules += modules.length;
     console.log(`✅ Created ${courseData.title} (${courseData.totalHours}h = ${course.totalLessons} lessons across ${modules.length} modules)`);
   }
 
   console.log("\n🎉 Database seeded successfully!");
   console.log(`📚 Total courses: ${coursesData.length}`);
+  console.log(`📂 Total modules: ${totalModules}`);
+  console.log(`📝 Total lessons: ${totalLessons}`);
   console.log(`👥 Total users: ${users.length}`);
   
   const beginnerCount = coursesData.filter(c => c.level === "BEGINNER").length;
