@@ -1,51 +1,90 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
 
-  const { courseId } = await req.json();
+    const { courseId } = await req.json();
 
-  const existing = await prisma.wishlist.findUnique({
-    where: { userId_courseId: { userId: session.user.id, courseId } },
-  });
+    if (!courseId) {
+      return NextResponse.json(
+        { error: 'Course ID is required' },
+        { status: 400 }
+      );
+    }
 
-  if (existing) {
-    await prisma.wishlist.delete({
-      where: { userId_courseId: { userId: session.user.id, courseId } },
+    // Check if already wishlisted
+    const existing = await prisma.wishlist.findUnique({
+      where: {
+        userId_courseId: {
+          userId: session.user.id,
+          courseId,
+        },
+      },
     });
-    return NextResponse.json({ wishlisted: false });
+
+    if (existing) {
+      // Remove from wishlist
+      await prisma.wishlist.delete({
+        where: { id: existing.id },
+      });
+
+      return NextResponse.json({ wishlisted: false });
+    } else {
+      // Add to wishlist
+      await prisma.wishlist.create({
+        data: {
+          userId: session.user.id,
+          courseId,
+        },
+      });
+
+      return NextResponse.json({ wishlisted: true });
+    }
+  } catch (error) {
+    console.error('Wishlist error:', error);
+    return NextResponse.json(
+      { error: 'Failed to update wishlist' },
+      { status: 500 }
+    );
   }
-
-  await prisma.wishlist.create({
-    data: { userId: session.user.id, courseId },
-  });
-
-  return NextResponse.json({ wishlisted: true });
 }
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return NextResponse.json({ items: [] });
-  }
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ wishlist: [] });
+    }
 
-  const items = await prisma.wishlist.findMany({
-    where: { userId: session.user.id },
-    include: {
-      course: {
-        include: {
-          _count: { select: { enrollments: true, reviews: true } },
-          reviews: { select: { rating: true } },
+    const wishlist = await prisma.wishlist.findMany({
+      where: { userId: session.user.id },
+      include: {
+        course: {
+          include: {
+            _count: { select: { enrollments: true } },
+          },
         },
       },
-    },
-  });
+    });
 
-  return NextResponse.json({ items });
+    return NextResponse.json({ wishlist });
+  } catch (error) {
+    console.error('Wishlist fetch error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch wishlist' },
+      { status: 500 }
+    );
+  }
 }

@@ -18,6 +18,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import CourseEnrollButton from "@/components/CourseEnrollButton";
+import WishlistButton from "@/components/WishlistButton";
 
 async function getCourse(slug: string) {
   return prisma.course.findUnique({
@@ -99,6 +100,17 @@ export default async function CourseDetailPage({
       })
     : null;
 
+  const wishlisted = session?.user?.id
+    ? await prisma.wishlist.findUnique({
+        where: {
+          userId_courseId: {
+            userId: session.user.id,
+            courseId: course.id,
+          },
+        },
+      })
+    : null;
+
   const firstFreeLesson = course.modules[0]?.lessons.find((l) => l.isFree);
   const whatYouLearn = WHAT_YOU_LEARN[slug] || DEFAULT_LEARN;
 
@@ -165,18 +177,26 @@ export default async function CourseDetailPage({
               </div>
 
               {/* Price & Enroll - middle */}
-              <div className="md:col-span-4 flex flex-col justify-center">
-                <div className="mb-3">
+              <div className="md:col-span-4 flex flex-col justify-center gap-3">
+                <div>
                   <span className="text-3xl font-bold text-amber-400">
                     ${course.price}
                   </span>
                 </div>
-                <CourseEnrollButton
-                  courseId={course.id}
-                  courseSlug={course.slug}
-                  enrolled={!!enrollment}
-                  firstLessonId={firstFreeLesson?.id}
-                />
+                <div className="flex flex-col gap-2">
+                  <CourseEnrollButton
+                    courseId={course.id}
+                    courseSlug={course.slug}
+                    enrolled={!!enrollment}
+                    firstLessonId={firstFreeLesson?.id}
+                  />
+                  <WishlistButton
+                    courseId={course.id}
+                    initialWishlisted={!!wishlisted}
+                    variant="full"
+                    size="md"
+                  />
+                </div>
               </div>
 
               {/* Stats - right side */}

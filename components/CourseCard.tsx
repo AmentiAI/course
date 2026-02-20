@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, Heart } from "lucide-react";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { Clock } from "lucide-react";
+import WishlistButton from "./WishlistButton";
 
 interface CourseCardProps {
   course: {
@@ -34,32 +32,6 @@ export default function CourseCard({
   isPopular,
   initialWishlisted = false,
 }: CourseCardProps) {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const [wishlisted, setWishlisted] = useState(initialWishlisted);
-  const [wishlistLoading, setWishlistLoading] = useState(false);
-
-  const handleWishlist = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!session) {
-      router.push("/auth/signin");
-      return;
-    }
-    setWishlistLoading(true);
-    try {
-      const res = await fetch("/api/wishlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseId: course.id }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setWishlisted(data.wishlisted ?? !wishlisted);
-      }
-    } finally {
-      setWishlistLoading(false);
-    }
-  };
 
   const levelColors: Record<string, string> = {
     BEGINNER: "text-green-400 bg-green-400/10",
@@ -87,19 +59,13 @@ export default function CourseCard({
             )}
           </div>
           {/* Wishlist button */}
-          <button
-            onClick={handleWishlist}
-            disabled={wishlistLoading}
-            className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-colors"
-          >
-            <Heart
-              className={`h-3.5 w-3.5 transition-colors ${
-                wishlisted
-                  ? "fill-red-400 text-red-400"
-                  : "text-white"
-              }`}
+          <div className="absolute top-2 right-2">
+            <WishlistButton
+              courseId={course.id}
+              initialWishlisted={initialWishlisted}
+              size="sm"
             />
-          </button>
+          </div>
           {/* Category */}
           <div className="absolute bottom-2 left-2">
             <span className="text-xs bg-black/60 backdrop-blur-sm text-zinc-300 px-2 py-0.5 rounded-full">
