@@ -102,10 +102,6 @@ export default async function CourseDetailPage({
   const firstFreeLesson = course.modules[0]?.lessons.find((l) => l.isFree);
   const whatYouLearn = WHAT_YOU_LEARN[slug] || DEFAULT_LEARN;
 
-  const discount = course.originalPrice
-    ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)
-    : null;
-
   return (
     <div className="min-h-screen bg-[#09090b]">
       {/* Hero */}
@@ -170,22 +166,10 @@ export default async function CourseDetailPage({
 
               {/* Price & Enroll - middle */}
               <div className="md:col-span-4 flex flex-col justify-center">
-                <div className="flex items-baseline gap-2 mb-3">
+                <div className="mb-3">
                   <span className="text-3xl font-bold text-amber-400">
                     ${course.price}
                   </span>
-                  {course.originalPrice && (
-                    <>
-                      <span className="text-base text-zinc-500 line-through">
-                        ${course.originalPrice}
-                      </span>
-                      {discount && (
-                        <span className="text-xs font-bold text-green-400">
-                          {discount}% OFF
-                        </span>
-                      )}
-                    </>
-                  )}
                 </div>
                 <CourseEnrollButton
                   courseId={course.id}

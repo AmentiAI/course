@@ -67,11 +67,6 @@ export default function CourseCard({
     ADVANCED: "text-red-400 bg-red-400/10",
   };
 
-  const discount =
-    course.originalPrice
-      ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)
-      : null;
-
   return (
     <Link href={`/courses/${course.slug}`} className="group block">
       <div className="course-card rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden h-full flex flex-col hover:border-purple-500/40">
@@ -147,23 +142,9 @@ export default function CourseCard({
 
           {/* Price */}
           <div className="flex items-center justify-between pt-3 border-t border-zinc-800">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg font-bold text-amber-400">
-                ${course.price}
-              </span>
-              {course.originalPrice && (
-                <>
-                  <span className="text-xs text-zinc-600 line-through">
-                    ${course.originalPrice}
-                  </span>
-                  {discount && (
-                    <span className="text-xs text-green-400 font-medium">
-                      -{discount}%
-                    </span>
-                  )}
-                </>
-              )}
-            </div>
+            <span className="text-lg font-bold text-amber-400">
+              ${course.price}
+            </span>
             <span className="text-xs bg-purple-600/20 text-purple-300 px-2.5 py-1 rounded-lg border border-purple-500/20 font-medium">
               Enroll →
             </span>
