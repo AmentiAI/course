@@ -109,7 +109,7 @@ export default async function CourseDetailPage({
     <div className="min-h-screen bg-[#09090b]">
       {/* Hero */}
       <div className="bg-zinc-900 border-b border-zinc-800">
-        <div className="mx-auto max-w-7xl px-4 py-10 lg:py-14">
+        <div className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left: Course Info */}
             <div className="lg:col-span-2">
@@ -126,14 +126,9 @@ export default async function CourseDetailPage({
                 {course.title}
               </h1>
 
-              <p className="text-zinc-400 text-base mb-5 leading-relaxed">
+              <p className="text-zinc-400 text-base mb-4 leading-relaxed">
                 {course.shortDesc}
               </p>
-
-              {/* Meta */}
-              <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
-                {/* Student count and reviews removed */}
-              </div>
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2">
@@ -247,7 +242,7 @@ export default async function CourseDetailPage({
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-10">
+      <div className="mx-auto max-w-7xl px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             {/* What You'll Learn */}
