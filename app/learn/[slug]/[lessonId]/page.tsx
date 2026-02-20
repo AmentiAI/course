@@ -16,6 +16,7 @@ import {
 import LessonContent from "@/components/LessonContent";
 import MobileSidebarToggle from "@/components/MobileSidebarToggle";
 import LessonAudioPlayer from "@/components/LessonAudioPlayer";
+import MarkdownContent from "@/components/MarkdownContent";
 
 async function getLessonData(slug: string, lessonId: string, userId?: string) {
   const course = await prisma.course.findUnique({
@@ -266,10 +267,8 @@ export default async function LessonPage({
             )}
 
             {/* Lesson content */}
-            <div className="prose prose-invert prose-sm max-w-none">
-              <div className="text-zinc-300 leading-relaxed whitespace-pre-line text-sm">
-                {lesson.content}
-              </div>
+            <div className="max-w-none">
+              <MarkdownContent content={lesson.content} />
             </div>
 
             {/* Quiz placeholder */}
