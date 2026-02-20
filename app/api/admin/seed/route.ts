@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { PrismaClient, Level } from "@prisma/client";
+import { Level } from "@prisma/client";
 import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // Comprehensive lesson content generator
 const createLessonContent = (courseTitle: string, lessonTitle: string, focus: string): string => {
