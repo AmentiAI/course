@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Send, MessageSquare, Lock } from "lucide-react";
 
@@ -11,36 +11,16 @@ interface Props {
   isLoggedIn: boolean;
 }
 
-// Sample placeholder discussions (will be replaced by real DB data once Discussion model is added)
-const PLACEHOLDER_DISCUSSIONS = [
-  {
-    id: "1",
-    author: "Marcus Chen",
-    avatar: "MC",
-    question: "What's the best tool for tracking NFT floor prices in real-time?",
-    replies: 3,
-    time: "2 days ago",
-    answered: true,
-  },
-  {
-    id: "2",
-    author: "Priya Sharma",
-    avatar: "PS",
-    question: "How do you handle gas fees when flipping multiple NFTs in one day?",
-    replies: 7,
-    time: "5 days ago",
-    answered: true,
-  },
-  {
-    id: "3",
-    author: "Jake Morrison",
-    avatar: "JM",
-    question: "Is there a way to automate the buy/sell triggers?",
-    replies: 2,
-    time: "1 week ago",
-    answered: false,
-  },
-];
+interface DiscussionMessage {
+  id: string;
+  message: string;
+  createdAt: string;
+  user: {
+    id: string;
+    name: string | null;
+    image: string | null;
+  };
+}
 
 export default function DiscussionClient({
   courseSlug,
@@ -52,6 +32,27 @@ export default function DiscussionClient({
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [messages, setMessages] = useState<DiscussionMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch messages on mount
+  useEffect(() => {
+    fetchMessages();
+  }, [courseSlug]);
+
+  const fetchMessages = async () => {
+    try {
+      const res = await fetch(`/api/discuss?courseSlug=${courseSlug}`);
+      if (res.ok) {
+        const data = await res.json();
+        setMessages(data.messages || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch messages:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +69,9 @@ export default function DiscussionClient({
       if (res.ok) {
         setSubmitted(true);
         setQuestion("");
+        // Refresh messages
+        await fetchMessages();
+        setTimeout(() => setSubmitted(false), 3000);
       } else {
         const d = await res.json();
         setError(d.error || "Failed to post");
@@ -79,6 +83,31 @@ export default function DiscussionClient({
     }
   };
 
+  const getInitials = (name: string | null) => {
+    if (!name) return "?";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const formatTimeAgo = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return "just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString();
+  };
+
   return (
     <div className="space-y-6">
       {/* Post a question */}
@@ -87,7 +116,7 @@ export default function DiscussionClient({
           <h2 className="text-base font-semibold text-white mb-3">Ask a Question</h2>
           {submitted && (
             <div className="mb-3 rounded-lg bg-green-500/10 border border-green-500/30 px-4 py-3 text-sm text-green-400">
-              Question posted! 🎉 The instructor will respond soon.
+              Question posted! 🎉
             </div>
           )}
           {error && (
@@ -142,38 +171,53 @@ export default function DiscussionClient({
           <MessageSquare className="h-4 w-4 text-purple-400" />
           Recent Discussions
         </h2>
-        <div className="space-y-3">
-          {PLACEHOLDER_DISCUSSIONS.map((d) => (
-            <div
-              key={d.id}
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4"
-            >
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white shrink-0">
-                  {d.avatar}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium text-white">{d.author}</span>
-                    <span className="text-xs text-zinc-600">{d.time}</span>
-                    {d.answered && (
-                      <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">
-                        ✓ Answered
+
+        {loading ? (
+          <div className="text-center py-8 text-zinc-500">Loading messages...</div>
+        ) : messages.length === 0 ? (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 text-center">
+            <MessageSquare className="h-12 w-12 text-zinc-700 mx-auto mb-3" />
+            <p className="text-zinc-400 text-sm">
+              No messages yet. Be the first to start the conversation!
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4"
+              >
+                <div className="flex items-start gap-3">
+                  {msg.user.image ? (
+                    <img
+                      src={msg.user.image}
+                      alt=""
+                      className="h-8 w-8 rounded-full shrink-0"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white shrink-0">
+                      {getInitials(msg.user.name)}
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-medium text-white">
+                        {msg.user.name || "Anonymous"}
                       </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-zinc-300">{d.question}</p>
-                  <div className="flex items-center gap-3 mt-2">
-                    <button className="text-xs text-zinc-500 hover:text-purple-400 transition-colors flex items-center gap-1">
-                      <MessageSquare className="h-3 w-3" />
-                      {d.replies} {d.replies === 1 ? "reply" : "replies"}
-                    </button>
+                      <span className="text-xs text-zinc-600">
+                        {formatTimeAgo(msg.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-sm text-zinc-300 whitespace-pre-wrap">
+                      {msg.message}
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
