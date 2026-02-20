@@ -109,12 +109,12 @@ export default async function CourseDetailPage({
     <div className="min-h-screen bg-[#09090b]">
       {/* Hero */}
       <div className="bg-zinc-900 border-b border-zinc-800">
-        <div className="mx-auto max-w-7xl px-4 py-6 lg:py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="mx-auto max-w-7xl px-4 py-4 lg:py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: Course Info */}
             <div className="lg:col-span-2">
               {/* Breadcrumb */}
-              <div className="flex items-center gap-2 text-sm text-zinc-500 mb-4">
+              <div className="flex items-center gap-2 text-sm text-zinc-500 mb-2">
                 <Link href="/courses" className="hover:text-zinc-300">
                   Courses
                 </Link>
@@ -122,11 +122,11 @@ export default async function CourseDetailPage({
                 <span className="text-zinc-400">{course.category}</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
                 {course.title}
               </h1>
 
-              <p className="text-zinc-400 text-base mb-4 leading-relaxed">
+              <p className="text-zinc-400 text-base mb-3 leading-relaxed">
                 {course.shortDesc}
               </p>
 
@@ -242,12 +242,12 @@ export default async function CourseDetailPage({
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
+      <div className="mx-auto max-w-7xl px-4 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-4">
             {/* What You'll Learn */}
-            <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
-              <h2 className="text-xl font-bold text-white mb-5">
+            <section className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
+              <h2 className="text-xl font-bold text-white mb-4">
                 What You&apos;ll Learn
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -262,10 +262,10 @@ export default async function CourseDetailPage({
 
             {/* Curriculum */}
             <section>
-              <h2 className="text-xl font-bold text-white mb-5">
+              <h2 className="text-xl font-bold text-white mb-4">
                 Course Curriculum
               </h2>
-              <div className="text-sm text-zinc-500 mb-4">
+              <div className="text-sm text-zinc-500 mb-3">
                 {course.totalLessons} lessons · {course.totalHours} hours total
               </div>
               <div className="space-y-2">
