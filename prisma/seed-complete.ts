@@ -73,7 +73,7 @@ async function main() {
         email: "marcus@example.com",
         name: "Marcus Chen",
         password: hashedPassword,
-        role: "USER",
+        role: "STUDENT",
       },
     }),
     prisma.user.create({
@@ -81,7 +81,7 @@ async function main() {
         email: "priya@example.com",
         name: "Priya Sharma",
         password: hashedPassword,
-        role: "USER",
+        role: "STUDENT",
       },
     }),
     prisma.user.create({
@@ -89,7 +89,7 @@ async function main() {
         email: "jake@example.com",
         name: "Jake Morrison",
         password: hashedPassword,
-        role: "USER",
+        role: "STUDENT",
       },
     }),
     prisma.user.create({
@@ -97,7 +97,7 @@ async function main() {
         email: "sofia@example.com",
         name: "Sofia Rodriguez",
         password: hashedPassword,
-        role: "USER",
+        role: "STUDENT",
       },
     }),
   ]);
