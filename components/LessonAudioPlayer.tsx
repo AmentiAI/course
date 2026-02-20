@@ -50,10 +50,16 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate audio');
+        const errorData = await response.text();
+        console.error('TTS API error:', errorData);
+        throw new Error(`Audio generation failed: ${response.status}`);
       }
 
       const blob = await response.blob();
+      
+      if (blob.size === 0) {
+        throw new Error('Empty audio file received');
+      }
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
 
