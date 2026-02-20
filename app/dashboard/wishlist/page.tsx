@@ -13,18 +13,12 @@ async function getWishlist(userId: string) {
     include: {
       course: {
         include: {
-          _count: { select: { enrollments: true, reviews: true } },
-          reviews: { select: { rating: true } },
+          _count: { select: { enrollments: true } },
         },
       },
     },
     orderBy: { id: "desc" },
   });
-}
-
-function getAvgRating(reviews: { rating: number }[]) {
-  if (!reviews.length) return 4.8;
-  return reviews.reduce((a, b) => a + b.rating, 0) / reviews.length;
 }
 
 export default async function WishlistPage() {
@@ -54,7 +48,6 @@ export default async function WishlistPage() {
               <CourseCard
                 key={item.id}
                 course={item.course}
-                avgRating={getAvgRating(item.course.reviews)}
               />
             ))}
           </div>

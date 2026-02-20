@@ -7,8 +7,7 @@ async function getFeaturedCourses() {
   return prisma.course.findMany({
     where: { isFeatured: true, isPublished: true },
     include: {
-      _count: { select: { enrollments: true, reviews: true } },
-      reviews: { select: { rating: true } },
+      _count: { select: { enrollments: true } },
     },
     take: 6,
     orderBy: { createdAt: "desc" },
@@ -19,17 +18,11 @@ async function getAllCourses() {
   return prisma.course.findMany({
     where: { isPublished: true },
     include: {
-      _count: { select: { enrollments: true, reviews: true } },
-      reviews: { select: { rating: true } },
+      _count: { select: { enrollments: true } },
     },
     orderBy: { createdAt: "desc" },
     take: 10,
   });
-}
-
-function getAvgRating(reviews: { rating: number }[]) {
-  if (!reviews.length) return 4.8;
-  return reviews.reduce((a, b) => a + b.rating, 0) / reviews.length;
 }
 
 const CATEGORIES = [
@@ -269,7 +262,6 @@ export default async function HomePage() {
               <CourseCard
                 key={course.id}
                 course={course}
-                avgRating={getAvgRating(course.reviews)}
                 isNew={idx >= 7}
                 isPopular={idx < 3}
               />

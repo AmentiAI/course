@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Star, Users, Clock, Heart } from "lucide-react";
+import { Clock, Heart } from "lucide-react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -19,9 +19,9 @@ interface CourseCardProps {
     category: string;
     totalLessons: number;
     totalHours: number;
-    _count: { enrollments: number; reviews: number };
+    _count: { enrollments: number };
   };
-  avgRating: number;
+  avgRating?: number;
   isNew?: boolean;
   isPopular?: boolean;
   initialWishlisted?: boolean;
@@ -142,32 +142,6 @@ export default function CourseCard({
             <span className="flex items-center gap-1">
               <BookOpen className="h-3 w-3" />
               {course.totalLessons} lessons
-            </span>
-            <span className="flex items-center gap-1">
-              <Users className="h-3 w-3" />
-              {course._count.enrollments}
-            </span>
-          </div>
-
-          {/* Rating */}
-          <div className="flex items-center gap-1.5 mb-3">
-            <div className="flex items-center gap-0.5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star
-                  key={s}
-                  className={`h-3 w-3 ${
-                    s <= Math.round(avgRating)
-                      ? "fill-amber-400 text-amber-400"
-                      : "fill-zinc-700 text-zinc-700"
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-xs font-medium text-amber-400">
-              {avgRating.toFixed(1)}
-            </span>
-            <span className="text-xs text-zinc-600">
-              ({course._count.reviews})
             </span>
           </div>
 
