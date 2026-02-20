@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { Level } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { generateLessonContent, generateCourseIntroduction } from "./lesson-content-generator";
+import { generateQuiz } from "./quiz-generator";
 
 import coursesDataJSON from "../courses-data.json";
 
@@ -145,7 +146,35 @@ export async function seedAllCourses() {
         totalLessons: modules.reduce((sum: number, m: any) => sum + m.lessons.create.length, 0),
         modules: { create: modules },
       },
+      include: {
+        modules: {
+          include: {
+            lessons: true
+          }
+        }
+      }
     });
+    
+    // Create quizzes for all lessons
+    let quizCount = 0;
+    for (const module of course.modules) {
+      for (const lesson of module.lessons) {
+        const quizQuestions = generateQuiz(
+          courseData.title,
+          lesson.title,
+          courseData.category,
+          lesson.content || ''
+        );
+        
+        await prisma.quiz.create({
+          data: {
+            lessonId: lesson.id,
+            questions: quizQuestions,
+          },
+        });
+        quizCount++;
+      }
+    }
     
     // Create empty discussion for each course
     await prisma.discussion.create({
@@ -155,7 +184,7 @@ export async function seedAllCourses() {
     });
     
     created++;
-    console.log(`Created course ${created}: ${courseData.title} (with comprehensive content + discussion)`);
+    console.log(`Created course ${created}: ${courseData.title} (${quizCount} quizzes + discussion)`);
   }
 
   return { created, total: coursesData.length };

@@ -17,6 +17,7 @@ import LessonContent from "@/components/LessonContent";
 import MobileSidebarToggle from "@/components/MobileSidebarToggle";
 import LessonAudioPlayer from "@/components/LessonAudioPlayer";
 import MarkdownContent from "@/components/MarkdownContent";
+import LessonQuiz from "@/components/LessonQuiz";
 
 async function getLessonData(slug: string, lessonId: string, userId?: string) {
   const course = await prisma.course.findUnique({
@@ -264,20 +265,13 @@ export default async function LessonPage({
               <MarkdownContent content={lesson.content} />
             </div>
 
-            {/* Quiz placeholder */}
+            {/* Lesson Quiz */}
             {lesson.quiz && (
-              <div className="mt-8 rounded-xl border border-purple-500/30 bg-purple-900/10 p-6">
-                <h3 className="font-semibold text-purple-300 mb-2 flex items-center gap-2">
-                  <Award className="h-4 w-4" />
-                  Lesson Quiz
-                </h3>
-                <p className="text-sm text-zinc-400">
-                  Test your knowledge of this lesson.
-                </p>
-                <button className="mt-4 rounded-lg bg-purple-600 hover:bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors">
-                  Start Quiz
-                </button>
-              </div>
+              <LessonQuiz
+                lessonId={lesson.id}
+                questions={lesson.quiz.questions as any}
+                lessonTitle={lesson.title}
+              />
             )}
           </div>
         </div>
