@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import MobileNav from "@/components/MobileNav";
+import ProgressBar from "@/components/ProgressBar";
 
 async function getDashboardData(userId: string) {
   const [enrollments, certificates, notifications, recommendedCourses, lessonProgress] =
@@ -169,17 +170,11 @@ export default async function DashboardPage() {
                           <h3 className="text-sm font-semibold text-white mb-1 line-clamp-1">
                             {enrollment.course.title}
                           </h3>
-                          <div className="flex items-center gap-2 text-xs text-zinc-500 mb-3">
+                          <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
                             <Clock className="h-3 w-3" />
                             <span>{enrollment.progress}% complete</span>
                           </div>
-                          {/* Progress bar */}
-                          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden mb-3">
-                            <div
-                              className="h-full bg-green-500 rounded-full"
-                              style={{ width: `${enrollment.progress}%` }}
-                            />
-                          </div>
+                          <ProgressBar progress={enrollment.progress} size="sm" className="mb-3" />
                           <Link
                             href={
                               nextLesson

@@ -32,7 +32,10 @@ export async function GET(request: Request) {
       take: 10,
     });
 
-    return NextResponse.json({ courses });
+    return NextResponse.json({ 
+      courses,
+      results: courses // Also include as 'results' for compatibility
+    });
   } catch (error) {
     console.error("Search error:", error);
     return NextResponse.json(
