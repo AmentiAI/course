@@ -155,10 +155,16 @@ export async function seedAllCourses() {
       }
     });
     
-    // Create quizzes for all lessons
+    // Create quizzes ONLY for paid lessons (skip free preview lessons)
     let quizCount = 0;
     for (const module of course.modules) {
       for (const lesson of module.lessons) {
+        // Skip quiz creation for free/preview lessons
+        if (lesson.isFree) {
+          console.log(`  Skipping quiz for free lesson: ${lesson.title}`);
+          continue;
+        }
+        
         const quizQuestions = generateQuiz(
           courseData.title,
           lesson.title,
