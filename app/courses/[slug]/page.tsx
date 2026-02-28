@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   Clock,
   BookOpen,
@@ -42,6 +43,33 @@ async function getCourse(slug: string) {
       _count: { select: { enrollments: true } },
     },
   });
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const course = await getCourse(params.slug);
+  
+  if (!course) {
+    return {
+      title: "Course Not Found | SkillMint",
+    };
+  }
+
+  return {
+    title: `${course.title} | SkillMint`,
+    description: course.shortDesc || course.description?.slice(0, 160),
+    openGraph: {
+      title: course.title,
+      description: course.shortDesc || "",
+      type: "website",
+      images: course.thumbnail ? [course.thumbnail] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: course.title,
+      description: course.shortDesc || "",
+      images: course.thumbnail ? [course.thumbnail] : [],
+    },
+  };
 }
 
 const WHAT_YOU_LEARN: Record<string, string[]> = {

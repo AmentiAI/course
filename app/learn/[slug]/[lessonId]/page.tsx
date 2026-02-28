@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   ChevronLeft,
   ChevronRight,
@@ -62,6 +63,29 @@ async function getLessonData(slug: string, lessonId: string, userId?: string) {
   );
 
   return { course, lesson, enrollment, completedIds };
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; lessonId: string }> }): Promise<Metadata> {
+  const { slug, lessonId } = await params;
+  
+  const data = await getLessonData(slug, lessonId);
+  if (!data) {
+    return {
+      title: "Lesson Not Found | SkillMint",
+    };
+  }
+
+  const { course, lesson } = data;
+
+  return {
+    title: `${lesson.title} - ${course.title} | SkillMint`,
+    description: `Learn ${lesson.title} in the ${course.title} course on SkillMint`,
+    openGraph: {
+      title: `${lesson.title} - ${course.title}`,
+      description: `Learn ${lesson.title}`,
+      type: "article",
+    },
+  };
 }
 
 export default async function LessonPage({

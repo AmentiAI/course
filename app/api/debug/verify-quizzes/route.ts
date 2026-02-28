@@ -7,13 +7,7 @@ export async function GET() {
     const freeLessons = await prisma.lesson.findMany({
       where: { isFree: true },
       include: { quiz: true },
-      take: 5,
-      select: {
-        id: true,
-        title: true,
-        isFree: true,
-        quiz: { select: { id: true } }
-      }
+      take: 5
     });
     
     // Count stats
