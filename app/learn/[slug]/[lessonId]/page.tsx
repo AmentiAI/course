@@ -259,16 +259,16 @@ export default async function LessonPage({
             </div>
           )}
 
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
-            <div className="flex items-start justify-between gap-4 mb-10 pb-6 border-b border-slate-100">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-10 sm:py-14">
+            <div className="flex items-start justify-between gap-4 mb-12 pb-7 border-b border-slate-100">
               <div className="min-w-0">
-                <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-2">
+                <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-3">
                   {allLessons[currentIdx]?.moduleTitle}
                 </p>
-                <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight">
+                <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1]">
                   {lesson.title}
                 </h1>
-                <p className="text-sm text-slate-500 mt-3">
+                <p className="text-[15px] text-slate-500 mt-4">
                   Lesson {currentIdx + 1} of {totalLessons} &middot; {lesson.duration} min
                 </p>
               </div>

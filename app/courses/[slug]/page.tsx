@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import CourseEnrollButton from "@/components/CourseEnrollButton";
 import WishlistButton from "@/components/WishlistButton";
+import { generateCourseOutcomes } from "@/lib/course-outcomes";
+import { LEARNING_OUTCOMES } from "@/lib/learning-outcomes";
 
 async function getCourse(slug: string) {
   return prisma.course.findUnique({
@@ -75,40 +77,6 @@ export async function generateMetadata({
     },
   };
 }
-
-const LEARNING_OUTCOMES: Record<string, string[]> = {
-  "nft-flipping-masterclass": [
-    "Identify undervalued digital assets before broader market recognition",
-    "Apply rarity-scoring methodology and floor-sweep analysis",
-    "Use professional-grade market tools (NFTNerds, Icy.tools, Blur) effectively",
-    "Time position exits for maximized return",
-    "Construct a repeatable trading system with measurable performance",
-    "Implement tax-efficient strategies for digital asset trading",
-    "Recognize and avoid high-frequency beginner errors",
-    "Analyze real case studies of 10x+ position outcomes",
-  ],
-  "bitcoin-ordinals-brc20": [
-    "Explain Bitcoin Ordinals architecture and their economic significance",
-    "Mint inscriptions on Unisat, Gamma, and OrdinalsBot platforms",
-    "Evaluate early Ordinals projects using on-chain and market data",
-    "Navigate BRC-20 token mechanics and secondary marketplaces",
-    "Use Magic Eden Ordinals and Ordinals Market proficiently",
-    "Identify project-level risk indicators and protect capital",
-    "Configure secure Bitcoin wallet infrastructure for Ordinals",
-    "Construct a research-driven Ordinals portfolio methodology",
-  ],
-};
-
-const DEFAULT_OUTCOMES = [
-  "Apply discipline-specific skills with immediate professional utility",
-  "Execute structured frameworks used by working practitioners",
-  "Use the tools, platforms, and resources professionals rely on",
-  "Recognize and avoid the most common early-career errors",
-  "Build repeatable systems for sustained performance",
-  "Participate in the SkillMint alumni community",
-  "Complete applied exercises that reinforce each module",
-  "Earn a verifiable credential on program completion",
-];
 
 const DEFAULT_PREREQS = [
   "No formal prerequisites — admission is open.",
@@ -172,7 +140,16 @@ export default async function CourseDetailPage({
     : null;
 
   const firstFreeLesson = course.modules[0]?.lessons.find((l) => l.isFree);
-  const outcomes = LEARNING_OUTCOMES[slug] || DEFAULT_OUTCOMES;
+  const outcomes =
+    LEARNING_OUTCOMES[slug] ||
+    generateCourseOutcomes({
+      title: course.title,
+      category: course.category,
+      shortDesc: course.shortDesc,
+      description: course.description,
+      level: course.level,
+      modules: course.modules.map((m) => ({ title: m.title })),
+    });
   const programCode = `${course.category.slice(0, 2).toUpperCase()}-${String(
     course.totalLessons * 10 + 100
   ).slice(0, 3)}`;

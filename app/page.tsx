@@ -248,7 +248,7 @@ export default async function HomePage() {
                   <div className="bg-[#0a2540] px-6 py-5 flex items-center justify-between">
                     <div>
                       <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#b08d57]">
-                        Program Catalog
+                        Our Courses
                       </p>
                       <p className="text-white text-[15px] font-semibold mt-1">
                         Fall 2026 · Online
@@ -257,42 +257,37 @@ export default async function HomePage() {
                     <GraduationCap className="h-6 w-6 text-white/80" />
                   </div>
 
-                  {/* Sample program entries */}
+                  {/* Live program entries */}
                   <div className="divide-y divide-slate-100">
-                    {[
-                      {
-                        code: "DE-201",
-                        title: "Applied Digital Economy",
-                        hours: "42 hours",
-                      },
-                      {
-                        code: "AI-310",
-                        title: "AI Systems for Business",
-                        hours: "38 hours",
-                      },
-                      {
-                        code: "FN-220",
-                        title: "Applied DeFi Strategy",
-                        hours: "45 hours",
-                      },
-                    ].map((p) => (
-                      <div
-                        key={p.code}
-                        className="flex items-center justify-between gap-4 px-6 py-4"
-                      >
-                        <div className="flex items-center gap-4 min-w-0">
-                          <span className="text-[11px] font-mono font-bold tracking-wider text-[#98753f] shrink-0">
-                            {p.code}
+                    {programs.slice(0, 3).map((p) => {
+                      const code = `${p.category.slice(0, 2).toUpperCase()}-${String(
+                        p.totalLessons * 10 + 100,
+                      ).slice(0, 3)}`;
+                      return (
+                        <Link
+                          key={p.id}
+                          href={`/courses/${p.slug}`}
+                          className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-[#fafaf9] transition-colors"
+                        >
+                          <div className="flex items-center gap-4 min-w-0">
+                            <span className="text-[11px] font-mono font-bold tracking-wider text-[#98753f] shrink-0">
+                              {code}
+                            </span>
+                            <span className="text-sm font-medium text-[#0a2540] truncate">
+                              {p.title}
+                            </span>
+                          </div>
+                          <span className="text-xs text-slate-500 shrink-0 whitespace-nowrap">
+                            {p.totalHours} hours
                           </span>
-                          <span className="text-sm font-medium text-[#0a2540] truncate">
-                            {p.title}
-                          </span>
-                        </div>
-                        <span className="text-xs text-slate-500 shrink-0">
-                          {p.hours}
-                        </span>
+                        </Link>
+                      );
+                    })}
+                    {programs.length === 0 && (
+                      <div className="px-6 py-6 text-center text-sm text-slate-500 italic">
+                        Catalogue coming soon.
                       </div>
-                    ))}
+                    )}
                   </div>
 
                   {/* Footer */}

@@ -10,42 +10,42 @@ export default function MarkdownContent({ content }: { content: string }) {
         remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ children }) => (
-            <h1 className="font-serif text-3xl font-bold text-[#0a2540] mb-6 mt-10 pb-3 border-b border-slate-200 tracking-tight">
+            <h1 className="font-serif text-4xl font-bold text-[#0a2540] mb-7 mt-12 pb-4 border-b border-slate-200 tracking-tight leading-tight">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="font-serif text-2xl font-bold text-[#0a2540] mb-4 mt-10 tracking-tight">
+            <h2 className="font-serif text-3xl font-bold text-[#0a2540] mb-5 mt-12 tracking-tight leading-tight">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="font-serif text-xl font-bold text-[#0a2540] mb-3 mt-7 tracking-tight">
+            <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-4 mt-9 tracking-tight leading-snug">
               {children}
             </h3>
           ),
           h4: ({ children }) => (
-            <h4 className="text-lg font-semibold text-[#0a2540] mb-2 mt-5">
+            <h4 className="text-xl font-semibold text-[#0a2540] mb-3 mt-7 tracking-tight">
               {children}
             </h4>
           ),
           p: ({ children }) => (
-            <p className="text-slate-700 leading-[1.75] mb-5 text-[15.5px]">
+            <p className="text-slate-700 leading-[1.8] mb-6 text-[18px]">
               {children}
             </p>
           ),
           ul: ({ children }) => (
-            <ul className="list-disc list-outside space-y-2 mb-5 text-slate-700 ml-6 marker:text-slate-400">
+            <ul className="list-disc list-outside space-y-3 mb-6 text-slate-700 ml-7 marker:text-slate-400">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal list-outside space-y-2 mb-5 text-slate-700 ml-6 marker:text-slate-500 marker:font-semibold">
+            <ol className="list-decimal list-outside space-y-3 mb-6 text-slate-700 ml-7 marker:text-slate-500 marker:font-semibold">
               {children}
             </ol>
           ),
           li: ({ children }) => (
-            <li className="text-slate-700 leading-relaxed text-[15.5px] pl-1">
+            <li className="text-slate-700 leading-[1.75] text-[18px] pl-1.5">
               {children}
             </li>
           ),
@@ -60,8 +60,8 @@ export default function MarkdownContent({ content }: { content: string }) {
             </em>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-[#b08d57] pl-5 py-3 my-6 bg-[#f5ecd7]/60 rounded-r-md">
-              <div className="text-[#0a2540] italic font-serif">
+            <blockquote className="border-l-4 border-[#b08d57] pl-6 py-4 my-7 bg-[#f5ecd7]/60 rounded-r-md">
+              <div className="text-[#0a2540] italic font-serif text-[19px] leading-[1.7]">
                 {children}
               </div>
             </blockquote>
@@ -69,14 +69,14 @@ export default function MarkdownContent({ content }: { content: string }) {
           code: ({ inline, children, ...props }: any) => {
             if (inline) {
               return (
-                <code className="bg-[#fafaf9] text-[#98753f] px-1.5 py-0.5 rounded text-[13.5px] font-mono border border-slate-200">
+                <code className="bg-[#fafaf9] text-[#98753f] px-1.5 py-0.5 rounded text-[15.5px] font-mono border border-slate-200">
                   {children}
                 </code>
               );
             }
             return (
               <code
-                className="block bg-[#0a2540] text-slate-100 p-4 rounded-md my-4 overflow-x-auto text-sm font-mono"
+                className="block bg-[#0a2540] text-slate-100 p-5 rounded-md my-5 overflow-x-auto text-[15px] font-mono leading-relaxed"
                 {...props}
               >
                 {children}
@@ -125,7 +125,7 @@ export default function MarkdownContent({ content }: { content: string }) {
             </th>
           ),
           td: ({ children }) => (
-            <td className="px-4 py-3 text-sm text-slate-700">{children}</td>
+            <td className="px-5 py-3.5 text-[16px] text-slate-700">{children}</td>
           ),
         }}
       >

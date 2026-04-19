@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     description:
       "Structured, career-focused programs taught by expert practitioners.",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({

@@ -51,14 +51,16 @@ function useDebounce<T>(value: T, delay: number): T {
 export function SkillMintLogo({ size = 34 }: { size?: number }) {
   return (
     <span
-      className="relative inline-flex items-center justify-center rounded-md bg-[#0a2540]"
+      className="relative inline-flex items-center justify-center shrink-0"
       style={{ width: size, height: size }}
       aria-hidden
     >
-      <GraduationCap
-        className="text-white"
-        style={{ width: size * 0.55, height: size * 0.55 }}
-        strokeWidth={2.25}
+      <img
+        src="/logo.png"
+        alt=""
+        width={size}
+        height={size}
+        className="object-contain"
       />
     </span>
   );
@@ -403,7 +405,7 @@ export default function Navbar() {
                   Sign in
                 </Link>
                 <Link
-                  href="/admissions"
+                  href="/auth/signup"
                   className="text-[13px] font-semibold tracking-wide bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-2.5 rounded-md transition-colors shadow-sm"
                 >
                   Apply Now
@@ -561,7 +563,7 @@ export default function Navbar() {
                   Sign in
                 </Link>
                 <Link
-                  href="/admissions"
+                  href="/auth/signup"
                   onClick={() => setMobileOpen(false)}
                   className="block px-3 py-3 text-sm font-semibold text-white bg-[#0a2540] hover:bg-[#123258] rounded-md text-center"
                 >
