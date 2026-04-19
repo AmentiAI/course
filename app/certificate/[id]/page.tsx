@@ -29,7 +29,7 @@ export default async function CertificatePage({
           className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white hover:bg-white hover:border-[#b08d57] px-4 py-2.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
-          Student Portal
+          Dashboard
         </Link>
         <CertificatePrint />
       </div>
@@ -59,7 +59,7 @@ export default async function CertificatePage({
                   SkillMint
                 </div>
                 <div className="text-[9px] font-bold tracking-[0.28em] uppercase text-[#98753f] mt-1">
-                  Online Academy
+                  Online Courses
                 </div>
               </div>
             </div>
@@ -68,14 +68,14 @@ export default async function CertificatePage({
               Certificate of Completion
             </p>
 
-            <p className="text-slate-600 text-sm italic mb-5">This is to certify that</p>
+            <p className="text-slate-600 text-sm italic mb-5">This certifies that</p>
 
             <h1 className="font-serif text-5xl sm:text-6xl text-[#0a2540] mb-6 font-bold tracking-tight leading-none">
-              {cert.user.name || "Student"}
+              {cert.user.name || "Learner"}
             </h1>
 
             <p className="text-slate-600 text-sm italic mb-5">
-              has satisfied all requirements of the program of study in
+              has successfully completed the course
             </p>
 
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0a2540] mb-10 tracking-tight leading-tight">
@@ -91,7 +91,7 @@ export default async function CertificatePage({
             <div className="flex flex-wrap justify-center gap-10 mb-12 text-sm">
               <div className="text-center">
                 <div className="text-[10px] text-[#98753f] mb-1 uppercase tracking-[0.18em] font-bold">
-                  Discipline
+                  Category
                 </div>
                 <div className="font-serif text-[#0a2540] font-bold">
                   {cert.course.category}
@@ -107,7 +107,7 @@ export default async function CertificatePage({
               </div>
               <div className="text-center">
                 <div className="text-[10px] text-[#98753f] mb-1 uppercase tracking-[0.18em] font-bold">
-                  Conferred
+                  Issued
                 </div>
                 <div className="font-serif text-[#0a2540] font-bold">
                   {new Date(cert.issuedAt).toLocaleDateString("en-US", {
@@ -126,14 +126,14 @@ export default async function CertificatePage({
                 </div>
                 <div className="h-px bg-[#0a2540] w-48 mx-auto mb-1.5" />
                 <div className="text-[10px] text-[#98753f] uppercase tracking-[0.18em] font-bold">
-                  Office of the Registrar
+                  SkillMint Team
                 </div>
               </div>
             </div>
 
             <div className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-[#fafaf9] px-4 py-1.5">
               <span className="text-[10px] text-[#98753f] uppercase tracking-[0.18em] font-bold">
-                Credential ID
+                Certificate ID
               </span>
               <code className="text-xs text-[#0a2540] font-mono font-semibold">
                 {cert.id}
@@ -141,7 +141,7 @@ export default async function CertificatePage({
             </div>
 
             <p className="mt-3 text-xs text-slate-500 italic">
-              Verify at skillmint.courses/certificate/{cert.id}
+              Verify at skillmint.online/certificate/{cert.id}
             </p>
           </div>
         </div>

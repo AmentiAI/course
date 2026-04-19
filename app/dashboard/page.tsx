@@ -84,16 +84,16 @@ export default async function DashboardPage() {
       {/* Header band */}
       <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-14">
         <div className="mx-auto max-w-7xl">
-          <p className="academic-label mb-3">Student Portal</p>
+          <p className="academic-label mb-3">Dashboard</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight mb-3">
-            Welcome back, {session.user.name?.split(" ")[0] ?? "student"}.
+            Welcome back, {session.user.name?.split(" ")[0] ?? "learner"}.
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
             {enrollments.length === 0
-              ? "Begin a program from the catalog to start coursework in the Student Portal."
-              : `You are enrolled in ${enrollments.length} program${
+              ? "Pick a course from the catalog to start learning."
+              : `You have ${enrollments.length} course${
                   enrollments.length !== 1 ? "s" : ""
-                }. Resume coursework or view completed credentials below.`}
+                }. Pick up where you left off or review what you've finished.`}
           </p>
         </div>
       </section>
@@ -105,7 +105,7 @@ export default async function DashboardPage() {
             { label: "Enrolled", value: enrollments.length, icon: BookOpen },
             { label: "In Progress", value: inProgress.length, icon: TrendingUp },
             { label: "Completed", value: completed.length, icon: CheckCircle2 },
-            { label: "Credentials", value: certificates.length, icon: Award },
+            { label: "Certificates", value: certificates.length, icon: Award },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -127,9 +127,9 @@ export default async function DashboardPage() {
           <div className="lg:col-span-2 space-y-8">
             {inProgress.length > 0 && (
               <section>
-                <p className="academic-label mb-2">Coursework</p>
+                <p className="academic-label mb-2">In Progress</p>
                 <h2 className="font-serif text-2xl font-bold text-[#0a2540] mb-5 tracking-tight">
-                  Continue Coursework.
+                  Continue learning.
                 </h2>
                 <div className="space-y-3">
                   {inProgress.map((enrollment) => {
@@ -176,9 +176,9 @@ export default async function DashboardPage() {
 
             {notStarted.length > 0 && (
               <section>
-                <p className="academic-label mb-2">Ready to Begin</p>
+                <p className="academic-label mb-2">Ready to Start</p>
                 <h2 className="font-serif text-2xl font-bold text-[#0a2540] mb-5 tracking-tight">
-                  Not Yet Started.
+                  Haven't started yet.
                 </h2>
                 <div className="space-y-3">
                   {notStarted.map((enrollment) => {
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
                             {enrollment.course.title}
                           </h3>
                           <p className="text-xs text-slate-500 mb-3">
-                            Ready to begin
+                            Ready to start
                           </p>
                           <Link
                             href={
@@ -209,7 +209,7 @@ export default async function DashboardPage() {
                             className="inline-flex items-center gap-1.5 text-xs border border-[#b08d57] hover:bg-[#f5ecd7] text-[#0a2540] px-3.5 py-2 rounded-md transition-colors font-semibold tracking-wide"
                           >
                             <Play className="h-3 w-3" />
-                            Begin Program
+                            Start Course
                           </Link>
                         </div>
                       </div>
@@ -223,7 +223,7 @@ export default async function DashboardPage() {
               <section>
                 <p className="academic-label mb-2">Completed</p>
                 <h2 className="font-serif text-2xl font-bold text-[#0a2540] mb-5 tracking-tight">
-                  Completed Programs.
+                  Finished courses.
                 </h2>
                 <div className="space-y-3">
                   {completed.map((enrollment) => (
@@ -252,14 +252,14 @@ export default async function DashboardPage() {
                             href={`/courses/${enrollment.course.slug}`}
                             className="text-slate-600 hover:text-[#0a2540] transition-colors font-medium"
                           >
-                            Review Program →
+                            Review Course →
                           </Link>
                           <Link
                             href={`/dashboard`}
                             className="text-[#98753f] hover:text-[#0a2540] transition-colors flex items-center gap-1 font-medium"
                           >
                             <Award className="h-3 w-3" />
-                            Credential
+                            Certificate
                           </Link>
                         </div>
                       </div>
@@ -275,17 +275,16 @@ export default async function DashboardPage() {
                   <BookOpen className="h-6 w-6 text-[#98753f]" strokeWidth={1.75} />
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-3 tracking-tight">
-                  No Enrolled Programs.
+                  No courses yet.
                 </h3>
                 <p className="text-slate-600 mb-7 max-w-sm mx-auto leading-relaxed">
-                  Review the program catalog to begin your first program in the
-                  Student Portal.
+                  Browse the catalog and pick up your first course to get started.
                 </p>
                 <Link
                   href="/courses"
                   className="inline-flex items-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-6 py-3 text-sm font-semibold tracking-wide text-white transition-colors"
                 >
-                  Explore Programs
+                  Browse Courses
                   <ChevronRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -298,7 +297,7 @@ export default async function DashboardPage() {
               <section className="rounded-lg border border-slate-200 bg-white p-6">
                 <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4 flex items-center gap-2">
                   <Award className="h-3.5 w-3.5" />
-                  Credentials Issued
+                  Certificates
                 </p>
                 <div className="space-y-2">
                   {certificates.map((cert) => (
@@ -356,7 +355,7 @@ export default async function DashboardPage() {
               <section className="rounded-lg border border-slate-200 bg-white p-6">
                 <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4 flex items-center gap-2">
                   <Star className="h-3.5 w-3.5" />
-                  Suggested Programs
+                  Suggested Courses
                 </p>
                 <div className="space-y-2">
                   {recommendedCourses.map((course) => (

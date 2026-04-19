@@ -25,38 +25,38 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed max-w-xs">
-              A modern online academy with career-focused programs across
-              Web2 and Web3 — AI, trading, e-commerce, marketing, and more.
+              Self-paced online courses across Web2 and Web3 — AI, trading,
+              e-commerce, marketing, development, and more.
             </p>
             <div className="mt-5 flex items-center gap-2 text-sm text-slate-600">
               <Mail className="h-4 w-4 text-[#98753f]" />
               <a
-                href="mailto:admissions@skillmint.courses"
+                href="mailto:hello@skillmint.online"
                 className="hover:text-[#0a2540] transition-colors"
               >
-                admissions@skillmint.courses
+                hello@skillmint.online
               </a>
             </div>
           </div>
 
           <div>
             <h4 className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-4">
-              Academics
+              Learn
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
                 <Link href="/courses" className="hover:text-[#0a2540] transition-colors">
-                  Programs
+                  All Courses
                 </Link>
               </li>
               <li>
                 <Link href="/bundles" className="hover:text-[#0a2540] transition-colors">
-                  Curricula
+                  Bundles
                 </Link>
               </li>
               <li>
                 <Link href="/instructors" className="hover:text-[#0a2540] transition-colors">
-                  Faculty
+                  Instructors
                 </Link>
               </li>
             </ul>
@@ -64,7 +64,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-4">
-              Admissions
+              Get Started
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
@@ -74,7 +74,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/courses" className="hover:text-[#0a2540] transition-colors">
-                  Start Dates
+                  Browse Courses
                 </Link>
               </li>
             </ul>
@@ -82,12 +82,12 @@ export default function Footer() {
 
           <div>
             <h4 className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-4">
-              Student Support
+              Support
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
                 <Link href="/dashboard" className="hover:text-[#0a2540] transition-colors">
-                  Student Portal
+                  Dashboard
                 </Link>
               </li>
               <li>
@@ -97,7 +97,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:support@skillmint.courses"
+                  href="mailto:support@skillmint.online"
                   className="hover:text-[#0a2540] transition-colors"
                 >
                   Contact Support
@@ -108,7 +108,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-4">
-              Institution
+              Company
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
@@ -132,10 +132,10 @@ export default function Footer() {
 
         <div className="border-t border-slate-200 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-slate-500">
-            &copy; {new Date().getFullYear()} SkillMint Online Academy. All rights reserved.
+            &copy; {new Date().getFullYear()} SkillMint. All rights reserved.
           </p>
           <p className="text-xs text-slate-500">
-            SkillMint.Courses &middot; Educational content &middot; Not financial advice
+            SkillMint.Online &middot; Educational content &middot; Not financial advice
           </p>
         </div>
       </div>

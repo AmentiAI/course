@@ -67,17 +67,17 @@ export default function SignUpPage() {
                 SkillMint
               </span>
               <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
-                Online Academy
+                Online Courses
               </span>
             </div>
           </Link>
-          <p className="academic-label mb-3">Admissions</p>
+          <p className="academic-label mb-3">Sign Up</p>
           <h1 className="font-serif text-4xl font-bold text-[#0a2540] tracking-tight mb-3">
-            Create a Student Account.
+            Create your account.
           </h1>
           <p className="text-slate-600 text-[15px] leading-relaxed">
-            Begin the admissions process. Access programs and track progress through
-            the Student Portal.
+            Sign up to buy courses, track your progress, and save what you
+            want to come back to.
           </p>
         </div>
 
@@ -141,7 +141,7 @@ export default function SignUpPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="student@example.com"
+                  placeholder="you@example.com"
                   className="w-full rounded-md bg-white border border-slate-200 py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition-all"
                 />
               </div>
@@ -178,7 +178,7 @@ export default function SignUpPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-4 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors disabled:opacity-60 mt-2"
             >
-              {loading ? "Submitting…" : "Create Student Account"}
+              {loading ? "Submitting…" : "Create Account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
@@ -186,7 +186,7 @@ export default function SignUpPage() {
           <p className="mt-5 text-xs text-slate-500 text-center leading-relaxed">
             By creating an account, you agree to the{" "}
             <Link href="/terms" className="text-[#0a2540] underline decoration-[#b08d57] underline-offset-2 hover:text-[#123258]">
-              Academic Terms
+              Terms
             </Link>{" "}
             and{" "}
             <Link href="/privacy" className="text-[#0a2540] underline decoration-[#b08d57] underline-offset-2 hover:text-[#123258]">

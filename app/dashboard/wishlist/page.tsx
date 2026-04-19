@@ -31,16 +31,16 @@ export default async function WishlistPage() {
     <div className="min-h-screen bg-white pb-24 md:pb-16">
       <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-14">
         <div className="mx-auto max-w-7xl">
-          <p className="academic-label mb-3">Student Portal</p>
+          <p className="academic-label mb-3">Dashboard</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight mb-3">
-            Saved Programs.
+            Saved courses.
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
             {wishlistItems.length === 0
-              ? "Save programs you would like to revisit before enrollment."
-              : `${wishlistItems.length} program${
+              ? "Save courses you want to come back to later."
+              : `${wishlistItems.length} course${
                   wishlistItems.length !== 1 ? "s" : ""
-                } saved for review. Enroll when you are ready to begin.`}
+                } saved. Buy when you're ready to start.`}
           </p>
         </div>
       </section>
@@ -58,17 +58,17 @@ export default async function WishlistPage() {
               <Bookmark className="h-6 w-6 text-[#98753f]" strokeWidth={1.75} />
             </div>
             <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-3 tracking-tight">
-              No Saved Programs.
+              Nothing saved yet.
             </h3>
             <p className="text-slate-600 mb-7 max-w-xs mx-auto leading-relaxed">
-              Use the bookmark on any program card to save it for review later.
+              Tap the bookmark on any course card to save it here.
             </p>
             <Link
               href="/courses"
               className="inline-flex items-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-6 py-3 text-sm font-semibold tracking-wide text-white transition-colors"
             >
               <BookOpen className="h-4 w-4" />
-              Explore Programs
+              Browse Courses
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

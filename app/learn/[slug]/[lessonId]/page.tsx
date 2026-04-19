@@ -142,7 +142,7 @@ export default async function LessonPage({
             className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] hover:text-[#0a2540] flex items-center gap-1 mb-3 transition-colors"
           >
             <ChevronLeft className="h-3 w-3" />
-            Return to Program
+            Back to Course
           </Link>
           <h2 className="font-serif text-base font-bold text-[#0a2540] leading-snug line-clamp-2 tracking-tight">
             {course.title}
@@ -171,10 +171,10 @@ export default async function LessonPage({
             <div key={module.id}>
               <div className="px-5 py-3 bg-[#0a2540] border-b border-[#0a2540]">
                 <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-[#b08d57] mb-0.5">
-                  Module {idx + 1}
+                  Section {idx + 1}
                 </p>
                 <span className="text-xs font-semibold text-white tracking-tight">
-                  {module.title}
+                  {module.title.replace(/^module\s*\d+\s*[:\-–]\s*/i, "")}
                 </span>
               </div>
               {module.lessons.map((l) => {
@@ -234,9 +234,6 @@ export default async function LessonPage({
                         {l.title}
                       </span>
                     )}
-                    <span className="text-[11px] text-slate-400 shrink-0 font-medium">
-                      {l.duration}m
-                    </span>
                   </div>
                 );
               })}
@@ -263,7 +260,7 @@ export default async function LessonPage({
             <div className="flex items-start justify-between gap-4 mb-12 pb-7 border-b border-slate-100">
               <div className="min-w-0">
                 <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-3">
-                  {allLessons[currentIdx]?.moduleTitle}
+                  {allLessons[currentIdx]?.moduleTitle?.replace(/^module\s*\d+\s*[:\-–]\s*/i, "")}
                 </p>
                 <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1]">
                   {lesson.title}
@@ -345,7 +342,7 @@ export default async function LessonPage({
               className="flex items-center gap-2 text-sm bg-[#14532d] hover:bg-[#0f3d21] text-white transition-colors rounded-md px-4 py-2 font-semibold tracking-wide"
             >
               <Award className="h-4 w-4" />
-              Complete Program
+              Finish Course
             </Link>
           )}
         </div>

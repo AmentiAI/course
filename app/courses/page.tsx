@@ -81,21 +81,21 @@ export default async function CoursesPage({
     ? `Search results for "${params.q}"`
     : params.category
     ? `${params.category}`
-    : "Program Catalog";
+    : "Course Catalog";
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header band */}
       <section className="hero-backdrop border-b border-slate-200 px-4 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl">
-          <p className="academic-label mb-3">SkillMint Catalog</p>
+          <p className="academic-label mb-3">Courses</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight mb-3">
             {heading}
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
-            {total} program{total !== 1 ? "s" : ""} across Web2 and Web3 — AI, trading,
-            e-commerce, marketing, development, and more — taught by working
-            professionals and delivered online.
+            {total} course{total !== 1 ? "s" : ""} across Web2 and Web3 — AI,
+            trading, e-commerce, marketing, development, and more — taught by
+            working professionals and delivered online.
           </p>
         </div>
       </section>
@@ -121,7 +121,7 @@ export default async function CoursesPage({
                   {Math.min(pageNum * 9, total)}
                 </span>{" "}
                 of{" "}
-                <span className="font-semibold text-[#0a2540]">{total}</span> programs
+                <span className="font-semibold text-[#0a2540]">{total}</span> courses
               </span>
               <CoursesFilter current={params} sortOnly />
             </div>
@@ -144,7 +144,7 @@ export default async function CoursesPage({
             ) : (
               <div className="text-center py-24 rounded-lg border border-dashed border-slate-200 bg-[#fafaf9]">
                 <p className="font-serif text-lg text-[#0a2540] font-bold mb-1">
-                  No programs match your filters
+                  No courses match your filters
                 </p>
                 <p className="text-sm text-slate-500">
                   Try adjusting your filters or searching a different term.

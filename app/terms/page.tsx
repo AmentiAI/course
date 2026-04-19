@@ -11,11 +11,11 @@ export default function TermsPage() {
             className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] hover:text-[#0a2540] inline-flex items-center gap-1 mb-5 transition-colors"
           >
             <ChevronLeft className="h-3 w-3" />
-            Return to Academy
+            Back to Home
           </Link>
-          <p className="academic-label mb-3">Office of the General Counsel</p>
+          <p className="academic-label mb-3">Legal</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight">
-            Terms of Enrollment.
+            Terms of Service.
           </h1>
           <p className="text-sm text-slate-500 mt-3 italic">
             Last revised: 21 February 2026
@@ -41,8 +41,8 @@ export default function TermsPage() {
               2. Use license
             </h2>
             <p className="text-slate-700 mb-3">
-              Upon enrollment, you are granted a personal, non-exclusive, non-transferable license
-              to access course content for your own educational use. This license does not include:
+              Upon purchase, you are granted a personal, non-exclusive, non-transferable license
+              to access course content for your own use. This license does not include:
             </p>
             <ul className="list-disc list-outside space-y-1.5 text-slate-700 ml-6">
               <li>Sharing your account credentials with others</li>
@@ -168,10 +168,10 @@ export default function TermsPage() {
             <p className="text-slate-700">
               Questions about these Terms? Email us at{" "}
               <a
-                href="mailto:legal@skillmint.courses"
+                href="mailto:legal@skillmint.online"
                 className="text-[#0a2540] hover:text-[#98753f] font-semibold underline decoration-[#b08d57]/50 hover:decoration-[#b08d57] underline-offset-2"
               >
-                legal@skillmint.courses
+                legal@skillmint.online
               </a>
               .
             </p>
@@ -181,7 +181,7 @@ export default function TermsPage() {
         <div className="mt-12 p-6 bg-[#fafaf9] border border-slate-200 rounded-lg border-t-2 border-t-[#b08d57]">
           <p className="text-sm text-slate-700 leading-relaxed">
             By using SkillMint, you acknowledge that you have read, understood, and
-            agree to be bound by these Terms of Enrollment and the{" "}
+            agree to be bound by these Terms of Service and the{" "}
             <Link
               href="/privacy"
               className="text-[#0a2540] hover:text-[#98753f] font-semibold underline decoration-[#b08d57]/50 hover:decoration-[#b08d57] underline-offset-2"

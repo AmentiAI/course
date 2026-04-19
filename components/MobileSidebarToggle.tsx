@@ -70,7 +70,7 @@ export default function MobileSidebarToggle({
             className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] hover:text-[#0a2540] flex items-center gap-1 transition-colors"
           >
             <ChevronLeft className="h-3 w-3" />
-            Return to Program
+            Back to Course
           </Link>
           <button
             onClick={() => setOpen(false)}
@@ -108,10 +108,10 @@ export default function MobileSidebarToggle({
             <div key={module.id}>
               <div className="px-5 py-3 bg-[#0a2540] border-b border-[#0a2540]">
                 <p className="text-[9px] font-bold tracking-[0.22em] uppercase text-[#b08d57] mb-0.5">
-                  Module {idx + 1}
+                  Section {idx + 1}
                 </p>
                 <span className="text-xs font-semibold text-white tracking-tight">
-                  {module.title}
+                  {module.title.replace(/^module\s*\d+\s*[:\-–]\s*/i, "")}
                 </span>
               </div>
               {module.lessons.map((l) => {
@@ -172,9 +172,6 @@ export default function MobileSidebarToggle({
                         {l.title}
                       </span>
                     )}
-                    <span className="text-[11px] text-slate-400 shrink-0 font-medium">
-                      {l.duration}m
-                    </span>
                   </div>
                 );
               })}

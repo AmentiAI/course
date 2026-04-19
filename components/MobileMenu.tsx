@@ -29,12 +29,12 @@ export default function MobileMenu() {
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/courses", label: "Programs", icon: BookOpen },
-    { href: "/instructors", label: "Faculty", icon: Users },
+    { href: "/courses", label: "Courses", icon: BookOpen },
+    { href: "/instructors", label: "Instructors", icon: Users },
     ...(session?.user
       ? [
-          { href: "/dashboard/wishlist", label: "Saved Programs", icon: Bookmark },
-          { href: "/dashboard", label: "Student Portal", icon: User },
+          { href: "/dashboard/wishlist", label: "Saved Courses", icon: Bookmark },
+          { href: "/dashboard", label: "Dashboard", icon: User },
         ]
       : []),
   ];

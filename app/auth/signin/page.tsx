@@ -65,16 +65,16 @@ function SignInForm() {
                 SkillMint
               </span>
               <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
-                Online Academy
+                Online Courses
               </span>
             </div>
           </Link>
-          <p className="academic-label mb-3">Student Portal</p>
+          <p className="academic-label mb-3">Sign In</p>
           <h1 className="font-serif text-4xl font-bold text-[#0a2540] tracking-tight mb-3">
-            Student Sign In.
+            Welcome back.
           </h1>
           <p className="text-slate-600 text-[15px] leading-relaxed">
-            Access your programs, coursework, and credentials.
+            Sign in to access your courses, progress, and saved items.
           </p>
         </div>
 
@@ -131,7 +131,7 @@ function SignInForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="student@example.com"
+                  placeholder="you@example.com"
                   className="w-full rounded-md bg-white border border-slate-200 py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition-all"
                 />
               </div>
@@ -166,7 +166,7 @@ function SignInForm() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-4 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors disabled:opacity-60 mt-2"
             >
-              {loading ? "Signing in…" : "Sign In to Portal"}
+              {loading ? "Signing in…" : "Sign In"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
@@ -178,7 +178,7 @@ function SignInForm() {
             href="/auth/signup"
             className="text-[#98753f] hover:text-[#0a2540] font-semibold transition-colors"
           >
-            Create a Student Account
+            Create an Account
           </Link>
         </p>
       </div>

@@ -39,12 +39,12 @@ export default async function ProfilePage() {
     <div className="min-h-screen bg-white pb-24 md:pb-16">
       <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-14">
         <div className="mx-auto max-w-3xl">
-          <p className="academic-label mb-3">Student Record</p>
+          <p className="academic-label mb-3">Account</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight">
             Account &amp; Profile.
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed mt-3">
-            Review your student record, referral program details, and Academy resources.
+            Your account details, referral link, and quick links.
           </p>
         </div>
       </section>
@@ -62,7 +62,7 @@ export default async function ProfilePage() {
               </h2>
               <p className="text-slate-600 text-sm">{user?.email}</p>
               <p className="text-xs text-slate-500 mt-1.5 font-medium tracking-wide">
-                Matriculated{" "}
+                Member since{" "}
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString("en-US", {
                       month: "long",
@@ -75,9 +75,9 @@ export default async function ProfilePage() {
 
           <div className="grid grid-cols-3 gap-4">
             {[
-              { label: "Programs", value: enrollments, icon: BookOpen },
-              { label: "Credentials", value: certificates, icon: Award },
-              { label: "Standing", value: session.user.role === "ADMIN" ? "Admin" : "Student", icon: User },
+              { label: "Courses", value: enrollments, icon: BookOpen },
+              { label: "Certificates", value: certificates, icon: Award },
+              { label: "Role", value: session.user.role === "ADMIN" ? "Admin" : "Learner", icon: User },
             ].map((stat) => (
               <div
                 key={stat.label}
@@ -106,7 +106,7 @@ export default async function ProfilePage() {
                 Referral Program.
               </h3>
               <p className="text-xs text-slate-500">
-                Earn 20% commission on every referred enrollment
+                Earn 20% commission on every referred sale
               </p>
             </div>
           </div>
@@ -145,14 +145,14 @@ export default async function ProfilePage() {
         {/* Quick links */}
         <div className="rounded-lg border border-slate-200 bg-white p-6">
           <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4">
-            Academy Resources
+            Quick Links
           </p>
           <div className="space-y-1">
             {[
-              { href: "/dashboard", label: "Student Portal" },
-              { href: "/dashboard/wishlist", label: "Saved Programs" },
-              { href: "/courses", label: "Program Catalog" },
-              { href: "/instructors", label: "Faculty Directory" },
+              { href: "/dashboard", label: "Dashboard" },
+              { href: "/dashboard/wishlist", label: "Saved Courses" },
+              { href: "/courses", label: "Course Catalog" },
+              { href: "/instructors", label: "Instructors" },
             ].map((link) => (
               <Link
                 key={link.href}

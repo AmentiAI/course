@@ -11,9 +11,9 @@ export default function PrivacyPage() {
             className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] hover:text-[#0a2540] inline-flex items-center gap-1 mb-5 transition-colors"
           >
             <ChevronLeft className="h-3 w-3" />
-            Return to Academy
+            Back to Home
           </Link>
-          <p className="academic-label mb-3">Office of the General Counsel</p>
+          <p className="academic-label mb-3">Legal</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight">
             Privacy Policy.
           </h1>
@@ -127,10 +127,10 @@ export default function PrivacyPage() {
             <p className="mt-3 text-slate-700">
               To exercise these rights, contact us at{" "}
               <a
-                href="mailto:privacy@skillmint.courses"
+                href="mailto:privacy@skillmint.online"
                 className="text-[#0a2540] hover:text-[#98753f] font-semibold underline decoration-[#b08d57]/50 hover:decoration-[#b08d57] underline-offset-2"
               >
-                privacy@skillmint.courses
+                privacy@skillmint.online
               </a>
               .
             </p>
@@ -164,10 +164,10 @@ export default function PrivacyPage() {
               <p className="text-slate-700">
                 <strong className="text-[#0a2540]">Email:</strong>{" "}
                 <a
-                  href="mailto:privacy@skillmint.courses"
+                  href="mailto:privacy@skillmint.online"
                   className="text-[#0a2540] hover:text-[#98753f] font-semibold underline decoration-[#b08d57]/50 hover:decoration-[#b08d57] underline-offset-2"
                 >
-                  privacy@skillmint.courses
+                  privacy@skillmint.online
                 </a>
               </p>
             </div>

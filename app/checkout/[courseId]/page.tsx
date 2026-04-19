@@ -52,16 +52,16 @@ export default async function CheckoutPage({
             className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-[#0a2540] mb-5 transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
-            Return to program
+            Back to course
           </Link>
 
-          <p className="academic-label mb-3">Enrollment</p>
+          <p className="academic-label mb-3">Checkout</p>
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight">
-            Complete Your Enrollment.
+            Complete your purchase.
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl mt-3">
-            Review the program summary, then complete payment to begin
-            coursework immediately in the Student Portal.
+            Review the order and pay. Access unlocks the second your payment
+            clears — no waiting.
           </p>
         </div>
       </section>
@@ -98,7 +98,7 @@ export default async function CheckoutPage({
               </span>
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-[#14532d]" />
-                30-day refund policy
+                30-day money-back guarantee
               </span>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default async function CheckoutPage({
           <div className="lg:col-span-2">
             <div className="rounded-lg border border-slate-200 bg-white p-6 sticky top-20">
               <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4">
-                Program Summary
+                Order Summary
               </p>
 
               <div className="flex gap-3 mb-5">
@@ -128,7 +128,7 @@ export default async function CheckoutPage({
 
               <div className="space-y-2.5 py-4 border-y border-slate-200 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-slate-600">Tuition</span>
+                  <span className="text-slate-600">Price</span>
                   <span className="font-medium text-[#0a2540]">
                     ${course.price.toFixed(2)}
                   </span>
@@ -156,12 +156,12 @@ export default async function CheckoutPage({
 
               <div className="pt-5 border-t border-slate-200 space-y-2.5">
                 <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-3">
-                  Included With Enrollment
+                  What's Included
                 </p>
                 {[
                   {
                     icon: Clock,
-                    label: `${course.totalHours} hours of coursework`,
+                    label: `${course.totalHours} hours of content`,
                   },
                   {
                     icon: BookOpen,

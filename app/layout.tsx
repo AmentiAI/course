@@ -18,39 +18,38 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://skillmint.courses"),
+  metadataBase: new URL("https://skillmint.online"),
   title: {
-    default: "SkillMint — Online Academy for Professional Education",
+    default: "SkillMint — Online Courses for Web2, Web3, AI & More",
     template: "%s · SkillMint",
   },
   description:
-    "SkillMint.Courses is a modern online academy with structured, career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and digital business. Expert instruction. Self-paced online learning.",
+    "SkillMint sells self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and digital business. Learn practical, job-ready skills from working practitioners.",
   keywords: [
-    "online academy",
+    "online courses",
     "SkillMint",
-    "professional education",
-    "online programs",
-    "career-focused learning",
-    "Web3 program",
-    "AI program",
-    "online certificate",
-    "admissions",
+    "Web3 courses",
+    "AI courses",
+    "trading courses",
+    "online learning",
+    "self-paced courses",
+    "skill building",
   ],
   authors: [{ name: "SkillMint" }],
   creator: "SkillMint",
   openGraph: {
-    title: "SkillMint — Online Academy for Professional Education",
+    title: "SkillMint — Online Courses for Web2, Web3, AI & More",
     description:
-      "A modern online academy with structured, career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, development, and more.",
-    url: "https://skillmint.courses",
+      "Self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and more. Taught by working practitioners.",
+    url: "https://skillmint.online",
     siteName: "SkillMint",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SkillMint — Online Academy for Professional Education",
+    title: "SkillMint — Online Courses for Web2, Web3, AI & More",
     description:
-      "Career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, and more — taught by expert practitioners.",
+      "Self-paced online courses taught by working practitioners — Web2, Web3, AI, trading, e-commerce, marketing, and more.",
   },
 };
 

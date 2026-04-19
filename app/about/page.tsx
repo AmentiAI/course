@@ -11,7 +11,7 @@ import {
 export const metadata = {
   title: "About SkillMint",
   description:
-    "SkillMint Online Academy delivers structured, career-focused programs taught by working professionals. Learn about our mission, standards, and academic approach.",
+    "SkillMint is a catalog of self-paced online courses across Web2 and Web3 — taught by working practitioners. Learn about who we are and how we build our courses.",
 };
 
 export default function AboutPage() {
@@ -20,51 +20,50 @@ export default function AboutPage() {
       {/* Header */}
       <section className="hero-backdrop border-b border-slate-200">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20 sm:py-24">
-          <p className="academic-label mb-4">About the Academy</p>
+          <p className="academic-label mb-4">About SkillMint</p>
           <h1 className="font-serif text-5xl sm:text-6xl font-bold text-[#0a2540] tracking-tight leading-[1.05] mb-6">
-            A Modern Online Academy for Applied Education.
+            Practical courses, built by people doing the work.
           </h1>
           <p className="text-lg sm:text-[19px] text-slate-600 leading-[1.7] max-w-3xl">
-            SkillMint.Courses was established to deliver serious, structured
-            online education in disciplines of the modern digital economy — at
-            the academic standards of a traditional institution, in a format
-            built for working adults.
+            SkillMint is a catalog of self-paced online courses across Web2
+            and Web3 — AI, trading, e-commerce, marketing, development,
+            finance, and digital business. Every course is designed to
+            teach skills you can actually use.
           </p>
         </div>
       </section>
 
       {/* Mission */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
-        <p className="academic-label mb-3">Mission</p>
+        <p className="academic-label mb-3">Why we exist</p>
         <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-6">
-          Our Mission.
+          Skills, not theater.
         </h2>
         <p className="text-[17px] text-slate-700 leading-[1.8] mb-5">
-          To provide accessible, rigorous, and career-focused education in
-          disciplines that shape the modern economy — and to do so with the
-          academic standards that prospective students, employers, and
-          institutions can trust.
+          Most online courses waste your time. Too much fluff, not enough
+          substance, and rarely taught by anyone who has actually shipped
+          anything. We built SkillMint to fix that.
         </p>
         <p className="text-[17px] text-slate-700 leading-[1.8]">
-          SkillMint programs span Web2 and Web3 — AI, trading, e-commerce,
-          marketing, development, finance, and digital business — each one
-          structured and taught by practicing faculty. Every program is built
-          to be defensible: to colleagues, to interviewers, and to students'
-          own standards for time well spent.
+          SkillMint courses span Web2 and Web3 — AI, trading, e-commerce,
+          marketing, development, finance, and digital business — taught by
+          working practitioners. Every course is focused on helping you pick
+          up a skill you can put to work: to get hired, build something, or
+          grow what you already do.
         </p>
       </section>
 
-      {/* Academic principles */}
+      {/* Principles */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
           <div className="mb-12 max-w-3xl">
-            <p className="academic-label mb-3">Principles</p>
+            <p className="academic-label mb-3">How We Build Courses</p>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-4">
-              Academic Principles.
+              What makes a SkillMint course.
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              The following principles guide program design, faculty
-              selection, and how we serve students.
+              Four things that separate a course worth your money from one
+              that wastes it.
             </p>
           </div>
 
@@ -72,18 +71,18 @@ export default function AboutPage() {
             {[
               {
                 icon: BookMarked,
-                title: "Curricular rigor",
-                desc: "Programs are designed as structured curricula — not content libraries. Each has defined learning outcomes and measured progression.",
+                title: "No filler",
+                desc: "Courses move in a clear arc — fundamentals, applied work, and a concrete output. No 10-hour ramps before you do anything useful.",
               },
               {
                 icon: GraduationCap,
-                title: "Faculty of practice",
-                desc: "Instructors are working professionals, selected for applied expertise and evaluated on student outcomes.",
+                title: "Practitioners, not generalists",
+                desc: "Instructors are people actively doing the work — traders, operators, engineers, marketers — not generalists reading from a deck.",
               },
               {
                 icon: Scale,
-                title: "Accessible admission",
-                desc: "Admission is open and non-competitive. We believe serious programs should be available to anyone prepared to do the work.",
+                title: "Open to anyone",
+                desc: "No prerequisites, no application. If you're willing to put in the work, the course is yours.",
               },
               {
                 icon: Award,
@@ -116,16 +115,16 @@ export default function AboutPage() {
         <div className="mb-10 max-w-3xl">
           <p className="academic-label mb-3">At a Glance</p>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-4">
-            SkillMint at a Glance.
+            SkillMint at a glance.
           </h2>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { value: "Online", label: "Delivery format" },
-            { value: "Self-paced", label: "Study schedule" },
-            { value: "Lifetime", label: "Program access" },
-            { value: "Rolling", label: "Admissions" },
+            { value: "Online", label: "Format" },
+            { value: "Self-paced", label: "Schedule" },
+            { value: "Lifetime", label: "Course access" },
+            { value: "Instant", label: "Enrollment" },
           ].map((s) => (
             <div key={s.label} className="border-t-2 border-[#b08d57] pt-5">
               <p className="font-serif text-3xl font-bold text-[#0a2540] tracking-tight mb-1">
@@ -139,30 +138,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What the credential means */}
+      {/* What the certificate means */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
-          <p className="academic-label mb-3">Credentials</p>
+          <p className="academic-label mb-3">Certificates</p>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-6">
-            What a SkillMint Credential Represents.
+            What a SkillMint certificate is.
           </h2>
           <div className="space-y-5 text-[17px] text-slate-700 leading-[1.8]">
             <p>
-              A SkillMint certificate is issued only upon completion of all
-              program modules, required assessments, and the capstone
-              deliverable. Each credential is accompanied by a unique
-              verification identifier.
+              Finish a course and you can download a certificate of
+              completion with a unique verification link you can share on
+              your LinkedIn profile or attach to a résumé.
             </p>
             <p>
-              Credentials are <em>not</em> accredited degrees — they are
-              recognitions of completed applied coursework, intended to be
-              used alongside (not in place of) traditional credentials,
-              professional experience, or licensure.
+              Certificates are <em>not</em> accredited academic degrees —
+              they're proof that you finished the course. Use them alongside
+              the work you've actually put together.
             </p>
             <p>
-              Students and employers may verify the authenticity of any
-              issued credential at any time through the unique verification
-              URL printed on the certificate.
+              Anyone you share the certificate with can verify it through
+              the link on the certificate itself.
             </p>
           </div>
         </div>
@@ -176,18 +172,18 @@ export default function AboutPage() {
             strokeWidth={1.75}
           />
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight mb-4">
-            Explore the Academy.
+            Start learning today.
           </h2>
           <p className="text-slate-600 leading-relaxed mb-8 max-w-xl mx-auto">
-            Review the program catalog, meet the faculty, or begin the
-            admissions process.
+            Browse the catalog, meet the instructors, or sign up and get
+            started.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/courses"
               className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
             >
-              Explore Programs
+              Browse Courses
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link

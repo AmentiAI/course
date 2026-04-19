@@ -2,96 +2,96 @@ import Link from "next/link";
 import { ArrowRight, GraduationCap, Mail, BookOpen, Users } from "lucide-react";
 
 export const metadata = {
-  title: "Faculty",
+  title: "Instructors",
   description:
-    "Meet the SkillMint faculty — working professionals and practitioners who deliver our programs. Each instructor is selected for applied expertise in their discipline.",
+    "Meet the SkillMint instructors — working practitioners who build and teach our courses. Each instructor is selected for real, hands-on expertise in what they teach.",
 };
 
-const FACULTY = [
+const INSTRUCTORS = [
   {
     id: "1",
     name: "Alex Rivera",
     initials: "AR",
-    title: "Lecturer, Digital Asset Research",
-    department: "Department of Digital Economy",
+    title: "On-chain Analyst",
+    focus: "Digital Asset Research",
     expertise: "Market structure · on-chain analysis · applied research",
-    bio: "Fifteen years of capital-markets experience, the last five focused on digital assets. Advises institutional desks on on-chain data methodology and market structure.",
-    programs: ["NFT Market Research", "Bitcoin Ordinals &amp; BRC-20"],
+    bio: "Fifteen years in capital markets, the last five focused on digital assets. Advises institutional desks on on-chain data and market structure.",
+    courses: ["NFT Market Research", "Bitcoin Ordinals &amp; BRC-20"],
   },
   {
     id: "2",
     name: "Sarah Kim",
     initials: "SK",
-    title: "Lecturer, Applied Finance",
-    department: "Department of Digital Economy",
+    title: "Quant Researcher",
+    focus: "Applied Finance",
     expertise: "Decentralized finance · risk modeling · portfolio theory",
-    bio: "Quantitative researcher with published work on decentralized market microstructure. Teaches the applied finance track with an emphasis on measurable risk.",
-    programs: ["Applied DeFi Strategy"],
+    bio: "Quantitative researcher with published work on decentralized market microstructure. Teaches applied finance with an emphasis on measurable risk.",
+    courses: ["Applied DeFi Strategy"],
   },
   {
     id: "3",
     name: "Marcus Johnson",
     initials: "MJ",
-    title: "Senior Instructor, AI Systems",
-    department: "Department of AI &amp; Systems",
+    title: "AI Engineer",
+    focus: "AI Systems",
     expertise: "Agent architectures · workflow automation · systems integration",
-    bio: "Former software engineer now operating an applied AI practice for mid-market firms. Leads the AI Systems concentration and its capstone seminars.",
-    programs: ["AI Systems for Business"],
+    bio: "Former software engineer running an applied AI practice for mid-market firms. Teaches the AI Systems track from real client work.",
+    courses: ["AI Systems for Business"],
   },
   {
     id: "4",
     name: "Priya Nair",
     initials: "PN",
-    title: "Lecturer, Quantitative Strategy",
-    department: "Department of Applied Finance",
+    title: "Quant Trader",
+    focus: "Derivatives & Systematic Strategy",
     expertise: "Derivatives · systematic strategy · quantitative research",
-    bio: "Previously a quantitative trader at a systematic fund. Brings institutional discipline to applied coursework in derivative and systematic strategy.",
-    programs: ["Derivative Strategy Seminar"],
+    bio: "Previously a quantitative trader at a systematic fund. Brings real-world desk discipline to the derivatives and systematic strategy course.",
+    courses: ["Derivative Strategy Seminar"],
   },
   {
     id: "5",
     name: "Tyler Brooks",
     initials: "TB",
-    title: "Lecturer, Digital Communication",
-    department: "Department of Digital Business",
+    title: "Writer & Operator",
+    focus: "Audience Growth",
     expertise: "Audience strategy · editorial craft · platform economics",
-    bio: "Writer and operator who built and sold two media properties. Teaches the editorial and audience strategy track within the digital business concentration.",
-    programs: ["Audience Growth Strategy"],
+    bio: "Writer and operator who built and sold two media properties. Teaches the editorial and audience strategy track.",
+    courses: ["Audience Growth Strategy"],
   },
   {
     id: "6",
     name: "Emma Weston",
     initials: "EW",
-    title: "Lecturer, Operator Economics",
-    department: "Department of Digital Business",
+    title: "DTC Operator",
+    focus: "Commerce Operations",
     expertise: "Commerce operations · supply chain · operator finance",
-    bio: "Scaled three direct-to-consumer ventures through successive growth stages. Teaches applied operator economics with a focus on unit performance.",
-    programs: ["Commerce Operations Seminar"],
+    bio: "Scaled three direct-to-consumer brands through successive growth stages. Teaches applied operator economics with a focus on unit performance.",
+    courses: ["Commerce Operations Seminar"],
   },
 ];
 
-export default function FacultyPage() {
+export default function InstructorsPage() {
   return (
     <div className="bg-white text-[#0b1727]">
       {/* Header */}
       <section className="hero-backdrop border-b border-slate-200">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20 sm:py-24">
-          <p className="academic-label mb-4">Faculty</p>
+          <p className="academic-label mb-4">Instructors</p>
           <h1 className="font-serif text-5xl sm:text-6xl font-bold text-[#0a2540] tracking-tight leading-[1.05] mb-6">
-            Taught by Working Professionals.
+            Taught by people doing the work.
           </h1>
           <p className="text-lg sm:text-[19px] text-slate-600 leading-[1.7] max-w-3xl">
-            SkillMint faculty are selected for applied expertise and active
-            practice in their disciplines. Our instructors teach from the
-            reality of working in the field — not from summarized theory.
+            SkillMint instructors are working practitioners who teach from
+            what they're doing day-to-day — not from a deck of textbook
+            theory.
           </p>
         </div>
       </section>
 
-      {/* Faculty grid */}
+      {/* Instructor grid */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FACULTY.map((f) => (
+          {INSTRUCTORS.map((f) => (
             <article
               key={f.id}
               className="rounded-lg border border-slate-200 bg-white overflow-hidden flex flex-col"
@@ -104,27 +104,25 @@ export default function FacultyPage() {
                 <h2 className="font-serif text-xl font-bold text-[#0a2540] tracking-tight mb-1">
                   {f.name}
                 </h2>
-                <p
-                  className="text-[13px] font-semibold text-[#98753f] tracking-wide"
-                  dangerouslySetInnerHTML={{ __html: f.title }}
-                />
-                <p
-                  className="text-[11px] text-slate-500 tracking-widest uppercase mt-1"
-                  dangerouslySetInnerHTML={{ __html: f.department }}
-                />
+                <p className="text-[13px] font-semibold text-[#98753f] tracking-wide">
+                  {f.title}
+                </p>
+                <p className="text-[11px] text-slate-500 tracking-widest uppercase mt-1">
+                  {f.focus}
+                </p>
               </div>
 
               {/* Body */}
               <div className="p-7 flex-1 flex flex-col">
                 <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-2">
-                  Area of Expertise
+                  Expertise
                 </p>
                 <p className="text-sm text-slate-700 mb-5 leading-relaxed">
                   {f.expertise}
                 </p>
 
                 <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-2">
-                  Biography
+                  About
                 </p>
                 <p className="text-sm text-slate-600 leading-relaxed mb-6 flex-1">
                   {f.bio}
@@ -132,21 +130,21 @@ export default function FacultyPage() {
 
                 <div className="border-t border-slate-100 pt-5">
                   <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540] mb-2.5">
-                    Programs Taught
+                    Courses
                   </p>
                   <ul className="space-y-1.5">
-                    {f.programs.map((program) => (
-                      <li key={program}>
+                    {f.courses.map((course) => (
+                      <li key={course}>
                         <Link
                           href={`/courses?q=${encodeURIComponent(
-                            program.replace(/&amp;/g, "&")
+                            course.replace(/&amp;/g, "&")
                           )}`}
                           className="inline-flex items-center gap-2 text-sm text-[#0a2540] hover:text-[#123258] font-medium group"
                         >
                           <ArrowRight className="h-3.5 w-3.5 text-[#b08d57]" />
                           <span
                             className="group-hover:underline decoration-[#b08d57] underline-offset-4"
-                            dangerouslySetInnerHTML={{ __html: program }}
+                            dangerouslySetInnerHTML={{ __html: course }}
                           />
                         </Link>
                       </li>
@@ -159,17 +157,16 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* Faculty values / summary */}
+      {/* Selection standards */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
           <div className="mb-10 max-w-3xl">
-            <p className="academic-label mb-3">Standards</p>
+            <p className="academic-label mb-3">How we pick them</p>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-4">
-              Faculty Selection Standards.
+              Instructor standards.
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              SkillMint applies consistent standards in selecting instructors
-              across every department.
+              The same bar applies to every course on the platform.
             </p>
           </div>
 
@@ -177,18 +174,18 @@ export default function FacultyPage() {
             {[
               {
                 icon: Users,
-                title: "Active practice",
-                desc: "Instructors are working professionals, currently practicing in the discipline they teach.",
+                title: "Active practitioners",
+                desc: "Everyone teaching is actively doing the work they teach — not coasting on past experience.",
               },
               {
                 icon: BookOpen,
-                title: "Curriculum authorship",
-                desc: "Each instructor is responsible for the structure and integrity of their program curriculum.",
+                title: "Owns the course",
+                desc: "Each instructor authors and owns the structure of their course. No course-mill content.",
               },
               {
                 icon: GraduationCap,
-                title: "Student outcomes",
-                desc: "Faculty are reviewed annually against student outcomes, completion, and instructional quality.",
+                title: "Reviewed on outcomes",
+                desc: "Instructors are reviewed on learner feedback, completion, and how useful the course actually is.",
               },
             ].map((s) => (
               <div
@@ -211,7 +208,7 @@ export default function FacultyPage() {
         </div>
       </section>
 
-      {/* Faculty inquiries */}
+      {/* Instructor inquiries */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
         <div className="rounded-lg border border-slate-200 bg-white p-10 sm:p-12 text-center">
           <GraduationCap
@@ -219,19 +216,18 @@ export default function FacultyPage() {
             strokeWidth={1.75}
           />
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight mb-4">
-            Faculty Inquiries.
+            Want to teach on SkillMint?
           </h2>
           <p className="text-slate-600 leading-relaxed mb-8 max-w-xl mx-auto">
-            SkillMint accepts proposals from practitioners interested in
-            developing and leading a program. Faculty candidates may contact
-            the Office of Academic Affairs.
+            If you're a practitioner and want to build a course around what
+            you do, we'd like to hear from you.
           </p>
           <a
-            href="mailto:faculty@skillmint.courses"
+            href="mailto:instructors@skillmint.online"
             className="inline-flex items-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
           >
             <Mail className="h-4 w-4" />
-            faculty@skillmint.courses
+            instructors@skillmint.online
           </a>
         </div>
       </section>

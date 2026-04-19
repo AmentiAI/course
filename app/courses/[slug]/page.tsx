@@ -57,7 +57,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const course = await getCourse(slug);
 
-  if (!course) return { title: "Program Not Found" };
+  if (!course) return { title: "Course Not Found" };
 
   return {
     title: course.title,
@@ -78,27 +78,27 @@ export async function generateMetadata({
 }
 
 const DEFAULT_PREREQS = [
-  "No formal prerequisites — admission is open.",
+  "No formal prerequisites — the course is open to anyone.",
   "Reliable internet connection and a modern browser.",
-  "Willingness to complete applied exercises and the capstone deliverable.",
+  "Willingness to work through the exercises and apply what you learn.",
 ];
 
 const FAQS = [
   {
-    q: "What format is the program delivered in?",
-    a: "All programs are delivered online and are self-paced. Students access video lessons, written materials, assessments, and a capstone project through the Student Portal.",
+    q: "How is the course delivered?",
+    a: "All courses are online and self-paced. You get video lessons, written materials, and exercises through your dashboard — available any time, on any device.",
   },
   {
-    q: "How long do I have to complete the program?",
-    a: "Enrollment includes lifetime access. Most students complete a program within 6 to 16 weeks depending on program length and weekly availability.",
+    q: "How long do I have access?",
+    a: "Lifetime access. Buy once, come back whenever you want. Most learners finish a course within a few weeks depending on its length and how much time you put in.",
   },
   {
-    q: "Is the credential accredited?",
-    a: "SkillMint credentials are not accredited academic degrees. They are verifiable certificates of applied coursework completion, intended to complement traditional credentials and professional experience.",
+    q: "Do I get a certificate?",
+    a: "Yes. When you complete the course you can download a certificate of completion to share on LinkedIn or attach to your résumé. It's not an accredited academic degree — it's a proof-of-completion for the course.",
   },
   {
-    q: "What if the program is not a fit?",
-    a: "Enrollment is backed by a 30-day refund policy. If the program is not the right fit within 30 days of enrollment, students may request a full refund.",
+    q: "What if the course isn't for me?",
+    a: "Every purchase is backed by a 30-day money-back guarantee. Email us within 30 days and we'll refund you — no questions asked.",
   },
 ];
 
@@ -149,22 +149,22 @@ export default async function CourseDetailPage({
       level: course.level,
       modules: course.modules.map((m) => ({ title: m.title })),
     });
-  const programCode = `${course.category.slice(0, 2).toUpperCase()}-${String(
+  const courseCode = `${course.category.slice(0, 2).toUpperCase()}-${String(
     course.totalLessons * 10 + 100
   ).slice(0, 3)}`;
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Program Header */}
+      {/* Course Header */}
       <section className="hero-backdrop border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14 lg:py-20">
           <nav className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6">
             <Link href="/" className="hover:text-[#0a2540]">
-              Academy
+              Home
             </Link>
             <span className="text-slate-300">/</span>
             <Link href="/courses" className="hover:text-[#0a2540]">
-              Programs
+              Courses
             </Link>
             <span className="text-slate-300">/</span>
             <span className="text-[#0a2540]">{course.category}</span>
@@ -174,7 +174,7 @@ export default async function CourseDetailPage({
             <div className="lg:col-span-7 xl:col-span-8">
               <div className="flex items-center gap-3 mb-5">
                 <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f]">
-                  {programCode} &middot; {course.category}
+                  {courseCode} &middot; {course.category}
                 </span>
               </div>
 
@@ -196,7 +196,7 @@ export default async function CourseDetailPage({
                 </span>
                 <span className="text-xs text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-md inline-flex items-center gap-1.5">
                   <Clock className="h-3.5 w-3.5 text-[#98753f]" />
-                  {course.totalHours}h of coursework
+                  {course.totalHours}h of content
                 </span>
                 <span className="text-xs text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-md inline-flex items-center gap-1.5">
                   <BookOpen className="h-3.5 w-3.5 text-[#98753f]" />
@@ -230,7 +230,7 @@ export default async function CourseDetailPage({
 
                   <div className="p-7">
                     <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-2">
-                      Tuition
+                      Price
                     </p>
                     <div className="flex items-baseline gap-2 mb-6 pb-6 border-b border-slate-100">
                       <span className="font-serif text-4xl font-bold text-[#0a2540]">
@@ -270,33 +270,33 @@ export default async function CourseDetailPage({
                     </div>
 
                     <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-3">
-                      This Program Includes
+                      What's Included
                     </p>
                     <ul className="space-y-2.5 text-sm">
                       {[
                         {
                           icon: Clock,
-                          label: `${course.totalHours} hours of coursework`,
+                          label: `${course.totalHours} hours of content`,
                         },
                         {
                           icon: BookOpen,
-                          label: `${course.totalLessons} structured lessons`,
+                          label: `${course.totalLessons} lessons`,
                         },
                         {
                           icon: Monitor,
-                          label: "Online, self-paced delivery",
+                          label: "Online · self-paced",
                         },
                         {
                           icon: Award,
-                          label: "Verifiable certificate",
+                          label: "Certificate of completion",
                         },
                         {
                           icon: ShieldCheck,
-                          label: "30-day refund policy",
+                          label: "30-day money-back guarantee",
                         },
                         {
                           icon: CreditCard,
-                          label: "PayPal, card, and Bitcoin",
+                          label: "Card, PayPal, or crypto",
                         },
                       ].map(({ icon: Icon, label }) => (
                         <li
@@ -316,12 +316,12 @@ export default async function CourseDetailPage({
         </div>
       </section>
 
-      {/* Program Facts Strip */}
+      {/* Course Facts Strip */}
       <section className="border-b border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:col-span-7 xl:col-span-8">
             {[
-              { label: "Credential", value: "Certificate" },
+              { label: "Certificate", value: "Included" },
               { label: "Format", value: "Online · Self-paced" },
               {
                 label: "Duration",
@@ -352,7 +352,7 @@ export default async function CourseDetailPage({
                 <div>
                   <p className="academic-label mb-3">Curriculum</p>
                   <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight">
-                    Course Structure &amp; Modules.
+                    What's inside.
                   </h2>
                   <p className="text-sm text-slate-500 mt-2">
                     {course.modules.length} modules &middot; {course.totalLessons}{" "}
@@ -373,11 +373,11 @@ export default async function CourseDetailPage({
               </div>
             </section>
 
-            {/* Program Overview */}
+            {/* Course Overview */}
             <section>
-              <p className="academic-label mb-3">Program Overview</p>
+              <p className="academic-label mb-3">Overview</p>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] mb-6 tracking-tight leading-tight">
-                About This Program.
+                About this course.
               </h2>
               <div className="prose-school whitespace-pre-line">
                 {course.description}
@@ -386,13 +386,12 @@ export default async function CourseDetailPage({
 
             {/* Learning Outcomes */}
             <section>
-              <p className="academic-label mb-3">Learning Outcomes</p>
+              <p className="academic-label mb-3">Outcomes</p>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] mb-6 tracking-tight leading-tight">
-                What Students Will Learn.
+                What you'll learn.
               </h2>
               <p className="text-slate-600 leading-relaxed mb-6 max-w-2xl">
-                On successful completion, students will be able to demonstrate
-                the following applied competencies:
+                By the time you finish the course, you'll be able to:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {outcomes.map((item) => (
@@ -416,9 +415,9 @@ export default async function CourseDetailPage({
 
             {/* Requirements */}
             <section>
-              <p className="academic-label mb-3">Prerequisites</p>
+              <p className="academic-label mb-3">Requirements</p>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] mb-6 tracking-tight leading-tight">
-                Requirements &amp; Prerequisites.
+                What you need.
               </h2>
               <ul className="space-y-3">
                 {DEFAULT_PREREQS.map((p) => (
@@ -440,9 +439,9 @@ export default async function CourseDetailPage({
 
             {/* FAQ */}
             <section>
-              <p className="academic-label mb-3">Frequently Asked</p>
+              <p className="academic-label mb-3">FAQ</p>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] mb-6 tracking-tight leading-tight">
-                Program Questions.
+                Frequently asked.
               </h2>
               <div className="rounded-lg border border-slate-200 bg-white overflow-hidden divide-y divide-slate-200">
                 {FAQS.map((f) => (
@@ -467,11 +466,11 @@ export default async function CourseDetailPage({
           <aside className="lg:col-span-4 space-y-6">
             <div className="rounded-lg border border-slate-200 bg-white p-7">
               <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4">
-                Program at a Glance
+                Course Details
               </p>
               <dl className="space-y-3.5 text-sm">
                 {[
-                  { dt: "Department", dd: course.category },
+                  { dt: "Category", dd: course.category },
                   {
                     dt: "Level",
                     dd:
@@ -485,10 +484,10 @@ export default async function CourseDetailPage({
                     dt: "Format",
                     dd: "Online · Self-paced",
                   },
-                  { dt: "Credential", dd: "Certificate" },
+                  { dt: "Certificate", dd: "Included" },
                   {
-                    dt: "Admissions",
-                    dd: "Rolling",
+                    dt: "Access",
+                    dd: "Lifetime",
                   },
                 ].map((row) => (
                   <div
@@ -510,14 +509,14 @@ export default async function CourseDetailPage({
                 strokeWidth={1.75}
               />
               <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-2">
-                Admissions
+                Get Started
               </p>
               <p className="font-serif text-lg font-bold text-[#0a2540] tracking-tight mb-3">
-                Rolling Enrollment.
+                Instant access.
               </p>
               <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                Programs begin the day you enroll. No fixed cohort dates, no
-                prerequisites, no application fee.
+                Buy the course and start learning right away. No waitlist, no
+                prerequisites, no application.
               </p>
               <Link
                 href="/auth/signup"
@@ -605,9 +604,6 @@ function CurriculumModule({
                 </span>
               )}
             </div>
-            <span className="text-xs text-slate-500 shrink-0 ml-3 font-mono">
-              {lesson.duration}m
-            </span>
           </div>
         ))}
       </div>

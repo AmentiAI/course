@@ -18,7 +18,7 @@ import {
   Mail,
 } from "lucide-react";
 
-async function getFeaturedPrograms() {
+async function getFeaturedCourses() {
   const featured = await prisma.course.findMany({
     where: { isFeatured: true, isPublished: true },
     include: { _count: { select: { enrollments: true } } },
@@ -45,18 +45,18 @@ async function getCourseCount() {
 const CREDIBILITY = [
   {
     icon: BookMarked,
-    title: "Industry-focused curriculum",
-    desc: "Programs built around current practice, not outdated theory.",
+    title: "Practical, up-to-date content",
+    desc: "Courses built around how the work is actually done today — not recycled theory.",
   },
   {
     icon: Users,
-    title: "Expert instructors",
-    desc: "Faculty drawn from working professionals and practitioners.",
+    title: "Real practitioners teaching",
+    desc: "Instructors are traders, operators, engineers, and marketers shipping real work.",
   },
   {
     icon: Clock,
-    title: "Flexible online learning",
-    desc: "Self-paced coursework designed around working adults.",
+    title: "Self-paced, lifetime access",
+    desc: "Buy once, learn on your schedule, and revisit the material whenever you need it.",
   },
   {
     icon: Award,
@@ -65,30 +65,30 @@ const CREDIBILITY = [
   },
   {
     icon: ShieldCheck,
-    title: "Student-first support",
-    desc: "Lifetime access, responsive support, and a 30-day guarantee.",
+    title: "30-day money-back guarantee",
+    desc: "If a course isn't for you, email us within 30 days and we'll refund it.",
   },
 ];
 
 const WHY_SKILLMINT = [
   {
-    title: "Structured Curriculum",
-    desc: "Every program follows a deliberate arc — fundamentals, applied work, and a capstone deliverable. No filler modules, no wandering content.",
-    icon: BookOpen,
-  },
-  {
-    title: "Career-Focused Education",
-    desc: "Coursework is measured against industry outcomes. Students leave with portfolio pieces, working projects, or verifiable results.",
+    title: "Built for income and skills",
+    desc: "Every course is designed to help you pick up a skill you can use — to get hired, build a side project, or grow what you already do.",
     icon: Target,
   },
   {
-    title: "Expert-Led Instruction",
-    desc: "Faculty include practicing professionals — analysts, engineers, operators — who teach from the reality of the work, not textbook summaries.",
+    title: "Taught by people doing the work",
+    desc: "Instructors are working professionals who teach what they actually do day-to-day — not generalists reading from a textbook.",
     icon: GraduationCap,
   },
   {
-    title: "Flexible Academic Schedule",
-    desc: "Programs are self-paced with lifetime access. Study on the schedule of working life. Progress is tracked across every module.",
+    title: "Structured, no filler",
+    desc: "Courses move in a clear arc: fundamentals, applied work, and a concrete output. No 10-hour ramps before you do anything useful.",
+    icon: BookOpen,
+  },
+  {
+    title: "Learn on your own schedule",
+    desc: "Self-paced with lifetime access. Progress saves as you go — start, stop, and come back whenever you want.",
     icon: Clock,
   },
 ];
@@ -96,38 +96,38 @@ const WHY_SKILLMINT = [
 const HOW_IT_WORKS = [
   {
     step: "01",
-    title: "Apply or Enroll",
-    desc: "Browse the program catalog and enroll directly. No waiting period — access begins immediately after enrollment.",
+    title: "Browse the catalog",
+    desc: "Filter by category, level, or price. Each course page shows what you'll learn, modules, and the instructor.",
   },
   {
     step: "02",
-    title: "Begin Coursework",
-    desc: "Orient to the program overview, meet your instructor, and work through the foundational modules at your own pace.",
+    title: "Enroll instantly",
+    desc: "Pay with card, PayPal, or crypto. Access unlocks the moment your payment clears — no waiting.",
   },
   {
     step: "03",
-    title: "Complete Guided Modules",
-    desc: "Progress through structured lessons with worked examples, reading materials, and applied exercises.",
+    title: "Learn at your pace",
+    desc: "Work through lessons, videos, and exercises. Your progress saves automatically across devices.",
   },
   {
     step: "04",
-    title: "Assessments & Capstone",
-    desc: "Demonstrate mastery through module assessments and a culminating project that reflects real-world application.",
+    title: "Apply what you've learned",
+    desc: "Each course ends with a concrete output — a project, a playbook, or a skill you can put to work right away.",
   },
   {
     step: "05",
-    title: "Earn Your Credential",
-    desc: "Receive a verifiable certificate of completion to add to your professional profile or résumé.",
+    title: "Get your certificate",
+    desc: "Finish the course and download a certificate of completion to share on LinkedIn or your portfolio.",
   },
 ];
 
-const STUDENT_VOICES = [
+const LEARNER_VOICES = [
   {
     name: "Marcus Chen",
     role: "Research Analyst",
     initials: "MC",
     content:
-      "The curriculum is unusually disciplined. Each module built on the last, and I finished the program with a portfolio I could actually defend in interviews.",
+      "I picked up more actionable on-chain analysis in a weekend with this course than I had in months of scraping Twitter threads.",
     program: "Digital Asset Research",
   },
   {
@@ -135,7 +135,7 @@ const STUDENT_VOICES = [
     role: "Financial Analyst",
     initials: "PS",
     content:
-      "What distinguished the program was the instructor's depth. The case studies reflected current practice, and the feedback on my capstone project was substantive.",
+      "The DeFi course was refreshingly current — real protocols, real trade-offs, and walkthroughs I could replicate in a live wallet.",
     program: "Applied DeFi Strategy",
   },
   {
@@ -143,7 +143,7 @@ const STUDENT_VOICES = [
     role: "Agency Founder",
     initials: "JM",
     content:
-      "I've paid for executive education that wasn't as rigorous. SkillMint's program framework held me to a standard I couldn't have set for myself.",
+      "Rolled one of the AI workflows from the course straight into client delivery. It paid for itself in the first week.",
     program: "AI Systems for Business",
   },
   {
@@ -151,41 +151,41 @@ const STUDENT_VOICES = [
     role: "Marketing Strategist",
     initials: "SR",
     content:
-      "The program was structured like a real academic course — readings, assessments, a final project reviewed by the instructor. I recommend it to colleagues regularly.",
+      "Clear, specific, and no fluff. I finished with a growth playbook I'm actively using — and still reference the lessons.",
     program: "Audience Growth Strategy",
   },
 ];
 
-const FACULTY_PREVIEW = [
+const INSTRUCTORS_PREVIEW = [
   {
-    name: "Dr. Alex Rivera",
-    title: "Chair, Digital Economy Studies",
+    name: "Alex Rivera",
+    title: "On-chain Analyst",
     expertise: "On-chain analysis · market structure",
     initials: "AR",
   },
   {
     name: "Meera Anand",
-    title: "Lecturer in Applied Finance",
+    title: "DeFi Researcher",
     expertise: "DeFi · risk modeling · portfolio theory",
     initials: "MA",
   },
   {
     name: "Jordan Park",
-    title: "Senior Instructor, AI Systems",
+    title: "AI Engineer",
     expertise: "Automation · agent architectures",
     initials: "JP",
   },
   {
     name: "Leah Okafor",
-    title: "Lecturer in Digital Business",
+    title: "Operator & Growth Lead",
     expertise: "Growth strategy · operator economics",
     initials: "LO",
   },
 ];
 
 export default async function HomePage() {
-  const [programs, totalEnrollments, totalCourses] = await Promise.all([
-    getFeaturedPrograms(),
+  const [courses, totalEnrollments, totalCourses] = await Promise.all([
+    getFeaturedCourses(),
     getEnrollmentCount(),
     getCourseCount(),
   ]);
@@ -198,14 +198,15 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
             {/* Left: copy */}
             <div className="lg:col-span-7">
-              <p className="academic-label mb-5">Online Learning Academy</p>
+              <p className="academic-label mb-5">Online Courses</p>
               <h1 className="font-serif text-5xl sm:text-6xl lg:text-[4.25rem] leading-[1.05] tracking-tight font-bold text-[#0a2540] mb-6">
-                Professional Education Designed for Real Career Growth.
+                Practical courses for real skills and real income.
               </h1>
               <p className="text-lg sm:text-[19px] text-slate-600 mb-10 max-w-2xl leading-[1.7]">
-                SkillMint.Courses helps students gain practical, job-ready
-                skills through structured programs, expert instruction, and a
-                modern academic experience — delivered entirely online.
+                SkillMint is a catalog of self-paced online courses across Web2
+                and Web3 — AI, trading, e-commerce, marketing, development,
+                finance, and digital business. Taught by people doing the work,
+                so you can put it to work too.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
@@ -213,7 +214,7 @@ export default async function HomePage() {
                   href="/courses"
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-4 text-sm font-semibold tracking-wide text-white transition-colors shadow-sm"
                 >
-                  Explore Programs
+                  Browse Courses
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
@@ -231,16 +232,16 @@ export default async function HomePage() {
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
-                  Lifetime program access
+                  Lifetime course access
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
-                  30-day enrollment guarantee
+                  30-day money-back guarantee
                 </span>
               </div>
             </div>
 
-            {/* Right: academic visual */}
+            {/* Right: course visual */}
             <div className="lg:col-span-5 hidden lg:block">
               <div className="relative">
                 <div className="relative rounded-lg bg-white border border-slate-200 shadow-[0_25px_50px_-12px_rgba(10,37,64,0.15)] overflow-hidden">
@@ -257,9 +258,9 @@ export default async function HomePage() {
                     <GraduationCap className="h-6 w-6 text-white/80" />
                   </div>
 
-                  {/* Live program entries */}
+                  {/* Live course entries */}
                   <div className="divide-y divide-slate-100">
-                    {programs.slice(0, 3).map((p) => {
+                    {courses.slice(0, 3).map((p) => {
                       const code = `${p.category.slice(0, 2).toUpperCase()}-${String(
                         p.totalLessons * 10 + 100,
                       ).slice(0, 3)}`;
@@ -283,9 +284,9 @@ export default async function HomePage() {
                         </Link>
                       );
                     })}
-                    {programs.length === 0 && (
+                    {courses.length === 0 && (
                       <div className="px-6 py-6 text-center text-sm text-slate-500 italic">
-                        Catalogue coming soon.
+                        Catalog coming soon.
                       </div>
                     )}
                   </div>
@@ -293,22 +294,22 @@ export default async function HomePage() {
                   {/* Footer */}
                   <div className="bg-[#fafaf9] border-t border-slate-100 px-6 py-4 flex items-center justify-between">
                     <span className="text-xs text-slate-500">
-                      Rolling admissions
+                      Self-paced enrollment
                     </span>
                     <span className="text-[11px] font-semibold tracking-wider uppercase text-[#0a2540]">
-                      Admissions Open
+                      Available Now
                     </span>
                   </div>
                 </div>
 
-                {/* Seal / credential */}
+                {/* Seal / certificate */}
                 <div className="absolute -left-6 -bottom-6 h-24 w-24 rounded-full border-2 border-[#b08d57] bg-white shadow-lg flex items-center justify-center">
                   <div className="text-center">
                     <ScrollText className="h-5 w-5 text-[#98753f] mx-auto mb-0.5" />
                     <p className="text-[8px] font-bold tracking-[0.22em] uppercase text-[#0a2540] leading-tight">
-                      Credential
+                      Certificate
                       <br />
-                      Issued
+                      Included
                     </p>
                   </div>
                 </div>
@@ -340,22 +341,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Featured Programs ───────────── */}
+      {/* ───────────── Featured Courses ───────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
         <div className="mb-14 max-w-3xl">
-          <p className="academic-label mb-3">Programs</p>
+          <p className="academic-label mb-3">Courses</p>
           <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
-            Featured Programs &amp; Curricula.
+            Featured Courses.
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed">
-            Our program catalog spans Web2 and Web3 — AI, trading, e-commerce,
-            marketing, development, finance, and digital business — each
-            structured around applied coursework and assessments.
+            Our catalog spans Web2 and Web3 — AI, trading, e-commerce,
+            marketing, development, finance, and digital business — with
+            each course focused on practical skills you can put to work.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.map((p) => (
+          {courses.map((p) => (
             <Link
               key={p.id}
               href={`/courses/${p.slug}`}
@@ -372,7 +373,7 @@ export default async function HomePage() {
                   <div className="absolute inset-0 bg-[#0a2540]" />
                 )}
                 <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm border border-slate-200 px-2.5 py-1 rounded text-[10px] font-bold tracking-[0.15em] uppercase text-[#0a2540]">
-                  {p.category || "Program"}
+                  {p.category || "Course"}
                 </div>
               </div>
               <div className="p-6 flex-1 flex flex-col">
@@ -401,9 +402,9 @@ export default async function HomePage() {
                   </div>
                   <div>
                     <p className="text-slate-400 tracking-wider uppercase font-semibold text-[9px] mb-0.5">
-                      Credential
+                      Access
                     </p>
-                    <p className="text-[#0a2540] font-semibold">Certificate</p>
+                    <p className="text-[#0a2540] font-semibold">Lifetime</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -411,7 +412,7 @@ export default async function HomePage() {
                     ${p.price}
                   </span>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold tracking-wide text-[#98753f] group-hover:text-[#0a2540] transition-colors">
-                    View Program
+                    View Course
                     <ArrowRight className="h-3.5 w-3.5" />
                   </span>
                 </div>
@@ -425,7 +426,7 @@ export default async function HomePage() {
             href="/courses"
             className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#0a2540] hover:text-[#123258] border-b-2 border-[#b08d57] hover:border-[#98753f] pb-0.5 transition-colors"
           >
-            View Full Program Catalog
+            Browse All Courses
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -435,13 +436,13 @@ export default async function HomePage() {
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="mb-14 max-w-3xl">
-            <p className="academic-label mb-3">The SkillMint Approach</p>
+            <p className="academic-label mb-3">Why SkillMint</p>
             <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
-              Academic Rigor Meets Modern Practice.
+              Skills you can actually use.
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed">
-              SkillMint is built on four academic principles that distinguish
-              our programs from generic online courses.
+              SkillMint focuses on four things that separate a course worth
+              your money from a course that wastes it.
             </p>
           </div>
 
@@ -467,16 +468,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── How Learning Works ───────────── */}
+      {/* ───────────── How It Works ───────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
         <div className="mb-14 max-w-3xl">
-          <p className="academic-label mb-3">The Student Journey</p>
+          <p className="academic-label mb-3">How It Works</p>
           <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
-            How Learning Works at SkillMint.
+            From browse to built skill in five steps.
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed">
-            Every student moves through a structured academic path — from
-            enrollment to credential — supported at each stage.
+            Every course is structured so you move from picking it out to
+            actually using what you learned — without getting lost in the
+            middle.
           </p>
         </div>
 
@@ -500,19 +502,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Student Outcomes (stats) ───────────── */}
+      {/* ───────────── Stats ───────────── */}
       <section className="bg-[#0a2540] text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="mb-14 max-w-3xl">
             <p className="text-[11px] font-bold tracking-[0.24em] uppercase text-[#b08d57] mb-3">
-              Student Outcomes
+              By the Numbers
             </p>
             <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1] mb-4">
-              Measured, Not Marketed.
+              Measured, not marketed.
             </h2>
             <p className="text-white/75 text-lg leading-relaxed">
-              Our outcomes reflect the composition of our student body and the
-              quality of the programs we offer.
+              Real numbers reflecting our catalog, the people learning on it,
+              and how they rate what they got.
             </p>
           </div>
 
@@ -520,17 +522,17 @@ export default async function HomePage() {
             {[
               {
                 value: totalEnrollments.toLocaleString(),
-                label: "Students enrolled",
+                label: "Learners enrolled",
                 icon: Users,
               },
               {
                 value: `${totalCourses}+`,
-                label: "Programs offered",
+                label: "Courses available",
                 icon: BookOpen,
               },
               {
                 value: "94%",
-                label: "Program completion",
+                label: "Completion rate",
                 icon: LineChart,
               },
               {
@@ -559,20 +561,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Student Testimonials ───────────── */}
+      {/* ───────────── Learner Testimonials ───────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
         <div className="mb-14 max-w-3xl">
-          <p className="academic-label mb-3">Student Success</p>
+          <p className="academic-label mb-3">Reviews</p>
           <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
-            In Students' Own Words.
+            What learners are saying.
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed">
-            Reflections from graduates of our programs.
+            Feedback from people who bought a course and put it to work.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {STUDENT_VOICES.map((t) => (
+          {LEARNER_VOICES.map((t) => (
             <figure
               key={t.name}
               className="rounded-lg border border-slate-200 bg-white p-8"
@@ -600,31 +602,31 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Faculty preview ───────────── */}
+      {/* ───────────── Instructors preview ───────────── */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <p className="academic-label mb-3">Faculty</p>
+              <p className="academic-label mb-3">Instructors</p>
               <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
-                Taught by Working Professionals.
+                Taught by people doing the work.
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Our faculty are selected for what they've built, shipped, and
-                practiced — not just what they've written about.
+                Our instructors are selected for what they've built, shipped,
+                and practiced — not just what they've written about.
               </p>
             </div>
             <Link
               href="/instructors"
               className="inline-flex items-center gap-2 text-sm font-semibold text-[#0a2540] border-b-2 border-[#b08d57] pb-0.5"
             >
-              Meet the Faculty
+              Meet the Instructors
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {FACULTY_PREVIEW.map((f) => (
+            {INSTRUCTORS_PREVIEW.map((f) => (
               <div
                 key={f.name}
                 className="rounded-lg border border-slate-200 bg-white p-7 text-center"
@@ -647,18 +649,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Admissions ───────────── */}
+      {/* ───────────── Get Started ───────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14">
           <div className="lg:col-span-5">
-            <p className="academic-label mb-3">Admissions</p>
+            <p className="academic-label mb-3">Get Started</p>
             <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-5">
-              Enrollment is Open.
+              Start learning today.
             </h2>
             <p className="text-slate-600 text-[17px] leading-relaxed mb-8">
-              SkillMint operates on rolling admissions. Programs begin the day
-              you enroll — no cohort calendar, no waitlist. Students come from
-              over forty countries and a range of professional backgrounds.
+              No cohort calendar, no waitlist. Sign up, buy the course you
+              want, and you're in. Learners come from over forty countries
+              and every professional background you can think of.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -672,17 +674,17 @@ export default async function HomePage() {
                 href="/courses"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-white hover:border-[#b08d57] hover:bg-[#f5ecd7] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
               >
-                Browse Programs
+                Browse Courses
               </Link>
             </div>
 
             <div className="mt-10 border-t border-slate-200 pt-6 flex items-center gap-3">
               <Mail className="h-4 w-4 text-[#98753f]" />
               <a
-                href="mailto:admissions@skillmint.courses"
+                href="mailto:hello@skillmint.online"
                 className="text-sm text-slate-600 hover:text-[#0a2540] transition-colors"
               >
-                admissions@skillmint.courses
+                hello@skillmint.online
               </a>
             </div>
           </div>
@@ -691,30 +693,30 @@ export default async function HomePage() {
             <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
               <div className="px-8 py-5 border-b border-slate-200 bg-[#fafaf9]">
                 <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#98753f]">
-                  Enrollment Process
+                  How Enrollment Works
                 </p>
               </div>
               <ol className="divide-y divide-slate-100">
                 {[
                   {
-                    label: "Review the program catalog",
-                    desc: "Explore programs by discipline. Each listing includes duration, prerequisites, and learning outcomes.",
+                    label: "Browse the course catalog",
+                    desc: "Filter by category, level, or price. Every course page tells you what you'll learn, the modules, and the instructor.",
                   },
                   {
-                    label: "Create your student account",
-                    desc: "Set up your account to access your Student Portal, saved programs, and credentials.",
+                    label: "Create your account",
+                    desc: "Sign up in under a minute to access your dashboard, saved courses, and progress tracking.",
                   },
                   {
-                    label: "Enroll in your chosen program",
-                    desc: "Complete enrollment with PayPal, credit card, or Bitcoin. Access is granted immediately.",
+                    label: "Buy the course",
+                    desc: "Pay with card, PayPal, or crypto. Access unlocks instantly — no approval process, no waiting.",
                   },
                   {
-                    label: "Begin coursework",
-                    desc: "Meet your instructor, orient to the curriculum, and work through structured modules at your pace.",
+                    label: "Start learning",
+                    desc: "Work through lessons at your own pace. Progress saves automatically so you can pick up where you left off.",
                   },
                   {
-                    label: "Receive your credential",
-                    desc: "Complete the program assessments and capstone to receive your verifiable certificate.",
+                    label: "Get your certificate",
+                    desc: "Finish the course and download a certificate of completion for your profile or résumé.",
                   },
                 ].map((step, i) => (
                   <li key={step.label} className="px-8 py-5 flex gap-5">
@@ -742,18 +744,18 @@ export default async function HomePage() {
         <div className="mx-auto max-w-4xl px-4 sm:px-6 py-24 text-center">
           <Compass className="h-8 w-8 text-[#98753f] mx-auto mb-6" strokeWidth={1.75} />
           <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-5">
-            Begin your program today.
+            Start learning today.
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-            Join students from over forty countries advancing their careers
-            through rigorous, flexible online study.
+            Join learners from over forty countries picking up practical
+            skills on their own schedule.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/courses"
               className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-8 py-4 text-sm font-semibold tracking-wide text-white transition-colors"
             >
-              Explore Programs
+              Browse Courses
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link

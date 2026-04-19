@@ -67,8 +67,8 @@ export function SkillMintLogo({ size = 34 }: { size?: number }) {
 }
 
 const NAV_LINKS = [
-  { href: "/courses", label: "Programs" },
-  { href: "/instructors", label: "Faculty" },
+  { href: "/courses", label: "Courses" },
+  { href: "/instructors", label: "Instructors" },
   { href: "/about", label: "About" },
 ];
 
@@ -163,7 +163,7 @@ export default function Navbar() {
                 SkillMint
               </span>
               <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
-                Online Academy
+                Online Courses
               </span>
             </span>
           </Link>
@@ -184,7 +184,7 @@ export default function Navbar() {
                 href="/dashboard"
                 className="text-[13.5px] font-medium text-slate-700 hover:text-[#0a2540] transition-colors"
               >
-                Student Portal
+                Dashboard
               </Link>
             )}
           </div>
@@ -351,7 +351,7 @@ export default function Navbar() {
                         className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-[#fafaf9] hover:text-[#0a2540] transition-colors"
                       >
                         <LayoutDashboard className="h-4 w-4 text-slate-400" />
-                        Student Portal
+                        Dashboard
                       </Link>
                       <Link
                         href="/dashboard/wishlist"
@@ -359,7 +359,7 @@ export default function Navbar() {
                         className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-[#fafaf9] hover:text-[#0a2540] transition-colors"
                       >
                         <Heart className="h-4 w-4 text-slate-400" />
-                        Saved Programs
+                        Saved Courses
                       </Link>
                       <Link
                         href="/profile"
@@ -477,7 +477,7 @@ export default function Navbar() {
               className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
             >
               <BookOpen className="h-4 w-4 text-slate-400" />
-              Programs
+              Courses
             </Link>
             <Link
               href="/instructors"
@@ -485,7 +485,7 @@ export default function Navbar() {
               className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
             >
               <Users className="h-4 w-4 text-slate-400" />
-              Faculty
+              Instructors
             </Link>
             <Link
               href="/about"
@@ -504,7 +504,7 @@ export default function Navbar() {
                     className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
                   >
                     <LayoutDashboard className="h-4 w-4 text-slate-400" />
-                    Student Portal
+                    Dashboard
                   </Link>
                   <Link
                     href="/dashboard/wishlist"
@@ -512,7 +512,7 @@ export default function Navbar() {
                     className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
                   >
                     <Heart className="h-4 w-4 text-slate-400" />
-                    Saved Programs
+                    Saved Courses
                   </Link>
                   <Link
                     href="/profile"
