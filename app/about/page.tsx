@@ -190,10 +190,10 @@ export default function AboutPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/admissions"
+              href="/auth/signup"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
             >
-              View Admissions
+              Sign Up
             </Link>
           </div>
         </div>

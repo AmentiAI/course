@@ -217,10 +217,10 @@ export default async function HomePage() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/admissions"
+                  href="/auth/signup"
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-7 py-4 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
                 >
-                  View Admissions
+                  Sign Up
                 </Link>
               </div>
 
@@ -663,10 +663,10 @@ export default async function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/admissions"
+                href="/auth/signup"
                 className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
               >
-                Admissions Information
+                Sign Up
               </Link>
               <Link
                 href="/courses"
@@ -757,10 +757,10 @@ export default async function HomePage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/admissions"
+              href="/auth/signup"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-8 py-4 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
             >
-              View Admissions
+              Sign Up
             </Link>
           </div>
         </div>

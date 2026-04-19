@@ -69,7 +69,6 @@ export function SkillMintLogo({ size = 34 }: { size?: number }) {
 const NAV_LINKS = [
   { href: "/courses", label: "Programs" },
   { href: "/instructors", label: "Faculty" },
-  { href: "/admissions", label: "Admissions" },
   { href: "/about", label: "About" },
 ];
 
@@ -408,7 +407,7 @@ export default function Navbar() {
                   href="/auth/signup"
                   className="text-[13px] font-semibold tracking-wide bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-2.5 rounded-md transition-colors shadow-sm"
                 >
-                  Apply Now
+                  Sign Up
                 </Link>
               </div>
             )}
@@ -489,14 +488,6 @@ export default function Navbar() {
               Faculty
             </Link>
             <Link
-              href="/admissions"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
-            >
-              <ScrollText className="h-4 w-4 text-slate-400" />
-              Admissions
-            </Link>
-            <Link
               href="/about"
               onClick={() => setMobileOpen(false)}
               className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
@@ -567,7 +558,7 @@ export default function Navbar() {
                   onClick={() => setMobileOpen(false)}
                   className="block px-3 py-3 text-sm font-semibold text-white bg-[#0a2540] hover:bg-[#123258] rounded-md text-center"
                 >
-                  Apply Now
+                  Sign Up
                 </Link>
               </div>
             )}

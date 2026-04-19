@@ -542,10 +542,10 @@ export default async function CourseDetailPage({
                 prerequisites, no application fee.
               </p>
               <Link
-                href="/admissions"
+                href="/auth/signup"
                 className="text-xs font-semibold tracking-wide text-[#98753f] hover:text-[#0a2540] inline-flex items-center gap-1.5 transition-colors"
               >
-                View Admissions
+                Sign Up
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>

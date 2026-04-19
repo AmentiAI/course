@@ -68,13 +68,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
-                <Link href="/admissions" className="hover:text-[#0a2540] transition-colors">
-                  How to Apply
-                </Link>
-              </li>
-              <li>
                 <Link href="/auth/signup" className="hover:text-[#0a2540] transition-colors">
-                  Enroll
+                  Sign Up
                 </Link>
               </li>
               <li>

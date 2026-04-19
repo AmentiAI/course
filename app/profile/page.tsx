@@ -153,7 +153,6 @@ export default async function ProfilePage() {
               { href: "/dashboard/wishlist", label: "Saved Programs" },
               { href: "/courses", label: "Program Catalog" },
               { href: "/instructors", label: "Faculty Directory" },
-              { href: "/admissions", label: "Admissions Office" },
             ].map((link) => (
               <Link
                 key={link.href}
