@@ -15,7 +15,6 @@ import {
   ArrowRight,
   Globe,
   BarChart3,
-  MessageSquare,
   CreditCard,
   ShieldCheck,
   GraduationCap,
@@ -462,27 +461,6 @@ export default async function CourseDetailPage({
               </div>
             </section>
 
-            {/* Discussion link */}
-            <section>
-              <Link
-                href={`/c/${course.slug}/discuss`}
-                className="flex items-center gap-5 rounded-lg border border-slate-200 bg-white p-6 hover:border-[#b08d57] transition-colors group"
-              >
-                <div className="h-12 w-12 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] flex items-center justify-center shrink-0">
-                  <MessageSquare className="h-5 w-5 text-[#98753f]" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-serif text-lg font-bold text-[#0a2540] group-hover:underline decoration-[#b08d57] underline-offset-4 tracking-tight">
-                    Student Discussion Forum
-                  </p>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    Ask questions of faculty and peers; share work, receive
-                    feedback.
-                  </p>
-                </div>
-                <ArrowRight className="h-4 w-4 text-[#98753f] shrink-0" />
-              </Link>
-            </section>
           </div>
 
           {/* Secondary sidebar column */}

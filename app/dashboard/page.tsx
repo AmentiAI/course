@@ -198,7 +198,7 @@ export default async function DashboardPage() {
                             {enrollment.course.title}
                           </h3>
                           <p className="text-xs text-slate-500 mb-3">
-                            Ready to begin &middot; {enrollment.course._count.enrollments} students enrolled
+                            Ready to begin
                           </p>
                           <Link
                             href={

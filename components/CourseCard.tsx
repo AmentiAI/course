@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, BookOpen, Users, ArrowRight } from "lucide-react";
+import { Clock, BookOpen, ArrowRight } from "lucide-react";
 import WishlistButton from "./WishlistButton";
 
 interface CourseCardProps {
@@ -76,12 +76,6 @@ export default function CourseCard({
             >
               {course.level}
             </span>
-            {course._count.enrollments > 0 && (
-              <span className="text-xs text-slate-500 flex items-center gap-1">
-                <Users className="h-3 w-3" />
-                {course._count.enrollments}
-              </span>
-            )}
           </div>
 
           <h3 className="font-serif text-[19px] font-bold text-[#0a2540] leading-snug tracking-tight mb-2 group-hover:underline decoration-[#b08d57] underline-offset-4 line-clamp-2">
