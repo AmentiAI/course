@@ -251,7 +251,7 @@ export default async function HomePage() {
                         Our Courses
                       </p>
                       <p className="text-white text-[15px] font-semibold mt-1">
-                        Fall 2026 · Online
+                        Online · Self-paced
                       </p>
                     </div>
                     <GraduationCap className="h-6 w-6 text-white/80" />
