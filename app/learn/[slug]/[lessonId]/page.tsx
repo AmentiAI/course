@@ -120,6 +120,23 @@ export default async function LessonPage({
   const progressPct =
     totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
+  const isIntro = isIntroductionLesson({
+    lessonTitle: lesson.title,
+    lessonOrder: lesson.order,
+    moduleTitle: lesson.module.title,
+    moduleOrder: lesson.module.order,
+  });
+  const displayLessonTitle = isIntro ? course.title : lesson.title;
+
+  const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const displayContent =
+    isIntro && lesson.content && lesson.title
+      ? lesson.content.replace(
+          new RegExp(`\\b${escapeRegex(lesson.title)}\\b`, "g"),
+          course.title
+        )
+      : lesson.content;
+
   return (
     <div className="flex h-[calc(100vh-64px)] bg-white">
       <MobileSidebarToggle
@@ -263,7 +280,7 @@ export default async function LessonPage({
                   {allLessons[currentIdx]?.moduleTitle?.replace(/^module\s*\d+\s*[:\-–]\s*/i, "")}
                 </p>
                 <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1]">
-                  {lesson.title}
+                  {displayLessonTitle}
                 </h1>
                 <p className="text-[15px] text-slate-500 mt-4">
                   Lesson {currentIdx + 1} of {totalLessons} &middot; {lesson.duration} min
@@ -283,15 +300,15 @@ export default async function LessonPage({
               />
             </div>
 
-            {lesson.content && (
+            {displayContent && (
               <LessonAudioPlayer
-                content={lesson.content}
-                lessonTitle={lesson.title}
+                content={displayContent}
+                lessonTitle={displayLessonTitle}
               />
             )}
 
             <div className="max-w-none">
-              <MarkdownContent content={lesson.content} />
+              <MarkdownContent content={displayContent} />
             </div>
 
             {lesson.quiz &&
