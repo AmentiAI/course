@@ -207,6 +207,34 @@ export default async function CourseDetailPage({
                   Certificate of Completion
                 </span>
               </div>
+
+              {/* Curriculum (filling left-column empty space) */}
+              <section className="mt-10">
+                <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
+                  <div>
+                    <p className="academic-label mb-3">Curriculum</p>
+                    <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight">
+                      What's inside.
+                    </h2>
+                    <p className="text-sm text-slate-500 mt-2">
+                      {course.modules.length} modules &middot;{" "}
+                      {course.totalLessons} lessons &middot; {course.totalHours}{" "}
+                      hours
+                    </p>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-white overflow-hidden divide-y divide-slate-200">
+                  {course.modules.map((module, idx) => (
+                    <CurriculumModule
+                      key={module.id}
+                      module={module}
+                      index={idx + 1}
+                      enrolled={!!enrollment}
+                      courseSlug={course.slug}
+                    />
+                  ))}
+                </div>
+              </section>
             </div>
 
             {/* Enrollment Card */}
@@ -346,33 +374,6 @@ export default async function CourseDetailPage({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-8 space-y-14">
-            {/* Curriculum */}
-            <section>
-              <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
-                <div>
-                  <p className="academic-label mb-3">Curriculum</p>
-                  <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight">
-                    What's inside.
-                  </h2>
-                  <p className="text-sm text-slate-500 mt-2">
-                    {course.modules.length} modules &middot; {course.totalLessons}{" "}
-                    lessons &middot; {course.totalHours} hours
-                  </p>
-                </div>
-              </div>
-              <div className="rounded-lg border border-slate-200 bg-white overflow-hidden divide-y divide-slate-200">
-                {course.modules.map((module, idx) => (
-                  <CurriculumModule
-                    key={module.id}
-                    module={module}
-                    index={idx + 1}
-                    enrolled={!!enrollment}
-                    courseSlug={course.slug}
-                  />
-                ))}
-              </div>
-            </section>
-
             {/* Course Overview */}
             <section>
               <p className="academic-label mb-3">Overview</p>

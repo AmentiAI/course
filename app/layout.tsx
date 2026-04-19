@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const GA_MEASUREMENT_ID = "G-59NCVR3VD8";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,12 +47,26 @@ export const metadata: Metadata = {
     url: "https://skillmint.online",
     siteName: "SkillMint",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "SkillMint",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "SkillMint — Online Courses for Web2, Web3, AI & More",
     description:
       "Self-paced online courses taught by working practitioners — Web2, Web3, AI, trading, e-commerce, marketing, and more.",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
@@ -65,6 +82,18 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="min-h-screen bg-white text-[#0b1727] antialiased">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <Providers>
           <Navbar />
           <main>{children}</main>
