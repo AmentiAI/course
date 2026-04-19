@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { trackEvent } from '@/lib/events';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,7 +26,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Quiz not found' }, { status: 404 });
     }
 
-    // Create quiz attempt
     const attempt = await prisma.quizAttempt.create({
       data: {
         userId: session.user.id,
@@ -35,14 +35,20 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // If score >= 80%, mark lesson as completed
-    if (score >= 80) {
-      // Get lesson to find courseId
-      const lesson = await prisma.lesson.findUnique({
-        where: { id: lessonId },
-        include: { module: { select: { courseId: true } } },
-      });
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+      include: { module: { select: { courseId: true } } },
+    });
 
+    await trackEvent({
+      type: score >= 80 ? "QUIZ_PASS" : "QUIZ_FAIL",
+      userId: session.user.id,
+      courseId: lesson?.module.courseId,
+      lessonId,
+      metadata: { score, quizId: quiz.id, attemptId: attempt.id },
+    });
+
+    if (score >= 80) {
       if (lesson) {
         await prisma.lessonProgress.upsert({
           where: {

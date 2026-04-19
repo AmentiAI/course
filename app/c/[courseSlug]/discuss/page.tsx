@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MessageSquare, ArrowLeft, Users } from "lucide-react";
+import { ChevronLeft, Users } from "lucide-react";
 import DiscussionClient from "./DiscussionClient";
 
 async function getCourseAndEnrollment(slug: string, userId?: string) {
@@ -42,37 +42,38 @@ export default async function DiscussPage({
   const { course, enrollment } = data;
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-10">
-      <div className="mx-auto max-w-3xl">
-        {/* Back link */}
-        <Link
-          href={`/courses/${courseSlug}`}
-          className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to course
-        </Link>
+    <div className="min-h-screen bg-white">
+      <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-12">
+        <div className="mx-auto max-w-3xl">
+          <Link
+            href={`/courses/${courseSlug}`}
+            className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] hover:text-[#0a2540] inline-flex items-center gap-1 mb-5 transition-colors"
+          >
+            <ChevronLeft className="h-3 w-3" />
+            Return to Program
+          </Link>
 
-        {/* Header */}
-        <div className="flex items-start gap-4 mb-8">
-          <img
-            src={course.thumbnail}
-            alt={course.title}
-            className="h-16 w-24 rounded-lg object-cover shrink-0"
-          />
-          <div>
-            <h1 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
-              <MessageSquare className="h-5 w-5 text-purple-400" />
-              Discussion Board
-            </h1>
-            <p className="text-zinc-400 text-sm">{course.title}</p>
-            <p className="text-zinc-600 text-xs mt-1 flex items-center gap-1">
-              <Users className="h-3 w-3" />
-              {course._count.enrollments} students enrolled
-            </p>
+          <div className="flex items-start gap-5">
+            <img
+              src={course.thumbnail}
+              alt={course.title}
+              className="h-16 w-24 rounded-md object-cover shrink-0 border border-slate-200"
+            />
+            <div>
+              <p className="academic-label mb-2">Seminar Discussion</p>
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-2">
+                {course.title}.
+              </h1>
+              <p className="text-xs text-slate-500 flex items-center gap-1.5 font-medium">
+                <Users className="h-3 w-3" strokeWidth={1.75} />
+                {course._count.enrollments} students enrolled
+              </p>
+            </div>
           </div>
         </div>
+      </section>
 
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
         <DiscussionClient
           courseSlug={courseSlug}
           courseId={course.id}

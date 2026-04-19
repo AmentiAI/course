@@ -4,6 +4,7 @@ import { Level } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { generateLessonContent, generateCourseIntroduction } from "./lesson-content-generator";
 import { generateQuiz } from "./quiz-generator";
+import { isIntroductionLesson } from "./lesson-utils";
 
 import coursesDataJSON from "../courses-data.json";
 
@@ -162,6 +163,18 @@ export async function seedAllCourses() {
         // Skip quiz creation for free/preview lessons
         if (lesson.isFree) {
           console.log(`  Skipping quiz for free lesson: ${lesson.title}`);
+          continue;
+        }
+
+        if (
+          isIntroductionLesson({
+            lessonTitle: lesson.title,
+            lessonOrder: lesson.order,
+            moduleTitle: module.title,
+            moduleOrder: module.order,
+          })
+        ) {
+          console.log(`  Skipping quiz for introduction lesson: ${lesson.title}`);
           continue;
         }
         

@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { User, Award, BookOpen, Share2, Copy, ArrowRight } from "lucide-react";
+import { User, Award, BookOpen, Share2, ArrowRight } from "lucide-react";
 import { createHash } from "crypto";
 import ProfileClient from "./ProfileClient";
 import MobileNav from "@/components/MobileNav";
@@ -33,24 +33,36 @@ export default async function ProfilePage() {
     .slice(0, 8)
     .toUpperCase();
 
-  const referralUrl = `https://coursehub-gold.vercel.app/r/${referralCode}`;
+  const referralUrl = `https://skillmint.courses/r/${referralCode}`;
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-10 pb-24 md:pb-10">
-      <div className="mx-auto max-w-3xl">
-        <h1 className="text-2xl font-bold text-white mb-8">My Profile</h1>
+    <div className="min-h-screen bg-white pb-24 md:pb-16">
+      <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-14">
+        <div className="mx-auto max-w-3xl">
+          <p className="academic-label mb-3">Student Record</p>
+          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight">
+            Account &amp; Profile.
+          </h1>
+          <p className="text-slate-600 text-[17px] leading-relaxed mt-3">
+            Review your student record, referral program details, and Academy resources.
+          </p>
+        </div>
+      </section>
 
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
         {/* Profile card */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 mb-6">
-          <div className="flex items-center gap-5 mb-6">
-            <div className="h-16 w-16 rounded-2xl bg-purple-600 flex items-center justify-center text-2xl font-bold text-white shrink-0">
-              {user?.name?.[0]?.toUpperCase() ?? "U"}
+        <div className="rounded-lg border border-slate-200 bg-white p-8 mb-6">
+          <div className="flex items-center gap-5 mb-7 pb-6 border-b border-slate-100">
+            <div className="h-16 w-16 rounded-full bg-[#0a2540] border-2 border-[#b08d57] flex items-center justify-center text-xl font-bold text-white shrink-0 tracking-wider">
+              {user?.name?.[0]?.toUpperCase() ?? "S"}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">{user?.name}</h2>
-              <p className="text-zinc-500 text-sm">{user?.email}</p>
-              <p className="text-xs text-zinc-600 mt-0.5">
-                Member since{" "}
+              <h2 className="font-serif text-xl font-bold text-[#0a2540] tracking-tight">
+                {user?.name}
+              </h2>
+              <p className="text-slate-600 text-sm">{user?.email}</p>
+              <p className="text-xs text-slate-500 mt-1.5 font-medium tracking-wide">
+                Matriculated{" "}
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString("en-US", {
                       month: "long",
@@ -61,77 +73,97 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
             {[
-              { label: "Courses", value: enrollments, icon: BookOpen, color: "text-blue-400" },
-              { label: "Certificates", value: certificates, icon: Award, color: "text-amber-400" },
-              { label: "Role", value: session.user.role ?? "Student", icon: User, color: "text-purple-400" },
+              { label: "Programs", value: enrollments, icon: BookOpen },
+              { label: "Credentials", value: certificates, icon: Award },
+              { label: "Standing", value: session.user.role === "ADMIN" ? "Admin" : "Student", icon: User },
             ].map((stat) => (
-              <div key={stat.label} className="rounded-xl bg-zinc-800/50 p-3 text-center">
-                <stat.icon className={`h-5 w-5 ${stat.color} mx-auto mb-1`} />
-                <div className="text-lg font-bold text-white">{stat.value}</div>
-                <div className="text-xs text-zinc-500">{stat.label}</div>
+              <div
+                key={stat.label}
+                className="rounded-lg border border-slate-200 bg-white p-5 text-center border-t-2 border-t-[#b08d57]"
+              >
+                <stat.icon className="h-4 w-4 text-[#98753f] mx-auto mb-3" strokeWidth={1.75} />
+                <div className="font-serif text-2xl font-bold text-[#0a2540] leading-tight tracking-tight">
+                  {stat.value}
+                </div>
+                <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-500 mt-1">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Referral section */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-10 w-10 rounded-xl bg-amber-400/10 flex items-center justify-center">
-              <Share2 className="h-5 w-5 text-amber-400" />
+        <div className="rounded-lg border border-slate-200 bg-white p-7 mb-6">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="h-10 w-10 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] flex items-center justify-center">
+              <Share2 className="h-5 w-5 text-[#98753f]" strokeWidth={1.75} />
             </div>
             <div>
-              <h3 className="font-semibold text-white">Referral Program</h3>
-              <p className="text-xs text-zinc-500">Earn 20% commission on every referred sale</p>
+              <h3 className="font-serif text-lg font-bold text-[#0a2540] tracking-tight">
+                Referral Program.
+              </h3>
+              <p className="text-xs text-slate-500">
+                Earn 20% commission on every referred enrollment
+              </p>
             </div>
           </div>
 
-          <div className="rounded-xl bg-zinc-800 border border-zinc-700 p-3 mb-3">
-            <p className="text-xs text-zinc-500 mb-1">Your referral link</p>
-            <p className="text-sm text-white font-mono break-all">{referralUrl}</p>
+          <div className="rounded-md bg-[#fafaf9] border border-slate-200 p-4 mb-3">
+            <p className="text-[10px] text-[#98753f] mb-1.5 font-bold uppercase tracking-[0.18em]">
+              Your Referral Link
+            </p>
+            <p className="text-sm text-[#0a2540] font-mono break-all">{referralUrl}</p>
           </div>
 
           <ProfileClient referralUrl={referralUrl} />
 
-          <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+          <div className="mt-5 grid grid-cols-3 gap-3 text-center">
             {[
               { label: "Referrals", value: "0" },
               { label: "Pending", value: "$0" },
               { label: "Earned", value: "$0" },
             ].map((stat) => (
-              <div key={stat.label} className="rounded-xl bg-zinc-800/50 p-3">
-                <div className="text-lg font-bold text-white">{stat.value}</div>
-                <div className="text-xs text-zinc-500">{stat.label}</div>
+              <div
+                key={stat.label}
+                className="rounded-md border border-slate-200 bg-white p-3"
+              >
+                <div className="font-serif text-lg font-bold text-[#0a2540]">{stat.value}</div>
+                <div className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-500 mt-1">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
-          <p className="text-xs text-zinc-600 mt-3 text-center">
-            Referral tracking coming soon — your link is live and working
+          <p className="text-xs text-slate-500 mt-4 text-center">
+            Referral tracking is rolling out soon — the link is live and attributed.
           </p>
         </div>
 
         {/* Quick links */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5">
-          <h3 className="font-semibold text-white mb-4">Quick Links</h3>
-          <div className="space-y-2">
+        <div className="rounded-lg border border-slate-200 bg-white p-6">
+          <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#98753f] mb-4">
+            Academy Resources
+          </p>
+          <div className="space-y-1">
             {[
-              { href: "/dashboard", label: "My Dashboard" },
-              { href: "/dashboard/wishlist", label: "Saved Courses" },
-              { href: "/courses", label: "Browse All Courses" },
-              { href: "/instructors", label: "Meet the Instructors" },
+              { href: "/dashboard", label: "Student Portal" },
+              { href: "/dashboard/wishlist", label: "Saved Programs" },
+              { href: "/courses", label: "Program Catalog" },
+              { href: "/instructors", label: "Faculty Directory" },
+              { href: "/admissions", label: "Admissions Office" },
             ].map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center justify-between p-3 rounded-xl hover:bg-zinc-800 transition-colors group"
+                className="flex items-center justify-between p-3 rounded-md hover:bg-[#fafaf9] transition-colors group"
               >
-                <span className="text-sm text-zinc-300 group-hover:text-white transition-colors">
+                <span className="text-sm font-medium text-slate-700 group-hover:text-[#0a2540] transition-colors">
                   {link.label}
                 </span>
-                <ArrowRight className="h-4 w-4 text-zinc-600 group-hover:text-purple-400 transition-colors" />
+                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-[#98753f] group-hover:translate-x-0.5 transition-all" />
               </Link>
             ))}
           </div>

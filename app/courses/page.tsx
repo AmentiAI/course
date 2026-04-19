@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import CourseCard from "@/components/CourseCard";
 import CoursesFilter from "@/components/CoursesFilter";
-import { SlidersHorizontal } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -49,9 +48,7 @@ async function getCourses(params: SearchParams) {
   const [courses, total] = await Promise.all([
     prisma.course.findMany({
       where,
-      include: {
-        _count: { select: { enrollments: true } },
-      },
+      include: { _count: { select: { enrollments: true } } },
       orderBy,
       skip: (pageNum - 1) * pageSize,
       take: pageSize,
@@ -69,8 +66,7 @@ export default async function CoursesPage({
 }) {
   const params = await searchParams;
   const { courses, total, pages, pageNum } = await getCourses(params);
-  
-  // Get current user's wishlist
+
   const session = await getServerSession(authOptions);
   const wishlistCourseIds = session?.user?.id
     ? (
@@ -81,49 +77,58 @@ export default async function CoursesPage({
       ).map((w) => w.courseId)
     : [];
 
+  const heading = params.q
+    ? `Search results for "${params.q}"`
+    : params.category
+    ? `${params.category}`
+    : "Program Catalog";
+
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-10">
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            {params.q
-              ? `Search: "${params.q}"`
-              : params.category
-              ? `${params.category} Courses`
-              : "All Courses"}
+    <div className="min-h-screen bg-white">
+      {/* Header band */}
+      <section className="hero-backdrop border-b border-slate-200 px-4 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl">
+          <p className="academic-label mb-3">SkillMint Catalog</p>
+          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight mb-3">
+            {heading}
           </h1>
-          <p className="text-zinc-500">
-            {total} course{total !== 1 ? "s" : ""} available
+          <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
+            {total} program{total !== 1 ? "s" : ""} across every discipline — taught by
+            working professionals, delivered online, with verifiable credentials on
+            completion.
           </p>
         </div>
+      </section>
 
-        <div className="flex gap-6">
-          {/* Sidebar Filter */}
-          <aside className="hidden lg:block w-60 shrink-0">
-            <CoursesFilter current={params} />
+      <div className="mx-auto max-w-7xl px-4 py-10">
+        <div className="flex gap-8">
+          <aside className="hidden lg:block w-64 shrink-0">
+            <div className="sticky top-20">
+              <CoursesFilter current={params} />
+            </div>
           </aside>
 
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Mobile filter + sort bar */}
-            <div className="flex items-center gap-3 mb-5 lg:hidden">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3 mb-6 lg:hidden">
               <CoursesFilter current={params} mobile />
             </div>
 
-            {/* Sort bar */}
-            <div className="hidden lg:flex items-center justify-between mb-5">
-              <span className="text-sm text-zinc-500">
-                Showing {Math.min((pageNum - 1) * 9 + 1, total)}–
-                {Math.min(pageNum * 9, total)} of {total} results
+            <div className="hidden lg:flex items-center justify-between mb-6">
+              <span className="text-sm text-slate-500">
+                Showing{" "}
+                <span className="font-semibold text-[#0a2540]">
+                  {Math.min((pageNum - 1) * 9 + 1, total)}–
+                  {Math.min(pageNum * 9, total)}
+                </span>{" "}
+                of{" "}
+                <span className="font-semibold text-[#0a2540]">{total}</span> programs
               </span>
               <CoursesFilter current={params} sortOnly />
             </div>
 
-            {/* Course Grid */}
             {courses.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {courses.map((course, idx) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {courses.map((course) => (
                   <CourseCard
                     key={course.id}
                     course={course}
@@ -137,18 +142,18 @@ export default async function CoursesPage({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
-                <div className="text-4xl mb-3">🔍</div>
-                <p className="text-zinc-400 font-medium mb-1">No courses found</p>
-                <p className="text-sm text-zinc-600">
-                  Try adjusting your filters or search term
+              <div className="text-center py-24 rounded-lg border border-dashed border-slate-200 bg-[#fafaf9]">
+                <p className="font-serif text-lg text-[#0a2540] font-bold mb-1">
+                  No programs match your filters
+                </p>
+                <p className="text-sm text-slate-500">
+                  Try adjusting your filters or searching a different term.
                 </p>
               </div>
             )}
 
-            {/* Pagination */}
             {pages > 1 && (
-              <div className="flex justify-center gap-2 mt-10">
+              <div className="flex justify-center gap-2 mt-12">
                 {Array.from({ length: pages }).map((_, i) => {
                   const p = i + 1;
                   const url = new URLSearchParams(params as any);
@@ -157,10 +162,10 @@ export default async function CoursesPage({
                     <a
                       key={p}
                       href={`/courses?${url.toString()}`}
-                      className={`w-9 h-9 rounded-lg text-sm font-medium flex items-center justify-center border transition-colors ${
+                      className={`w-10 h-10 rounded-md text-sm font-semibold flex items-center justify-center border transition-colors ${
                         p === pageNum
-                          ? "bg-purple-600 border-purple-600 text-white"
-                          : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                          ? "bg-[#0a2540] border-[#0a2540] text-white"
+                          : "border-slate-200 text-slate-600 hover:border-[#b08d57] hover:text-[#0a2540] hover:bg-white"
                       }`}
                     >
                       {p}

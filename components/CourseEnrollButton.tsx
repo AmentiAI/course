@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Play, ArrowRight } from "lucide-react";
@@ -19,7 +18,6 @@ export default function CourseEnrollButton({
   firstLessonId,
 }: Props) {
   const { data: session } = useSession();
-  const router = useRouter();
 
   if (enrolled) {
     return (
@@ -29,10 +27,10 @@ export default function CourseEnrollButton({
             ? `/learn/${courseSlug}/${firstLessonId}`
             : `/learn/${courseSlug}`
         }
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-500 px-5 py-3.5 font-semibold text-white transition-all"
+        className="flex w-full items-center justify-center gap-2 rounded-md bg-[#14532d] hover:bg-[#0f3d21] px-5 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
       >
         <Play className="h-4 w-4 fill-white" />
-        Continue Learning
+        Continue Program
       </Link>
     );
   }
@@ -40,9 +38,9 @@ export default function CourseEnrollButton({
   return (
     <Link
       href={session ? `/checkout/${courseId}` : `/auth/signin?redirect=/checkout/${courseId}`}
-      className="flex w-full items-center justify-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-5 py-3.5 font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25"
+      className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-5 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
     >
-      Enroll Now
+      Enroll in Program
       <ArrowRight className="h-4 w-4" />
     </Link>
   );

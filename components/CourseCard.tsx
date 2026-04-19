@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock } from "lucide-react";
+import { Clock, BookOpen, Users, ArrowRight } from "lucide-react";
 import WishlistButton from "./WishlistButton";
 
 interface CourseCardProps {
@@ -25,117 +25,102 @@ interface CourseCardProps {
   initialWishlisted?: boolean;
 }
 
+const levelClasses: Record<string, string> = {
+  BEGINNER: "text-[#14532d] bg-[#dcfce7] border-[#bbf7d0]",
+  INTERMEDIATE: "text-[#0a2540] bg-[#e0e7f1] border-[#c7d2e1]",
+  ADVANCED: "text-[#7a1f1f] bg-rose-50 border-rose-200",
+};
+
 export default function CourseCard({
   course,
-  avgRating,
   isNew,
   isPopular,
   initialWishlisted = false,
 }: CourseCardProps) {
-
-  const levelColors: Record<string, string> = {
-    BEGINNER: "text-green-400 bg-green-400/10",
-    INTERMEDIATE: "text-blue-400 bg-blue-400/10",
-    ADVANCED: "text-red-400 bg-red-400/10",
-  };
-
   return (
-    <Link href={`/courses/${course.slug}`} className="group block">
-      <div className="course-card rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden h-full flex flex-col hover:border-purple-500/40">
+    <Link href={`/courses/${course.slug}`} className="group block h-full">
+      <article className="course-card relative rounded-lg bg-white border border-slate-200 overflow-hidden h-full flex flex-col">
         {/* Thumbnail */}
-        <div className="relative aspect-video overflow-hidden bg-zinc-800">
+        <div className="relative aspect-video overflow-hidden bg-slate-100">
           <img
             src={course.thumbnail}
             alt={course.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
           />
-          {/* Badges */}
-          <div className="absolute top-2 left-2 flex gap-1.5">
-            {isPopular && (
-              <span className="badge-popular">🔥 Popular</span>
-            )}
-            {isNew && (
-              <span className="badge-new">✨ New</span>
-            )}
+          <div className="absolute top-3 left-3 flex gap-1.5">
+            {isPopular && <span className="badge-popular">Popular</span>}
+            {isNew && <span className="badge-new">New</span>}
           </div>
-          {/* Wishlist button */}
-          <div className="absolute top-2 right-2">
+          <div className="absolute top-3 right-3">
             <WishlistButton
               courseId={course.id}
               initialWishlisted={initialWishlisted}
               size="sm"
             />
           </div>
-          {/* Category */}
-          <div className="absolute bottom-2 left-2">
-            <span className="text-xs bg-black/60 backdrop-blur-sm text-zinc-300 px-2 py-0.5 rounded-full">
+          <div className="absolute bottom-3 left-3">
+            <span className="text-[10px] font-bold tracking-[0.15em] uppercase bg-white/95 backdrop-blur-sm text-[#0a2540] px-2.5 py-1 rounded border border-slate-200 shadow-sm">
               {course.category}
             </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-4 flex-1 flex flex-col">
-          <div className="flex items-center gap-2 mb-2">
+        <div className="p-6 flex-1 flex flex-col">
+          <div className="flex items-center gap-2 mb-3">
             <span
-              className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                levelColors[course.level] || "text-zinc-400 bg-zinc-700"
+              className={`text-[9px] font-bold tracking-[0.12em] uppercase px-2 py-0.5 rounded border ${
+                levelClasses[course.level] ||
+                "text-slate-600 bg-slate-50 border-slate-200"
               }`}
             >
               {course.level}
             </span>
+            {course._count.enrollments > 0 && (
+              <span className="text-xs text-slate-500 flex items-center gap-1">
+                <Users className="h-3 w-3" />
+                {course._count.enrollments}
+              </span>
+            )}
           </div>
 
-          <h3 className="font-semibold text-white text-sm leading-snug mb-1.5 group-hover:text-purple-300 transition-colors line-clamp-2">
+          <h3 className="font-serif text-[19px] font-bold text-[#0a2540] leading-snug tracking-tight mb-2 group-hover:underline decoration-[#b08d57] underline-offset-4 line-clamp-2">
             {course.title}
           </h3>
 
-          <p className="text-xs text-zinc-500 leading-relaxed mb-3 flex-1 line-clamp-2">
+          <p className="text-sm text-slate-600 leading-relaxed mb-5 flex-1 line-clamp-2">
             {course.shortDesc}
           </p>
 
-          {/* Meta */}
-          <div className="flex items-center gap-3 text-xs text-zinc-500 mb-3">
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
+          <div className="flex items-center gap-4 text-xs text-slate-500 mb-5">
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5 text-[#98753f]" />
               {course.totalHours}h
             </span>
-            <span className="flex items-center gap-1">
-              <BookOpen className="h-3 w-3" />
+            <span className="flex items-center gap-1.5">
+              <BookOpen className="h-3.5 w-3.5 text-[#98753f]" />
               {course.totalLessons} lessons
             </span>
           </div>
 
-          {/* Price */}
-          <div className="flex items-center justify-between pt-3 border-t border-zinc-800">
-            <span className="text-lg font-bold text-amber-400">
-              ${course.price}
-            </span>
-            <span className="text-xs bg-purple-600/20 text-purple-300 px-2.5 py-1 rounded-lg border border-purple-500/20 font-medium">
-              Enroll →
+          <div className="flex items-center justify-between pt-5 border-t border-slate-100">
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif text-xl font-bold text-[#0a2540]">
+                ${course.price}
+              </span>
+              {course.originalPrice && course.originalPrice > course.price && (
+                <span className="text-xs text-slate-400 line-through">
+                  ${course.originalPrice}
+                </span>
+              )}
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold tracking-wide text-[#98753f] group-hover:text-[#0a2540] transition-colors">
+              View Program
+              <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </div>
         </div>
-      </div>
+      </article>
     </Link>
-  );
-}
-
-// Fix import
-function BookOpen({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-    </svg>
   );
 }

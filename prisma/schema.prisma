@@ -29,11 +29,14 @@ model User {
   quizAttempts      QuizAttempt[]
   lessonProgress    LessonProgress[]
   discussionMessages DiscussionMessage[]
+  taughtCourses     Course[]            @relation("InstructorCourses")
+  events            Event[]
 }
 
 enum Role {
   STUDENT
   INSTRUCTOR
+  MODERATOR
   ADMIN
 }
 
@@ -94,6 +97,8 @@ model Course {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  instructorId  String?
+
   modules      Module[]
   enrollments  Enrollment[]
   reviews      Review[]
@@ -101,6 +106,10 @@ model Course {
   payments     Payment[]
   certificates Certificate[]
   discussion   Discussion?
+  instructor   User?        @relation("InstructorCourses", fields: [instructorId], references: [id])
+  events       Event[]
+
+  @@index([instructorId])
 }
 
 enum Level {
@@ -264,4 +273,43 @@ model DiscussionMessage {
   createdAt    DateTime   @default(now())
   discussion   Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id        String    @id @default(cuid())
+  type      EventType
+  userId    String?
+  sessionId String?
+  courseId  String?
+  lessonId  String?
+  utmSource String?
+  utmMedium String?
+  utmCampaign String?
+  metadata  Json?
+  createdAt DateTime  @default(now())
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  course Course? @relation(fields: [courseId], references: [id], onDelete: SetNull)
+
+  @@index([type, createdAt])
+  @@index([userId, createdAt])
+  @@index([courseId, createdAt])
+  @@index([sessionId])
+}
+
+enum EventType {
+  PAGE_VIEW
+  SIGNUP
+  SIGNIN
+  COURSE_VIEW
+  ENROLLMENT
+  LESSON_START
+  LESSON_COMPLETE
+  QUIZ_ATTEMPT
+  QUIZ_PASS
+  QUIZ_FAIL
+  PAYMENT_INIT
+  PAYMENT_CONFIRM
+  CERTIFICATE_ISSUED
+  REFERRAL_CLICK
 }

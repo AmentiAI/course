@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Eye, EyeOff, Zap, Mail, Lock, User, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, GraduationCap, Mail, Lock, User, ArrowRight } from "lucide-react";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -35,12 +35,7 @@ export default function SignUpPage() {
         return;
       }
 
-      // Auto sign in
-      const signInRes = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const signInRes = await signIn("credentials", { email, password, redirect: false });
 
       if (signInRes?.ok) {
         router.push("/dashboard");
@@ -58,27 +53,38 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] flex items-center justify-center px-4 py-16">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-16 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10 hero-backdrop" />
+
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="h-9 w-9 rounded-xl bg-purple-600 flex items-center justify-center">
-              <Zap className="h-5 w-5 text-white" />
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-10 group">
+            <div className="h-10 w-10 rounded-md bg-[#0a2540] flex items-center justify-center border border-[#b08d57]/40 group-hover:scale-105 transition-transform">
+              <GraduationCap className="h-5 w-5 text-white" strokeWidth={2} />
             </div>
-            <span className="text-xl font-bold text-white">
-              Skill<span className="text-purple-400">Mint</span>
-            </span>
+            <div className="flex flex-col text-left leading-tight">
+              <span className="font-serif text-xl font-bold text-[#0a2540] tracking-tight">
+                SkillMint
+              </span>
+              <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
+                Online Academy
+              </span>
+            </div>
           </Link>
-          <h1 className="text-2xl font-bold text-white mb-2">Create your account</h1>
-          <p className="text-zinc-500 text-sm">Start your income journey today</p>
+          <p className="academic-label mb-3">Admissions</p>
+          <h1 className="font-serif text-4xl font-bold text-[#0a2540] tracking-tight mb-3">
+            Create a Student Account.
+          </h1>
+          <p className="text-slate-600 text-[15px] leading-relaxed">
+            Begin the admissions process. Access programs and track progress through
+            the Student Portal.
+          </p>
         </div>
 
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8">
-          {/* Google Sign Up */}
+        <div className="rounded-lg border border-slate-200 bg-white p-8">
           <button
             onClick={handleGoogle}
-            className="w-full flex items-center justify-center gap-3 rounded-xl border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 px-4 py-3 text-sm font-medium text-zinc-300 hover:text-white transition-all mb-6"
+            className="w-full flex items-center justify-center gap-3 rounded-md border border-slate-200 bg-white hover:bg-[#fafaf9] hover:border-[#b08d57] px-4 py-3 text-sm font-semibold text-slate-700 transition-all mb-6"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -91,99 +97,109 @@ export default function SignUpPage() {
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-zinc-800" />
+              <div className="w-full border-t border-slate-200" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-zinc-900 px-3 text-zinc-600">or register with email</span>
+              <span className="bg-white px-3 text-[#98753f] font-bold uppercase tracking-[0.22em] text-[10px]">
+                or with Email
+              </span>
             </div>
           </div>
 
           {error && (
-            <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400">
+            <div className="mb-4 rounded-md bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-1.5">
+              <label className="block text-[10px] font-bold text-[#0a2540] mb-2 uppercase tracking-[0.18em]">
                 Full Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                   placeholder="Your name"
-                  className="w-full rounded-xl bg-zinc-800 border border-zinc-700 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-colors"
+                  className="w-full rounded-md bg-white border border-slate-200 py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-1.5">
-                Email
+              <label className="block text-[10px] font-bold text-[#0a2540] mb-2 uppercase tracking-[0.18em]">
+                Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="you@example.com"
-                  className="w-full rounded-xl bg-zinc-800 border border-zinc-700 py-3 pl-10 pr-4 text-sm text-white placeholder-zinc-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-colors"
+                  placeholder="student@example.com"
+                  className="w-full rounded-md bg-white border border-slate-200 py-3 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-400 mb-1.5">
+              <label className="block text-[10px] font-bold text-[#0a2540] mb-2 uppercase tracking-[0.18em]">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <input
                   type={showPass ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={8}
-                  placeholder="Min. 8 characters"
-                  className="w-full rounded-xl bg-zinc-800 border border-zinc-700 py-3 pl-10 pr-10 text-sm text-white placeholder-zinc-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-colors"
+                  placeholder="At least 8 characters"
+                  className="w-full rounded-md bg-white border border-slate-200 py-3 pl-10 pr-10 text-sm text-slate-900 placeholder-slate-400 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#0a2540]"
                 >
                   {showPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-zinc-600">At least 8 characters</p>
+              <p className="mt-1.5 text-xs text-slate-500">Minimum 8 characters.</p>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-4 py-3 text-sm font-semibold text-white transition-all disabled:opacity-50 hover:shadow-lg hover:shadow-purple-500/20 mt-2"
+              className="w-full flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-4 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors disabled:opacity-60 mt-2"
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "Submitting…" : "Create Student Account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </button>
           </form>
 
-          <p className="mt-4 text-xs text-zinc-600 text-center">
-            By signing up, you agree to our Terms of Service and Privacy Policy.
+          <p className="mt-5 text-xs text-slate-500 text-center leading-relaxed">
+            By creating an account, you agree to the{" "}
+            <Link href="/terms" className="text-[#0a2540] underline decoration-[#b08d57] underline-offset-2 hover:text-[#123258]">
+              Academic Terms
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-[#0a2540] underline decoration-[#b08d57] underline-offset-2 hover:text-[#123258]">
+              Privacy Policy
+            </Link>
+            .
           </p>
         </div>
 
-        <p className="text-center text-sm text-zinc-600 mt-6">
+        <p className="text-center text-sm text-slate-600 mt-6">
           Already have an account?{" "}
-          <Link href="/auth/signin" className="text-purple-400 hover:text-purple-300 font-medium">
-            Sign in
+          <Link href="/auth/signin" className="text-[#98753f] hover:text-[#0a2540] font-semibold transition-colors">
+            Sign In
           </Link>
         </p>
       </div>

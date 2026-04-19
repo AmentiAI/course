@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Send, MessageSquare, Lock } from "lucide-react";
+import { Send, MessageSquare, Lock, CheckCircle2 } from "lucide-react";
 
 interface Props {
   courseSlug: string;
@@ -35,7 +35,6 @@ export default function DiscussionClient({
   const [messages, setMessages] = useState<DiscussionMessage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch messages on mount
   useEffect(() => {
     fetchMessages();
   }, [courseSlug]);
@@ -69,7 +68,6 @@ export default function DiscussionClient({
       if (res.ok) {
         setSubmitted(true);
         setQuestion("");
-        // Refresh messages
         await fetchMessages();
         setTimeout(() => setSubmitted(false), 3000);
       } else {
@@ -109,18 +107,21 @@ export default function DiscussionClient({
   };
 
   return (
-    <div className="space-y-6">
-      {/* Post a question */}
+    <div className="space-y-8">
       {isLoggedIn && isEnrolled ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5">
-          <h2 className="text-base font-semibold text-white mb-3">Ask a Question</h2>
+        <div className="rounded-lg border border-slate-200 bg-white p-7">
+          <p className="academic-label mb-2">Submit a Question</p>
+          <h2 className="font-serif text-xl font-bold text-[#0a2540] mb-5 tracking-tight">
+            Pose a question to the seminar.
+          </h2>
           {submitted && (
-            <div className="mb-3 rounded-lg bg-green-500/10 border border-green-500/30 px-4 py-3 text-sm text-green-400">
-              Question posted! 🎉
+            <div className="mb-4 rounded-md bg-[#dcfce7] border border-[#bbf7d0] px-4 py-3 text-sm text-[#14532d] font-semibold flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Question recorded.
             </div>
           )}
           {error && (
-            <div className="mb-3 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400">
+            <div className="mb-4 rounded-md bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
               {error}
             </div>
           )}
@@ -130,55 +131,71 @@ export default function DiscussionClient({
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="What would you like to ask?"
               rows={3}
-              className="flex-1 rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-purple-500 focus:outline-none resize-none"
+              className="flex-1 rounded-md bg-white border border-slate-200 px-4 py-3 text-sm text-[#0a2540] placeholder:text-slate-400 focus:border-[#0a2540] focus:ring-2 focus:ring-[#0a2540]/15 focus:outline-none resize-none transition-colors"
             />
             <button
               type="submit"
               disabled={submitting || !question.trim()}
-              className="self-end flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-4 py-3 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+              className="self-end flex items-center gap-2 bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-3 rounded-md text-sm font-semibold tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="h-4 w-4" />
-              {submitting ? "Posting..." : "Post"}
+              {submitting ? "Submitting…" : "Submit"}
             </button>
           </form>
         </div>
       ) : isLoggedIn ? (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 text-center">
-          <Lock className="h-8 w-8 text-zinc-600 mx-auto mb-2" />
-          <p className="text-zinc-400 text-sm mb-3">Enroll to join the discussion</p>
+        <div className="rounded-lg border border-slate-200 bg-white p-9 text-center">
+          <div className="inline-flex w-12 h-12 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] items-center justify-center mb-4">
+            <Lock className="h-5 w-5 text-[#98753f]" strokeWidth={1.75} />
+          </div>
+          <p className="font-serif text-lg font-bold text-[#0a2540] mb-2 tracking-tight">
+            Enrollment Required.
+          </p>
+          <p className="text-slate-600 text-sm mb-5 max-w-md mx-auto leading-relaxed">
+            Participation in the seminar discussion is reserved for enrolled students.
+          </p>
           <Link
             href={`/courses/${courseSlug}`}
-            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-2.5 rounded-md text-sm font-semibold tracking-wide transition-colors"
           >
-            View Course
+            View Program
           </Link>
         </div>
       ) : (
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 text-center">
-          <p className="text-zinc-400 text-sm mb-3">Sign in to join the discussion</p>
+        <div className="rounded-lg border border-slate-200 bg-white p-9 text-center">
+          <p className="font-serif text-lg font-bold text-[#0a2540] mb-2 tracking-tight">
+            Student Sign-In Required.
+          </p>
+          <p className="text-slate-600 text-sm mb-5">
+            Sign in to your student account to join the seminar discussion.
+          </p>
           <Link
             href={`/auth/signin?redirect=/c/${courseSlug}/discuss`}
-            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-2.5 rounded-md text-sm font-semibold tracking-wide transition-colors"
           >
-            Sign In
+            Sign In to Portal
           </Link>
         </div>
       )}
 
-      {/* Discussion list */}
       <div>
-        <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-          <MessageSquare className="h-4 w-4 text-purple-400" />
-          Recent Discussions
+        <p className="academic-label mb-2">Seminar Transcript</p>
+        <h2 className="font-serif text-xl font-bold text-[#0a2540] mb-6 flex items-center gap-2 tracking-tight">
+          <MessageSquare className="h-5 w-5 text-[#98753f]" strokeWidth={1.75} />
+          Recent Questions.
         </h2>
 
         {loading ? (
-          <div className="text-center py-8 text-zinc-500">Loading messages...</div>
+          <div className="text-center py-10 text-slate-500 text-sm italic">
+            Loading transcript…
+          </div>
         ) : messages.length === 0 ? (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-8 text-center">
-            <MessageSquare className="h-12 w-12 text-zinc-700 mx-auto mb-3" />
-            <p className="text-zinc-400 text-sm">
-              No messages yet. Be the first to start the conversation!
+          <div className="rounded-lg border border-slate-200 bg-white p-10 text-center">
+            <div className="inline-flex w-12 h-12 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] items-center justify-center mb-3">
+              <MessageSquare className="h-5 w-5 text-[#98753f]" strokeWidth={1.75} />
+            </div>
+            <p className="text-slate-600 text-sm italic">
+              No questions recorded. Be the first to open the discussion.
             </p>
           </div>
         ) : (
@@ -186,30 +203,30 @@ export default function DiscussionClient({
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4"
+                className="rounded-lg border border-slate-200 bg-white p-5"
               >
                 <div className="flex items-start gap-3">
                   {msg.user.image ? (
                     <img
                       src={msg.user.image}
                       alt=""
-                      className="h-8 w-8 rounded-full shrink-0"
+                      className="h-9 w-9 rounded-full shrink-0 border border-slate-200"
                     />
                   ) : (
-                    <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white shrink-0">
+                    <div className="h-9 w-9 rounded-full bg-[#0a2540] border border-[#b08d57] flex items-center justify-center text-xs font-bold text-white shrink-0 tracking-wider">
                       {getInitials(msg.user.name)}
                     </div>
                   )}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-white">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-sm font-semibold text-[#0a2540] font-serif">
                         {msg.user.name || "Anonymous"}
                       </span>
-                      <span className="text-xs text-zinc-600">
-                        {formatTimeAgo(msg.createdAt)}
+                      <span className="text-xs text-slate-400 font-medium">
+                        &middot; {formatTimeAgo(msg.createdAt)}
                       </span>
                     </div>
-                    <p className="text-sm text-zinc-300 whitespace-pre-wrap">
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
                       {msg.message}
                     </p>
                   </div>

@@ -18,19 +18,15 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [playbackRate, setPlaybackRate] = useState(1);
-  
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Cleanup audio URL on unmount
   useEffect(() => {
     return () => {
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
+      if (audioUrl) URL.revokeObjectURL(audioUrl);
     };
   }, [audioUrl]);
 
-  // Update audio element when volume/mute/rate changes
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = isMuted ? 0 : volume;
@@ -50,45 +46,31 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
       });
 
       if (!response.ok) {
-        const errorData = await response.text();
-        console.error('TTS API error:', errorData);
         throw new Error(`Audio generation failed: ${response.status}`);
       }
 
       const blob = await response.blob();
-      
-      if (blob.size === 0) {
-        throw new Error('Empty audio file received');
-      }
+      if (blob.size === 0) throw new Error('Empty audio file received');
+
       const url = URL.createObjectURL(blob);
       setAudioUrl(url);
 
-      // Create audio element
       const audio = new Audio(url);
       audio.volume = isMuted ? 0 : volume;
       audio.playbackRate = playbackRate;
 
-      audio.addEventListener('loadedmetadata', () => {
-        setDuration(audio.duration);
-      });
-
-      audio.addEventListener('timeupdate', () => {
-        setCurrentTime(audio.currentTime);
-      });
-
+      audio.addEventListener('loadedmetadata', () => setDuration(audio.duration));
+      audio.addEventListener('timeupdate', () => setCurrentTime(audio.currentTime));
       audio.addEventListener('ended', () => {
         setIsPlaying(false);
         setCurrentTime(0);
       });
-
       audio.addEventListener('error', () => {
         setError('Failed to play audio');
         setIsPlaying(false);
       });
 
       audioRef.current = audio;
-      
-      // Auto-play after generation
       audio.play();
       setIsPlaying(true);
     } catch (err) {
@@ -104,9 +86,7 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
       await generateAudio();
       return;
     }
-
     if (!audioRef.current) return;
-
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -124,10 +104,6 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
     setCurrentTime(0);
   };
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
@@ -137,9 +113,7 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(e.target.value);
     setCurrentTime(newTime);
-    if (audioRef.current) {
-      audioRef.current.currentTime = newTime;
-    }
+    if (audioRef.current) audioRef.current.currentTime = newTime;
   };
 
   const formatTime = (seconds: number): string => {
@@ -151,25 +125,30 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-5 mb-6">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center shrink-0">
-            <Volume2 className="w-5 h-5 text-white" />
+    <div className="rounded-lg border border-slate-200 bg-[#fafaf9] p-5 mb-8">
+      <div className="flex items-center justify-between mb-4 gap-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-11 h-11 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] flex items-center justify-center shrink-0">
+            <Volume2 className="w-5 h-5 text-[#98753f]" strokeWidth={1.75} />
           </div>
-          <div>
-            <h3 className="font-bold text-gray-900">Listen to Lesson</h3>
-            <p className="text-sm text-gray-600">Natural AI voice narration {content.length > 4000 && '(intro preview)'}</p>
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f] mb-0.5">
+              Audio Lecture
+            </p>
+            <p className="text-xs text-slate-500">
+              Narrated reading{content.length > 4000 && ' · introductory preview'}
+            </p>
           </div>
         </div>
-        
-        {/* Playback speed */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-600">Speed:</span>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-500 hidden sm:inline">
+            Speed
+          </span>
           <select
             value={playbackRate}
             onChange={(e) => setPlaybackRate(parseFloat(e.target.value))}
-            className="text-sm border border-gray-300 rounded px-2 py-1 bg-white"
+            className="text-xs font-medium border border-slate-200 rounded-md px-2 py-1.5 bg-white text-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/20"
             disabled={isLoading}
           >
             <option value="0.75">0.75x</option>
@@ -182,15 +161,13 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
         </div>
       </div>
 
-      {/* Error message */}
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
-          <p className="text-sm text-red-800">{error}</p>
+        <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-md flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+          <p className="text-sm text-rose-800">{error}</p>
         </div>
       )}
 
-      {/* Progress bar */}
       {audioUrl && duration > 0 && (
         <div className="mb-4">
           <input
@@ -200,60 +177,56 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
             step="0.1"
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-600 [&::-webkit-slider-thumb]:cursor-pointer"
+            className="w-full h-2 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#0a2540] [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow [&::-webkit-slider-thumb]:cursor-pointer"
             style={{
-              background: `linear-gradient(to right, rgb(147 51 234) 0%, rgb(147 51 234) ${progressPercent}%, rgb(229 231 235) ${progressPercent}%, rgb(229 231 235) 100%)`
+              background: `linear-gradient(to right, #0a2540 0%, #0a2540 ${progressPercent}%, #e2e8f0 ${progressPercent}%, #e2e8f0 100%)`,
             }}
           />
-          <div className="flex justify-between text-xs text-gray-600 mt-1">
+          <div className="flex justify-between text-xs text-slate-500 mt-1.5 font-medium">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </div>
       )}
 
-      {/* Controls */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          {/* Play/Pause */}
           <button
             onClick={togglePlay}
             disabled={isLoading}
-            className="p-3 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 rounded-full transition-colors shadow-lg disabled:cursor-not-allowed"
+            className="p-3 bg-[#0a2540] hover:bg-[#123258] disabled:opacity-60 rounded-md transition-colors disabled:cursor-not-allowed"
             title={isPlaying ? 'Pause' : 'Play'}
           >
             {isLoading ? (
-              <Loader2 className="w-6 h-6 text-white animate-spin" />
+              <Loader2 className="w-5 h-5 text-white animate-spin" />
             ) : isPlaying ? (
-              <Pause className="w-6 h-6 text-white" />
+              <Pause className="w-5 h-5 text-white" />
             ) : (
-              <Play className="w-6 h-6 text-white fill-white" />
+              <Play className="w-5 h-5 text-white fill-white" />
             )}
           </button>
 
-          {/* Stop */}
           {audioUrl && (
             <button
               onClick={handleStop}
               disabled={isLoading}
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-800 disabled:bg-gray-400 text-white rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed"
+              className="px-3 py-2 bg-white hover:bg-[#f5ecd7] border border-[#b08d57] text-[#0a2540] rounded-md text-xs font-semibold tracking-wide transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               Stop
             </button>
           )}
         </div>
 
-        {/* Volume controls */}
         <div className="flex items-center gap-2">
           <button
-            onClick={toggleMute}
-            className="p-2 rounded-lg hover:bg-white/50 transition-colors"
+            onClick={() => setIsMuted(!isMuted)}
+            className="p-2 rounded-md hover:bg-white transition-colors"
             title={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted ? (
-              <VolumeX className="w-5 h-5 text-gray-700" />
+              <VolumeX className="w-4 h-4 text-slate-600" />
             ) : (
-              <Volume2 className="w-5 h-5 text-gray-700" />
+              <Volume2 className="w-4 h-4 text-slate-600" />
             )}
           </button>
           <input
@@ -263,23 +236,20 @@ export default function LessonAudioPlayer({ content, lessonTitle }: LessonAudioP
             step="0.05"
             value={isMuted ? 0 : volume}
             onChange={handleVolumeChange}
-            className="w-24 h-2 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-600 [&::-webkit-slider-thumb]:cursor-pointer"
+            className="w-20 sm:w-24 h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#0a2540] [&::-webkit-slider-thumb]:cursor-pointer"
           />
-          <span className="text-xs text-gray-600 w-8 text-right">
-            {Math.round((isMuted ? 0 : volume) * 100)}%
-          </span>
         </div>
       </div>
 
       {isPlaying && (
-        <p className="text-xs text-gray-600 mt-3 text-center">
-          🔊 Playing • {lessonTitle}
+        <p className="text-xs text-slate-500 mt-3 text-center italic">
+          Now playing &middot; {lessonTitle}
         </p>
       )}
 
       {isLoading && (
-        <p className="text-xs text-purple-600 mt-3 text-center">
-          Generating natural voice audio...
+        <p className="text-xs text-[#98753f] mt-3 text-center font-semibold tracking-wide uppercase">
+          Generating audio lecture…
         </p>
       )}
     </div>

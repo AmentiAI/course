@@ -27,58 +27,41 @@ export default function WishlistButton({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    console.log('Wishlist button clicked', { session, status, courseId });
-    
-    if (status === 'loading') {
-      console.log('Session still loading...');
-      return;
-    }
-    
+
+    if (status === 'loading') return;
+
     if (!session?.user?.id) {
-      console.log('Not logged in, redirecting to signin');
       router.push('/auth/signin?redirect=' + window.location.pathname);
       return;
     }
 
     setLoading(true);
     setError(null);
-    
+
     try {
-      console.log('Calling wishlist API with courseId:', courseId);
-      
       const res = await fetch('/api/wishlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ courseId }),
       });
 
-      console.log('Wishlist API response:', res.status);
-      
       const data = await res.json();
-      console.log('Wishlist API response:', data);
-      
+
       if (!res.ok) {
-        console.error('Wishlist API error:', data);
-        const errorMsg = data.details 
-          ? `${data.error}: ${data.details}` 
+        const errorMsg = data.details
+          ? `${data.error}: ${data.details}`
           : data.error || 'Failed to update wishlist';
         throw new Error(errorMsg);
       }
 
       if (data.wishlisted !== undefined) {
-        console.log('Wishlist updated successfully:', data.wishlisted);
         setWishlisted(data.wishlisted);
-        // Refresh the page data to update counts
         router.refresh();
       } else {
-        console.error('Invalid response:', data);
         throw new Error('Invalid response from server');
       }
-    } catch (error: any) {
-      console.error('Wishlist error:', error);
-      setError(error.message);
-      // Show error for 3 seconds
+    } catch (err: any) {
+      setError(err.message);
       setTimeout(() => setError(null), 3000);
     } finally {
       setLoading(false);
@@ -103,10 +86,10 @@ export default function WishlistButton({
         <button
           onClick={handleClick}
           disabled={loading || status === 'loading'}
-          className={`flex items-center gap-2 rounded-lg border transition-colors ${sizeClasses[size]} ${
+          className={`flex items-center gap-2 rounded-xl border font-medium transition-colors ${sizeClasses[size]} ${
             wishlisted
-              ? 'bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20'
-              : 'bg-zinc-800/50 border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white'
+              ? 'bg-rose-50 border-rose-200 text-rose-600 hover:bg-rose-100'
+              : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
           } disabled:opacity-50 disabled:cursor-not-allowed`}
           title={!session ? 'Sign in to save to wishlist' : ''}
         >
@@ -115,14 +98,14 @@ export default function WishlistButton({
           ) : (
             <Heart
               className={`${iconSizes[size]} transition-colors ${
-                wishlisted ? 'fill-red-400' : ''
+                wishlisted ? 'fill-rose-500 text-rose-500' : ''
               }`}
             />
           )}
-          {wishlisted ? 'Wishlisted' : (session ? 'Add to Wishlist' : 'Sign in to save')}
+          {wishlisted ? 'Saved' : session ? 'Save for later' : 'Sign in to save'}
         </button>
         {error && (
-          <div className="absolute top-full left-0 mt-1 text-xs text-red-400 bg-red-900/50 px-2 py-1 rounded whitespace-nowrap">
+          <div className="absolute top-full left-0 mt-1 text-xs text-rose-600 bg-rose-50 border border-rose-200 px-2 py-1 rounded whitespace-nowrap">
             {error}
           </div>
         )}
@@ -135,21 +118,21 @@ export default function WishlistButton({
       <button
         onClick={handleClick}
         disabled={loading || status === 'loading'}
-        className={`rounded-lg bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${sizeClasses[size]}`}
+        className={`rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${sizeClasses[size]}`}
         title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
       >
         {loading ? (
-          <Loader2 className={`${iconSizes[size]} animate-spin text-white`} />
+          <Loader2 className={`${iconSizes[size]} animate-spin text-slate-700`} />
         ) : (
           <Heart
             className={`${iconSizes[size]} transition-colors ${
-              wishlisted ? 'fill-red-400 text-red-400' : 'text-white'
+              wishlisted ? 'fill-rose-500 text-rose-500' : 'text-slate-700'
             }`}
           />
         )}
       </button>
       {error && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs text-red-400 bg-red-900/90 px-2 py-1 rounded whitespace-nowrap z-50">
+        <div className="absolute top-full right-0 mt-1 text-xs text-rose-700 bg-white border border-rose-200 shadow-lg px-2 py-1 rounded whitespace-nowrap z-50">
           {error}
         </div>
       )}

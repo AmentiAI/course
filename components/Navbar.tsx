@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   BookOpen,
   Search,
@@ -14,8 +14,10 @@ import {
   User,
   Menu,
   X,
-  Zap,
   Heart,
+  GraduationCap,
+  Users,
+  ScrollText,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -46,6 +48,29 @@ function useDebounce<T>(value: T, delay: number): T {
   return debounced;
 }
 
+export function SkillMintLogo({ size = 34 }: { size?: number }) {
+  return (
+    <span
+      className="relative inline-flex items-center justify-center rounded-md bg-[#0a2540]"
+      style={{ width: size, height: size }}
+      aria-hidden
+    >
+      <GraduationCap
+        className="text-white"
+        style={{ width: size * 0.55, height: size * 0.55 }}
+        strokeWidth={2.25}
+      />
+    </span>
+  );
+}
+
+const NAV_LINKS = [
+  { href: "/courses", label: "Programs" },
+  { href: "/instructors", label: "Faculty" },
+  { href: "/admissions", label: "Admissions" },
+  { href: "/about", label: "About" },
+];
+
 export default function Navbar() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -60,9 +85,9 @@ export default function Navbar() {
   const [unreadCount, setUnreadCount] = useState(0);
   const searchRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
+  const userRef = useRef<HTMLDivElement>(null);
   const debouncedQuery = useDebounce(searchQuery, 250);
 
-  // Search autocomplete
   useEffect(() => {
     if (debouncedQuery.length < 2) {
       setSearchResults([]);
@@ -74,7 +99,6 @@ export default function Navbar() {
       .catch(() => setSearchResults([]));
   }, [debouncedQuery]);
 
-  // Notifications
   useEffect(() => {
     if (!session) return;
     fetch("/api/notifications")
@@ -86,7 +110,6 @@ export default function Navbar() {
       .catch(() => {});
   }, [session]);
 
-  // Close menus on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -94,6 +117,9 @@ export default function Navbar() {
       }
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
         setNotifOpen(false);
+      }
+      if (userRef.current && !userRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -121,53 +147,65 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-zinc-800 bg-[#09090b]/95 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-lg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div className="flex h-[72px] items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-600 group-hover:bg-purple-500 transition-colors">
-              <Zap className="h-4 w-4 text-white" />
-            </div>
-            <span className="text-lg font-bold text-white">
-              Skill<span className="text-purple-400">Mint</span>
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 group shrink-0"
+            aria-label="SkillMint home"
+          >
+            <SkillMintLogo size={34} />
+            <span className="hidden sm:flex flex-col leading-tight">
+              <span className="text-base font-semibold tracking-tight text-[#0a2540]">
+                SkillMint
+              </span>
+              <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
+                Online Academy
+              </span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6 shrink-0">
-            <Link
-              href="/courses"
-              className="text-sm text-zinc-400 hover:text-white transition-colors"
-            >
-              Browse Courses
-            </Link>
+          <div className="hidden lg:flex items-center gap-8 shrink-0">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-[13.5px] font-medium text-slate-700 hover:text-[#0a2540] transition-colors"
+              >
+                {l.label}
+              </Link>
+            ))}
             {session && (
               <Link
                 href="/dashboard"
-                className="text-sm text-zinc-400 hover:text-white transition-colors"
+                className="text-[13.5px] font-medium text-slate-700 hover:text-[#0a2540] transition-colors"
               >
-                My Learning
+                Student Portal
               </Link>
             )}
           </div>
 
-          {/* Search Bar (desktop) */}
-          <div ref={searchRef} className="hidden md:flex flex-1 max-w-sm mx-4 relative">
+          {/* Search (desktop) */}
+          <div
+            ref={searchRef}
+            className="hidden md:flex flex-1 max-w-xs mx-2 relative"
+          >
             <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocus(true)}
-                placeholder="Search courses..."
-                className="w-full rounded-lg bg-zinc-800 border border-zinc-700 py-2 pl-9 pr-4 text-sm text-zinc-200 placeholder-zinc-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                placeholder="Search programs"
+                className="w-full rounded-md bg-[#fafaf9] border border-slate-200 py-2 pl-10 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15 transition"
               />
             </form>
-            {/* Autocomplete dropdown */}
             {searchFocus && searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1.5 rounded-xl bg-zinc-900 border border-zinc-700 shadow-2xl overflow-hidden z-50">
+              <div className="absolute top-full left-0 right-0 mt-2 rounded-md bg-white border border-slate-200 shadow-xl shadow-slate-900/10 overflow-hidden z-50">
                 {searchResults.map((result) => (
                   <Link
                     key={result.id}
@@ -176,16 +214,20 @@ export default function Navbar() {
                       setSearchFocus(false);
                       setSearchQuery("");
                     }}
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-zinc-800 transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#fafaf9] transition-colors"
                   >
                     <img
                       src={result.thumbnail}
                       alt=""
-                      className="h-8 w-12 rounded object-cover shrink-0"
+                      className="h-9 w-14 rounded object-cover shrink-0 border border-slate-200"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm text-white truncate">{result.title}</p>
-                      <p className="text-xs text-zinc-500">{result.category} · ${result.price}</p>
+                      <p className="text-sm font-medium text-slate-900 truncate">
+                        {result.title}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {result.category} · ${result.price}
+                      </p>
                     </div>
                   </Link>
                 ))}
@@ -194,11 +236,11 @@ export default function Navbar() {
           </div>
 
           {/* Right Side */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Mobile search toggle */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             <button
-              className="md:hidden p-2 text-zinc-400 hover:text-white"
+              className="md:hidden p-2 text-slate-600 hover:text-[#0a2540] rounded-md hover:bg-slate-100"
               onClick={() => setSearchOpen(!searchOpen)}
+              aria-label="Search"
             >
               <Search className="h-5 w-5" />
             </button>
@@ -212,45 +254,52 @@ export default function Navbar() {
                       setNotifOpen(!notifOpen);
                       if (!notifOpen) markNotificationsRead();
                     }}
-                    className="relative p-2 text-zinc-400 hover:text-white transition-colors rounded-lg hover:bg-zinc-800"
+                    className="relative p-2 text-slate-600 hover:text-[#0a2540] transition-colors rounded-md hover:bg-slate-100"
+                    aria-label="Notifications"
                   >
                     <Bell className="h-5 w-5" />
                     {unreadCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-purple-600 flex items-center justify-center text-[10px] font-bold text-white">
+                      <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-[#b08d57] flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-white">
                         {unreadCount > 9 ? "9+" : unreadCount}
                       </span>
                     )}
                   </button>
                   {notifOpen && (
-                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl z-50 overflow-hidden">
-                      <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
-                        <span className="text-sm font-semibold text-white">Notifications</span>
+                    <div className="absolute right-0 mt-2 w-80 rounded-md bg-white border border-slate-200 shadow-xl shadow-slate-900/10 z-50 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                        <span className="text-sm font-semibold text-[#0a2540]">
+                          Notifications
+                        </span>
                         {unreadCount > 0 && (
-                          <span className="text-xs text-purple-400">{unreadCount} new</span>
+                          <span className="text-[10px] font-bold tracking-wider uppercase text-[#98753f] bg-[#f5ecd7] px-2 py-0.5 rounded-full">
+                            {unreadCount} new
+                          </span>
                         )}
                       </div>
                       {notifications.length === 0 ? (
-                        <div className="px-4 py-8 text-center text-sm text-zinc-600">
-                          No notifications yet
+                        <div className="px-4 py-10 text-center text-sm text-slate-500">
+                          No notifications
                         </div>
                       ) : (
-                        <div className="max-h-72 overflow-y-auto">
+                        <div className="max-h-80 overflow-y-auto">
                           {notifications.map((n) => (
                             <div
                               key={n.id}
-                              className={`flex gap-3 px-4 py-3 border-b border-zinc-800/50 last:border-b-0 ${
-                                !n.read ? "bg-purple-900/10" : ""
+                              className={`flex gap-3 px-4 py-3 border-b border-slate-100 last:border-b-0 ${
+                                !n.read ? "bg-[#fafaf9]" : ""
                               }`}
                             >
-                              <div className="h-7 w-7 rounded-full bg-purple-600/20 border border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
-                                <Zap className="h-3.5 w-3.5 text-purple-400" />
+                              <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center shrink-0 mt-0.5">
+                                <ScrollText className="h-4 w-4 text-white" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-xs font-medium text-white">{n.title}</p>
-                                <p className="text-xs text-zinc-500 leading-snug mt-0.5 line-clamp-2">
+                                <p className="text-sm font-medium text-slate-900">
+                                  {n.title}
+                                </p>
+                                <p className="text-xs text-slate-600 leading-snug mt-0.5 line-clamp-2">
                                   {n.message}
                                 </p>
-                                <p className="text-xs text-zinc-700 mt-1">
+                                <p className="text-xs text-slate-400 mt-1">
                                   {new Date(n.createdAt).toLocaleDateString()}
                                 </p>
                               </div>
@@ -263,79 +312,79 @@ export default function Navbar() {
                 </div>
 
                 {/* User Menu */}
-                <div className="relative">
+                <div ref={userRef} className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center gap-2 rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-1.5 text-sm hover:border-zinc-600 transition-colors"
+                    className="flex items-center gap-2 rounded-full bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 text-sm transition-colors"
                   >
                     {session.user.image ? (
                       <img
                         src={session.user.image}
                         alt=""
-                        className="h-6 w-6 rounded-full"
+                        className="h-7 w-7 rounded-full ring-2 ring-white"
                       />
                     ) : (
-                      <div className="h-6 w-6 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold">
+                      <div className="h-7 w-7 rounded-full bg-[#0a2540] flex items-center justify-center text-xs font-bold text-white ring-2 ring-white">
                         {session.user.name?.[0]?.toUpperCase() ?? "U"}
                       </div>
                     )}
-                    <span className="hidden md:block text-zinc-300 max-w-[120px] truncate">
+                    <span className="hidden md:block font-medium text-slate-700 max-w-[120px] truncate">
                       {session.user.name?.split(" ")[0] ?? "Me"}
                     </span>
-                    <ChevronDown className="h-3 w-3 text-zinc-500" />
+                    <ChevronDown className="h-3.5 w-3.5 text-slate-500" />
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-52 rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl py-1 z-50">
-                      <div className="px-4 py-2 border-b border-zinc-800">
-                        <p className="text-sm font-medium text-white truncate">
+                    <div className="absolute right-0 mt-2 w-60 rounded-md bg-white border border-slate-200 shadow-xl shadow-slate-900/10 py-1.5 z-50 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-slate-100">
+                        <p className="text-sm font-semibold text-[#0a2540] truncate">
                           {session.user.name}
                         </p>
-                        <p className="text-xs text-zinc-500 truncate">
+                        <p className="text-xs text-slate-500 truncate">
                           {session.user.email}
                         </p>
                       </div>
                       <Link
                         href="/dashboard"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-[#fafaf9] hover:text-[#0a2540] transition-colors"
                       >
-                        <LayoutDashboard className="h-4 w-4" />
-                        Dashboard
+                        <LayoutDashboard className="h-4 w-4 text-slate-400" />
+                        Student Portal
                       </Link>
                       <Link
                         href="/dashboard/wishlist"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-[#fafaf9] hover:text-[#0a2540] transition-colors"
                       >
-                        <Heart className="h-4 w-4" />
-                        Wishlist
+                        <Heart className="h-4 w-4 text-slate-400" />
+                        Saved Programs
                       </Link>
                       <Link
                         href="/profile"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-[#fafaf9] hover:text-[#0a2540] transition-colors"
                       >
-                        <User className="h-4 w-4" />
+                        <User className="h-4 w-4 text-slate-400" />
                         Profile
                       </Link>
                       {session.user.role === "ADMIN" && (
                         <Link
                           href="/admin"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-purple-400 hover:bg-zinc-800 transition-colors"
+                          className="flex items-center gap-2.5 px-4 py-2 text-sm text-[#0a2540] hover:bg-[#f5ecd7] transition-colors"
                         >
                           <Shield className="h-4 w-4" />
-                          Admin Panel
+                          Administration
                         </Link>
                       )}
-                      <div className="border-t border-zinc-800 mt-1">
+                      <div className="border-t border-slate-100 mt-1 pt-1">
                         <button
                           onClick={() => {
                             setUserMenuOpen(false);
                             signOut({ callbackUrl: "/" });
                           }}
-                          className="flex w-full items-center gap-2 px-4 py-2 text-sm text-zinc-400 hover:text-red-400 hover:bg-zinc-800 transition-colors"
+                          className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-[#7a1f1f] hover:bg-rose-50 transition-colors"
                         >
                           <LogOut className="h-4 w-4" />
                           Sign out
@@ -346,32 +395,28 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Link
                   href="/auth/signin"
-                  className="text-sm text-zinc-400 hover:text-white transition-colors px-3 py-1.5"
+                  className="hidden sm:block text-sm font-medium text-slate-700 hover:text-[#0a2540] transition-colors px-2 py-1.5"
                 >
                   Sign in
                 </Link>
                 <Link
-                  href="/auth/signup"
-                  className="text-sm bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-lg transition-colors font-medium"
+                  href="/admissions"
+                  className="text-[13px] font-semibold tracking-wide bg-[#0a2540] hover:bg-[#123258] text-white px-5 py-2.5 rounded-md transition-colors shadow-sm"
                 >
-                  Get Started
+                  Apply Now
                 </Link>
               </div>
             )}
 
-            {/* Mobile menu toggle */}
             <button
-              className="md:hidden p-2 text-zinc-400 hover:text-white"
+              className="lg:hidden p-2 text-slate-600 hover:text-[#0a2540] rounded-md hover:bg-slate-100"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Menu"
             >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
@@ -380,19 +425,19 @@ export default function Navbar() {
         {searchOpen && (
           <div className="md:hidden pb-3" ref={searchRef}>
             <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocus(true)}
                 autoFocus
-                placeholder="Search courses..."
-                className="w-full rounded-lg bg-zinc-800 border border-zinc-700 py-2 pl-9 pr-4 text-sm text-zinc-200 placeholder-zinc-500 focus:border-purple-500 focus:outline-none"
+                placeholder="Search programs"
+                className="w-full rounded-md bg-[#fafaf9] border border-slate-200 py-2.5 pl-9 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15"
               />
             </form>
             {searchFocus && searchResults.length > 0 && (
-              <div className="mt-1.5 rounded-xl bg-zinc-900 border border-zinc-700 shadow-2xl overflow-hidden">
+              <div className="mt-2 rounded-md bg-white border border-slate-200 shadow-xl overflow-hidden">
                 {searchResults.map((result) => (
                   <Link
                     key={result.id}
@@ -402,7 +447,7 @@ export default function Navbar() {
                       setSearchFocus(false);
                       setSearchQuery("");
                     }}
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-zinc-800 transition-colors border-b border-zinc-800/50 last:border-0"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#fafaf9] transition-colors border-b border-slate-100 last:border-0"
                   >
                     <img
                       src={result.thumbnail}
@@ -410,8 +455,10 @@ export default function Navbar() {
                       className="h-8 w-12 rounded object-cover shrink-0"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm text-white truncate">{result.title}</p>
-                      <p className="text-xs text-zinc-500">{result.category}</p>
+                      <p className="text-sm font-medium text-slate-900 truncate">
+                        {result.title}
+                      </p>
+                      <p className="text-xs text-slate-500">{result.category}</p>
                     </div>
                   </Link>
                 ))}
@@ -420,60 +467,84 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Mobile slide-out menu */}
+        {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-zinc-800 py-3 space-y-1">
+          <div className="lg:hidden border-t border-slate-200 py-4 space-y-1">
             <Link
               href="/courses"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg"
+              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
             >
-              <BookOpen className="h-4 w-4 text-zinc-500" />
-              Browse Courses
+              <BookOpen className="h-4 w-4 text-slate-400" />
+              Programs
+            </Link>
+            <Link
+              href="/instructors"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
+            >
+              <Users className="h-4 w-4 text-slate-400" />
+              Faculty
+            </Link>
+            <Link
+              href="/admissions"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
+            >
+              <ScrollText className="h-4 w-4 text-slate-400" />
+              Admissions
+            </Link>
+            <Link
+              href="/about"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
+            >
+              <GraduationCap className="h-4 w-4 text-slate-400" />
+              About
             </Link>
             {session ? (
               <>
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg"
-                >
-                  <LayoutDashboard className="h-4 w-4 text-zinc-500" />
-                  My Dashboard
-                </Link>
-                <Link
-                  href="/dashboard/wishlist"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg"
-                >
-                  <Heart className="h-4 w-4 text-zinc-500" />
-                  Wishlist
-                </Link>
-                <Link
-                  href="/profile"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg"
-                >
-                  <User className="h-4 w-4 text-zinc-500" />
-                  Profile
-                </Link>
-                {session.user.role === "ADMIN" && (
+                <div className="border-t border-slate-100 mt-3 pt-3">
                   <Link
-                    href="/admin"
+                    href="/dashboard"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm text-purple-400 hover:bg-zinc-800 rounded-lg"
+                    className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
                   >
-                    <Shield className="h-4 w-4" />
-                    Admin Panel
+                    <LayoutDashboard className="h-4 w-4 text-slate-400" />
+                    Student Portal
                   </Link>
-                )}
-                <div className="border-t border-zinc-800 mt-2 pt-2">
+                  <Link
+                    href="/dashboard/wishlist"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
+                  >
+                    <Heart className="h-4 w-4 text-slate-400" />
+                    Saved Programs
+                  </Link>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
+                  >
+                    <User className="h-4 w-4 text-slate-400" />
+                    Profile
+                  </Link>
+                  {session.user.role === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-[#0a2540] hover:bg-[#f5ecd7] rounded-md"
+                    >
+                      <Shield className="h-4 w-4" />
+                      Administration
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       setMobileOpen(false);
                       signOut({ callbackUrl: "/" });
                     }}
-                    className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded-lg"
+                    className="flex w-full items-center gap-3 px-3 py-3 text-sm font-medium text-slate-600 hover:text-[#7a1f1f] hover:bg-rose-50 rounded-md"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign out
@@ -481,22 +552,22 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <>
+              <div className="border-t border-slate-100 mt-3 pt-3 space-y-1">
                 <Link
                   href="/auth/signin"
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg"
+                  className="block px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
                 >
                   Sign in
                 </Link>
                 <Link
-                  href="/auth/signup"
+                  href="/admissions"
                   onClick={() => setMobileOpen(false)}
-                  className="block px-3 py-2.5 text-sm text-purple-400 hover:bg-zinc-800 rounded-lg font-medium"
+                  className="block px-3 py-3 text-sm font-semibold text-white bg-[#0a2540] hover:bg-[#123258] rounded-md text-center"
                 >
-                  Get Started Free
+                  Apply Now
                 </Link>
-              </>
+              </div>
             )}
           </div>
         )}

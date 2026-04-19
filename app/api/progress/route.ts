@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { trackEvent } from "@/lib/events";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -11,7 +12,6 @@ export async function POST(req: NextRequest) {
 
   const { lessonId, courseId } = await req.json();
 
-  // Upsert progress
   await prisma.lessonProgress.upsert({
     where: { userId_lessonId: { userId: session.user.id, lessonId } },
     create: {
@@ -21,6 +21,13 @@ export async function POST(req: NextRequest) {
       completedAt: new Date(),
     },
     update: { completed: true, completedAt: new Date() },
+  });
+
+  await trackEvent({
+    type: "LESSON_COMPLETE",
+    userId: session.user.id,
+    courseId,
+    lessonId,
   });
 
   // Calculate course progress
@@ -63,7 +70,12 @@ export async function POST(req: NextRequest) {
     });
     courseCompleted = true;
 
-    // Notification
+    await trackEvent({
+      type: "CERTIFICATE_ISSUED",
+      userId: session.user.id,
+      courseId,
+    });
+
     await prisma.notification.create({
       data: {
         userId: session.user.id,

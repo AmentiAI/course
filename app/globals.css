@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #09090b;
-  --color-foreground: #fafafa;
-  --color-purple-600: #7c3aed;
-  --color-purple-500: #8b5cf6;
-  --color-purple-400: #a78bfa;
-  --color-purple-700: #6d28d9;
-  --color-purple-900: #4c1d95;
-  --color-gold-400: #f59e0b;
-  --color-gold-500: #d97706;
-  --color-zinc-950: #09090b;
-  --color-zinc-900: #18181b;
-  --color-zinc-800: #27272a;
-  --color-zinc-700: #3f3f46;
-  --color-zinc-600: #52525b;
-  --color-zinc-500: #71717a;
-  --color-zinc-400: #a1a1aa;
-  --color-zinc-300: #d4d4d8;
-  --color-zinc-200: #e4e4e7;
-  --color-zinc-100: #f4f4f5;
+  /* Surfaces */
+  --color-background: #ffffff;
+  --color-foreground: #0b1727;
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafaf9;
+  --color-surface-muted: #f5f5f4;
+  --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  /* Academic brand — navy primary, restrained gold accent */
+  --color-ivy-navy: #0a2540;
+  --color-ivy-navy-600: #123258;
+  --color-ivy-navy-700: #0a2540;
+  --color-ivy-navy-800: #061a30;
+  --color-ivy-ink: #0b1727;
+
+  --color-academic-gold: #b08d57;
+  --color-academic-gold-500: #b08d57;
+  --color-academic-gold-600: #98753f;
+  --color-academic-gold-soft: #f5ecd7;
+
+  --color-academic-forest: #14532d;
+  --color-academic-forest-soft: #dcfce7;
+
+  /* Text */
+  --color-text-primary: #0b1727;
+  --color-text-secondary: #1f2937;
+  --color-text-muted: #4b5563;
+  --color-text-subtle: #9ca3af;
+
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Fraunces", "Playfair Display", Georgia, serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
@@ -30,69 +42,136 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: #09090b;
-  color: #fafafa;
+  background: #ffffff;
+  color: #0b1727;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Scrollbar styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #18181b;
+  background: #fafaf9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
+  background: #d1d5db;
+  border-radius: 6px;
+  border: 2px solid #fafaf9;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #9ca3af;
 }
 
 /* Selection */
 ::selection {
-  background: #7c3aed33;
-  color: #fafafa;
+  background: #f5ecd7;
+  color: #0a2540;
 }
 
-/* Course card hover effects */
-.course-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.course-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
+/* Academic label — used above section headings */
+.academic-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #98753f;
 }
 
-/* Gradient text */
+/* Solid navy brand accent (replaces old gradient) */
+.brand-navy {
+  background: #0a2540;
+  color: #ffffff;
+}
+
+/* Subtle institutional gradient — navy to deeper navy (sparingly) */
+.gradient-brand {
+  background: linear-gradient(135deg, #0a2540 0%, #123258 100%);
+}
+
+/* Serif display treatment that was previously gradient — now solid navy */
 .gradient-text {
-  background: linear-gradient(135deg, #7c3aed, #f59e0b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #0a2540;
+  font-family: "Fraunces", "Playfair Display", Georgia, serif;
+  font-style: italic;
 }
 
-/* Purple gradient button */
-.btn-primary {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  transition: opacity 0.2s ease, transform 0.1s ease;
+/* Navy primary button */
+.btn-navy {
+  background: #0a2540;
+  color: #ffffff;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
-.btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+.btn-navy:hover {
+  background: #123258;
+  box-shadow: 0 10px 25px -8px rgba(10, 37, 64, 0.35);
 }
-.btn-primary:active {
+.btn-navy:active {
   transform: translateY(0);
 }
 
-/* Certificate print styles */
+/* Gold outline / ghost button */
+.btn-outline-gold {
+  background: #ffffff;
+  color: #0a2540;
+  border: 1px solid #b08d57;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-outline-gold:hover {
+  background: #f5ecd7;
+  color: #0a2540;
+}
+
+/* Academic divider — gold rule flanked by dashes */
+.academic-divider {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #b08d57;
+  font-family: "Fraunces", serif;
+}
+.academic-divider::before,
+.academic-divider::after {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: #b08d57;
+  opacity: 0.5;
+}
+
+/* Course/program catalog card */
+.course-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+}
+.course-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -14px rgba(10, 37, 64, 0.18);
+  border-color: #b08d57;
+}
+
+/* Section backdrop (very light stone) */
+.section-muted {
+  background: #fafaf9;
+}
+
+/* Institutional hero backdrop — very subtle navy glow */
+.hero-backdrop {
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(10, 37, 64, 0.05), transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(176, 141, 87, 0.05), transparent 55%),
+    #ffffff;
+}
+
+/* Certificate print */
 @media print {
   body {
     background: white;
@@ -103,40 +182,114 @@ body {
   }
 }
 
-/* Progress bar animation */
+/* Progress bar */
 .progress-bar {
   transition: width 0.5s ease;
 }
 
 /* Star rating */
 .star-filled {
-  color: #f59e0b;
-  fill: #f59e0b;
+  color: #b08d57;
+  fill: #b08d57;
 }
 .star-empty {
-  color: #3f3f46;
-  fill: #3f3f46;
+  color: #e5e7eb;
+  fill: #e5e7eb;
 }
 
-/* Badge styles */
+/* Institutional badges — flat, refined */
 .badge-popular {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  color: white;
-  font-size: 0.65rem;
-  padding: 2px 8px;
+  background: #0a2540;
+  color: #ffffff;
+  font-size: 0.625rem;
+  padding: 3px 10px;
   border-radius: 9999px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .badge-new {
-  background: linear-gradient(135deg, #059669, #047857);
-  color: white;
-  font-size: 0.65rem;
-  padding: 2px 8px;
+  background: #f5ecd7;
+  color: #98753f;
+  font-size: 0.625rem;
+  padding: 3px 10px;
   border-radius: 9999px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  border: 1px solid #e7d7b0;
+}
+
+/* Prose / article */
+.prose-school {
+  color: #1f2937;
+  line-height: 1.8;
+  font-size: 1.0625rem;
+}
+.prose-school h1,
+.prose-school h2,
+.prose-school h3 {
+  color: #0a2540;
+  font-family: "Fraunces", "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.prose-school h2 {
+  font-size: 1.625rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.prose-school h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose-school p {
+  margin-bottom: 1rem;
+}
+.prose-school a {
+  color: #0a2540;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: #b08d57;
+}
+.prose-school a:hover {
+  color: #123258;
+}
+.prose-school code {
+  background: #f5f5f4;
+  color: #0a2540;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.9em;
+}
+.prose-school pre {
+  background: #0b1727;
+  color: #f5f5f4;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+}
+.prose-school blockquote {
+  border-left: 3px solid #b08d57;
+  padding-left: 1rem;
+  color: #4b5563;
+  font-style: italic;
+}
+.prose-school ul,
+.prose-school ol {
+  margin-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prose-school li {
+  margin-bottom: 0.375rem;
+}
+
+/* Focus rings — navy */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.25);
 }

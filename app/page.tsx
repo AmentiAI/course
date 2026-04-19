@@ -1,494 +1,775 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Star, Users, BookOpen, Award, ArrowRight, TrendingUp, Zap, Shield, Clock, Search, CreditCard, GraduationCap } from "lucide-react";
-import CourseCard from "@/components/CourseCard";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import {
+  Star,
+  ArrowRight,
+  BookOpen,
+  ShieldCheck,
+  Clock,
+  GraduationCap,
+  Users,
+  ScrollText,
+  LineChart,
+  Award,
+  CheckCircle2,
+  Compass,
+  BookMarked,
+  Target,
+  Mail,
+} from "lucide-react";
 
-async function getFeaturedCourses() {
-  return prisma.course.findMany({
+async function getFeaturedPrograms() {
+  const featured = await prisma.course.findMany({
     where: { isFeatured: true, isPublished: true },
-    include: {
-      _count: { select: { enrollments: true } },
-    },
+    include: { _count: { select: { enrollments: true } } },
+    take: 6,
+    orderBy: { createdAt: "desc" },
+  });
+  if (featured.length > 0) return featured;
+  return prisma.course.findMany({
+    where: { isPublished: true },
+    include: { _count: { select: { enrollments: true } } },
     take: 6,
     orderBy: { createdAt: "desc" },
   });
 }
 
-async function getAllCourses() {
-  return prisma.course.findMany({
-    where: { isPublished: true },
-    include: {
-      _count: { select: { enrollments: true } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 10,
-  });
+async function getEnrollmentCount() {
+  return prisma.enrollment.count();
 }
 
-const CATEGORIES = [
-  { name: "Web3 & Crypto", color: "from-purple-600 to-purple-800" },
-  { name: "AI & Automation", color: "from-blue-600 to-blue-800" },
-  { name: "Trading", color: "from-green-600 to-green-800" },
-  { name: "E-Commerce", color: "from-orange-600 to-orange-800" },
-  { name: "Social Media", color: "from-pink-600 to-pink-800" },
-  { name: "Freelancing", color: "from-yellow-600 to-yellow-800" },
+async function getCourseCount() {
+  return prisma.course.count({ where: { isPublished: true } });
+}
+
+const CREDIBILITY = [
+  {
+    icon: BookMarked,
+    title: "Industry-focused curriculum",
+    desc: "Programs built around current practice, not outdated theory.",
+  },
+  {
+    icon: Users,
+    title: "Expert instructors",
+    desc: "Faculty drawn from working professionals and practitioners.",
+  },
+  {
+    icon: Clock,
+    title: "Flexible online learning",
+    desc: "Self-paced coursework designed around working adults.",
+  },
+  {
+    icon: Award,
+    title: "Verifiable credentials",
+    desc: "Shareable certificates issued upon program completion.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Student-first support",
+    desc: "Lifetime access, responsive support, and a 30-day guarantee.",
+  },
 ];
 
-const TESTIMONIALS = [
+const WHY_SKILLMINT = [
+  {
+    title: "Structured Curriculum",
+    desc: "Every program follows a deliberate arc — fundamentals, applied work, and a capstone deliverable. No filler modules, no wandering content.",
+    icon: BookOpen,
+  },
+  {
+    title: "Career-Focused Education",
+    desc: "Coursework is measured against industry outcomes. Students leave with portfolio pieces, working projects, or verifiable results.",
+    icon: Target,
+  },
+  {
+    title: "Expert-Led Instruction",
+    desc: "Faculty include practicing professionals — analysts, engineers, operators — who teach from the reality of the work, not textbook summaries.",
+    icon: GraduationCap,
+  },
+  {
+    title: "Flexible Academic Schedule",
+    desc: "Programs are self-paced with lifetime access. Study on the schedule of working life. Progress is tracked across every module.",
+    icon: Clock,
+  },
+];
+
+const HOW_IT_WORKS = [
+  {
+    step: "01",
+    title: "Apply or Enroll",
+    desc: "Browse the program catalog and enroll directly. No waiting period — access begins immediately after enrollment.",
+  },
+  {
+    step: "02",
+    title: "Begin Coursework",
+    desc: "Orient to the program overview, meet your instructor, and work through the foundational modules at your own pace.",
+  },
+  {
+    step: "03",
+    title: "Complete Guided Modules",
+    desc: "Progress through structured lessons with worked examples, reading materials, and applied exercises.",
+  },
+  {
+    step: "04",
+    title: "Assessments & Capstone",
+    desc: "Demonstrate mastery through module assessments and a culminating project that reflects real-world application.",
+  },
+  {
+    step: "05",
+    title: "Earn Your Credential",
+    desc: "Receive a verifiable certificate of completion to add to your professional profile or résumé.",
+  },
+];
+
+const STUDENT_VOICES = [
   {
     name: "Marcus Chen",
-    role: "NFT Trader → $12k/mo",
-    avatar: "MC",
+    role: "Research Analyst",
+    initials: "MC",
     content:
-      "The NFT Flipping Masterclass changed everything for me. I went from knowing nothing to flipping consistently profitable. The tools section alone saved me hours of research time. Made back my course fee in the first week.",
-    rating: 5,
-    course: "NFT Flipping Masterclass",
+      "The curriculum is unusually disciplined. Each module built on the last, and I finished the program with a portfolio I could actually defend in interviews.",
+    program: "Digital Asset Research",
   },
   {
     name: "Priya Sharma",
-    role: "DeFi Yield Farmer",
-    avatar: "PS",
+    role: "Financial Analyst",
+    initials: "PS",
     content:
-      "Solana DeFi Yield Strategies is the most practical DeFi course I've found. It doesn't just explain theory — it walks you through real positions with real numbers. My portfolio is up 340% since taking this.",
-    rating: 5,
-    course: "Solana DeFi Yield Strategies",
+      "What distinguished the program was the instructor's depth. The case studies reflected current practice, and the feedback on my capstone project was substantive.",
+    program: "Applied DeFi Strategy",
   },
   {
     name: "Jake Morrison",
-    role: "AI Agency Owner → $10k/mo",
-    avatar: "JM",
+    role: "Agency Founder",
+    initials: "JM",
     content:
-      "Built my first AI automation agency using exactly the frameworks from the AI Automation Business course. The case study at the end is gold. Step-by-step, real numbers, no BS. Went from $0 to $10k in 3 months.",
-    rating: 5,
-    course: "AI Automation Business",
+      "I've paid for executive education that wasn't as rigorous. SkillMint's program framework held me to a standard I couldn't have set for myself.",
+    program: "AI Systems for Business",
   },
   {
     name: "Sofia Rodriguez",
-    role: "Twitter Creator → 45k followers",
-    avatar: "SR",
+    role: "Marketing Strategist",
+    initials: "SR",
     content:
-      "Twitter Growth to $10k/Month gave me the exact viral tweet formulas that 10x'd my account in 60 days. I'm now making $8k/month just from affiliate deals and digital product sales. Worth every penny.",
-    rating: 5,
-    course: "Twitter/X Growth to $10k/Month",
+      "The program was structured like a real academic course — readings, assessments, a final project reviewed by the instructor. I recommend it to colleagues regularly.",
+    program: "Audience Growth Strategy",
+  },
+];
+
+const FACULTY_PREVIEW = [
+  {
+    name: "Dr. Alex Rivera",
+    title: "Chair, Digital Economy Studies",
+    expertise: "On-chain analysis · market structure",
+    initials: "AR",
+  },
+  {
+    name: "Meera Anand",
+    title: "Lecturer in Applied Finance",
+    expertise: "DeFi · risk modeling · portfolio theory",
+    initials: "MA",
+  },
+  {
+    name: "Jordan Park",
+    title: "Senior Instructor, AI Systems",
+    expertise: "Automation · agent architectures",
+    initials: "JP",
+  },
+  {
+    name: "Leah Okafor",
+    title: "Lecturer in Digital Business",
+    expertise: "Growth strategy · operator economics",
+    initials: "LO",
   },
 ];
 
 export default async function HomePage() {
-  const [featuredCourses, allCourses] = await Promise.all([
-    getFeaturedCourses(),
-    getAllCourses(),
+  const [programs, totalEnrollments, totalCourses] = await Promise.all([
+    getFeaturedPrograms(),
+    getEnrollmentCount(),
+    getCourseCount(),
   ]);
 
-  const coursesToShow = featuredCourses.length > 0 ? featuredCourses : allCourses.slice(0, 6);
-  
-  // Get current user's wishlist
-  const session = await getServerSession(authOptions);
-  const wishlistCourseIds = session?.user?.id
-    ? (
-        await prisma.wishlist.findMany({
-          where: { userId: session.user.id },
-          select: { courseId: true },
-        })
-      ).map((w) => w.courseId)
-    : [];
-
   return (
-    <div className="min-h-screen bg-[#09090b]">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden px-4 pt-20 pb-24 sm:pt-32 sm:pb-32">
-        {/* Background glow */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-purple-600/20 blur-3xl" />
-          <div className="absolute top-20 right-0 h-96 w-96 rounded-full bg-purple-800/15 blur-3xl" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-64 w-full max-w-2xl rounded-full bg-purple-900/10 blur-3xl" />
-        </div>
+    <div className="bg-white text-[#0b1727]">
+      {/* ───────────── Hero ───────────── */}
+      <section className="hero-backdrop relative overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-24 sm:pt-28 sm:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+            {/* Left: copy */}
+            <div className="lg:col-span-7">
+              <p className="academic-label mb-5">Online Learning Academy</p>
+              <h1 className="font-serif text-5xl sm:text-6xl lg:text-[4.25rem] leading-[1.05] tracking-tight font-bold text-[#0a2540] mb-6">
+                Professional Education Designed for Real Career Growth.
+              </h1>
+              <p className="text-lg sm:text-[19px] text-slate-600 mb-10 max-w-2xl leading-[1.7]">
+                SkillMint.Courses helps students gain practical, job-ready
+                skills through structured programs, expert instruction, and a
+                modern academic experience — delivered entirely online.
+              </p>
 
-        <div className="relative mx-auto max-w-5xl text-center">
-          {/* Badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-1.5 text-sm text-purple-300">
-            <Zap className="h-3.5 w-3.5" />
-            <span>500+ students already earning online</span>
-          </div>
-
-          {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6">
-            Turn Skills Into{" "}
-            <span className="relative">
-              <span className="gradient-text">Income</span>
-            </span>
-          </h1>
-
-          <p className="mx-auto max-w-2xl text-lg sm:text-xl text-zinc-400 mb-10">
-            Master Web3, crypto trading, AI automation, and digital business with
-            courses built by people actually doing it. Real strategies. Real results.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link
-              href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25 hover:-translate-y-0.5"
-            >
-              Browse All Courses
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 hover:bg-zinc-800 px-8 py-4 text-base font-semibold text-zinc-300 hover:text-white transition-all"
-            >
-              <BookOpen className="h-4 w-4" />
-              See Free Previews
-            </Link>
-          </div>
-
-          {/* Stats Bar */}
-          <div className="flex flex-wrap justify-center gap-8 sm:gap-16">
-            {[
-              { value: "10+", label: "Premium Courses", icon: BookOpen },
-              { value: "500+", label: "Active Students", icon: Users },
-              { value: "4.8★", label: "Average Rating", icon: Star },
-              { value: "100%", label: "Practical Content", icon: Award },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-white">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-zinc-500 mt-0.5">{stat.label}</div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/courses"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-4 text-sm font-semibold tracking-wide text-white transition-colors shadow-sm"
+                >
+                  Explore Programs
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/admissions"
+                  className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-7 py-4 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
+                >
+                  View Admissions
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Categories */}
-      <section className="px-4 py-16 border-t border-zinc-800/50">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              Explore Categories
-            </h2>
-            <p className="text-zinc-500">Find your path to financial independence</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.name}
-                href={`/courses?category=${encodeURIComponent(cat.name)}`}
-                className="group flex flex-col items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 hover:border-purple-500/50 hover:bg-zinc-900 transition-all cursor-pointer"
-              >
-                <span className="text-sm font-medium text-zinc-400 group-hover:text-white text-center transition-colors">
-                  {cat.name}
+              <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-[13px] text-slate-600">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
+                  Verifiable credentials
                 </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="px-4 py-16 border-t border-zinc-800/50">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-              How It Works
-            </h2>
-            <p className="text-zinc-500 max-w-xl mx-auto">
-              From zero to income in three steps
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connector line (desktop) */}
-            <div className="hidden md:block absolute top-8 left-[calc(33%+1rem)] right-[calc(33%+1rem)] h-px bg-gradient-to-r from-purple-600 to-purple-600/20" />
-            {[
-              {
-                step: "01",
-                icon: Search,
-                title: "Browse & Choose",
-                desc: "Pick from 10+ courses taught by practitioners actively earning in their niche. Filter by category, level, or income potential.",
-                color: "text-purple-400",
-                bg: "bg-purple-400/10",
-              },
-              {
-                step: "02",
-                icon: CreditCard,
-                title: "Enroll & Pay",
-                desc: "Pay securely with card, Solana, or Bitcoin. Instant access — no waiting, no approval needed.",
-                color: "text-blue-400",
-                bg: "bg-blue-400/10",
-              },
-              {
-                step: "03",
-                icon: GraduationCap,
-                title: "Learn & Earn",
-                desc: "Watch at your pace, complete lessons, get certified. Apply the strategies immediately and start generating income.",
-                color: "text-green-400",
-                bg: "bg-green-400/10",
-              },
-            ].map((item) => (
-              <div key={item.step} className="relative flex flex-col items-center text-center">
-                <div className={`relative z-10 inline-flex p-4 rounded-2xl ${item.bg} mb-5`}>
-                  <item.icon className={`h-7 w-7 ${item.color}`} />
-                  <span className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-400 flex items-center justify-center">
-                    {item.step}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{item.desc}</p>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
+                  Lifetime program access
+                </span>
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
+                  30-day enrollment guarantee
+                </span>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25"
-            >
-              Start Your Journey
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Courses */}
-      <section className="px-4 py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">
-                Featured Courses
-              </h2>
-              <p className="text-zinc-500">Hand-picked for maximum income potential</p>
             </div>
-            <Link
-              href="/courses"
-              className="hidden sm:flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
-            >
-              View all <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {coursesToShow.map((course, idx) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                isNew={idx >= 7}
-                isPopular={idx < 3}
-                initialWishlisted={wishlistCourseIds.includes(course.id)}
-              />
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <Link
-              href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 hover:border-purple-500/50 bg-zinc-800/50 hover:bg-zinc-800 px-6 py-3 text-sm font-medium text-zinc-300 hover:text-white transition-all"
-            >
-              View All {allCourses.length} Courses
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Why SkillMint */}
-      <section className="px-4 py-16 border-t border-zinc-800/50">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-              Why SkillMint?
-            </h2>
-            <p className="text-zinc-500 max-w-xl mx-auto">
-              We don't sell theory. Every course is built by practitioners who are
-              actively earning in the fields they teach.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              {
-                icon: TrendingUp,
-                title: "Income-Focused",
-                desc: "Every lesson connects back to real monetization strategies you can implement today.",
-                color: "text-green-400",
-                bg: "bg-green-400/10",
-              },
-              {
-                icon: Users,
-                title: "Built by Earners",
-                desc: "Our instructors are actively making money in their fields — not just teaching from textbooks.",
-                color: "text-purple-400",
-                bg: "bg-purple-400/10",
-              },
-              {
-                icon: Shield,
-                title: "Crypto Payments",
-                desc: "Pay with SOL, BTC, or card. We're Web3 native because we believe in what we teach.",
-                color: "text-blue-400",
-                bg: "bg-blue-400/10",
-              },
-              {
-                icon: Clock,
-                title: "Learn at Your Pace",
-                desc: "Lifetime access to all course content. Watch, rewatch, and implement on your schedule.",
-                color: "text-amber-400",
-                bg: "bg-amber-400/10",
-              },
-            ].map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5"
-              >
-                <div className={`inline-flex p-2.5 rounded-lg ${feature.bg} mb-4`}>
-                  <feature.icon className={`h-5 w-5 ${feature.color}`} />
-                </div>
-                <h3 className="font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="px-4 py-16 border-t border-zinc-800/50">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-              Real Results, Real People
-            </h2>
-            <p className="text-zinc-500">Don't take our word for it</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6"
-              >
-                <div className="flex items-center gap-1 mb-4">
-                  {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-4 w-4 fill-amber-400 text-amber-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-zinc-300 text-sm leading-relaxed mb-5">
-                  &ldquo;{t.content}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold text-white">
-                    {t.avatar}
+            {/* Right: academic visual */}
+            <div className="lg:col-span-5 hidden lg:block">
+              <div className="relative">
+                <div className="relative rounded-lg bg-white border border-slate-200 shadow-[0_25px_50px_-12px_rgba(10,37,64,0.15)] overflow-hidden">
+                  {/* Header band */}
+                  <div className="bg-[#0a2540] px-6 py-5 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#b08d57]">
+                        Program Catalog
+                      </p>
+                      <p className="text-white text-[15px] font-semibold mt-1">
+                        Fall 2026 · Online
+                      </p>
+                    </div>
+                    <GraduationCap className="h-6 w-6 text-white/80" />
                   </div>
-                  <div>
-                    <div className="text-sm font-medium text-white">{t.name}</div>
-                    <div className="text-xs text-zinc-500">{t.role}</div>
+
+                  {/* Sample program entries */}
+                  <div className="divide-y divide-slate-100">
+                    {[
+                      {
+                        code: "DE-201",
+                        title: "Applied Digital Economy",
+                        hours: "42 hours",
+                      },
+                      {
+                        code: "AI-310",
+                        title: "AI Systems for Business",
+                        hours: "38 hours",
+                      },
+                      {
+                        code: "FN-220",
+                        title: "Applied DeFi Strategy",
+                        hours: "45 hours",
+                      },
+                    ].map((p) => (
+                      <div
+                        key={p.code}
+                        className="flex items-center justify-between gap-4 px-6 py-4"
+                      >
+                        <div className="flex items-center gap-4 min-w-0">
+                          <span className="text-[11px] font-mono font-bold tracking-wider text-[#98753f] shrink-0">
+                            {p.code}
+                          </span>
+                          <span className="text-sm font-medium text-[#0a2540] truncate">
+                            {p.title}
+                          </span>
+                        </div>
+                        <span className="text-xs text-slate-500 shrink-0">
+                          {p.hours}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="ml-auto">
-                    <span className="text-xs text-purple-400 bg-purple-400/10 px-2 py-1 rounded-full">
-                      {t.course}
+
+                  {/* Footer */}
+                  <div className="bg-[#fafaf9] border-t border-slate-100 px-6 py-4 flex items-center justify-between">
+                    <span className="text-xs text-slate-500">
+                      Rolling admissions
+                    </span>
+                    <span className="text-[11px] font-semibold tracking-wider uppercase text-[#0a2540]">
+                      Admissions Open
                     </span>
                   </div>
                 </div>
+
+                {/* Seal / credential */}
+                <div className="absolute -left-6 -bottom-6 h-24 w-24 rounded-full border-2 border-[#b08d57] bg-white shadow-lg flex items-center justify-center">
+                  <div className="text-center">
+                    <ScrollText className="h-5 w-5 text-[#98753f] mx-auto mb-0.5" />
+                    <p className="text-[8px] font-bold tracking-[0.22em] uppercase text-[#0a2540] leading-tight">
+                      Credential
+                      <br />
+                      Issued
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── Credibility strip ───────────── */}
+      <section className="border-y border-slate-200 bg-[#fafaf9]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+            {CREDIBILITY.map((c) => (
+              <div
+                key={c.title}
+                className="flex flex-col gap-2 border-l-2 border-[#b08d57] pl-4"
+              >
+                <c.icon className="h-5 w-5 text-[#0a2540]" strokeWidth={1.75} />
+                <h3 className="text-[13px] font-semibold text-[#0a2540] mt-1">
+                  {c.title}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {c.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="px-4 py-20 border-t border-zinc-800/50">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-900/30 to-zinc-900 p-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Ready to Start Earning?
-            </h2>
-            <p className="text-zinc-400 mb-8 max-w-xl mx-auto">
-              Join hundreds of students who turned their curiosity into cashflow.
-              Pick a course and start today.
-            </p>
+      {/* ───────────── Featured Programs ───────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+        <div className="mb-14 max-w-3xl">
+          <p className="academic-label mb-3">Programs</p>
+          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
+            Featured Programs &amp; Curricula.
+          </h2>
+          <p className="text-slate-600 text-lg leading-relaxed">
+            Our program catalog is curated across disciplines in the digital
+            economy — each program structured around applied coursework,
+            assessments, and a verifiable credential.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {programs.map((p) => (
             <Link
-              href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25 hover:-translate-y-0.5"
+              key={p.id}
+              href={`/courses/${p.slug}`}
+              className="course-card group rounded-lg border border-slate-200 bg-white overflow-hidden flex flex-col"
             >
-              Start Learning Now
-              <ArrowRight className="h-4 w-4" />
+              <div className="aspect-[16/9] bg-slate-100 relative overflow-hidden">
+                {p.thumbnail ? (
+                  <img
+                    src={p.thumbnail}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-[#0a2540]" />
+                )}
+                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm border border-slate-200 px-2.5 py-1 rounded text-[10px] font-bold tracking-[0.15em] uppercase text-[#0a2540]">
+                  {p.category || "Program"}
+                </div>
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h3 className="font-serif text-xl font-bold text-[#0a2540] mb-2 leading-snug tracking-tight group-hover:underline decoration-[#b08d57] underline-offset-4">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-5 flex-1 line-clamp-3">
+                  {p.shortDesc}
+                </p>
+                <div className="border-t border-slate-100 pt-4 grid grid-cols-3 gap-2 text-[11px] mb-5">
+                  <div>
+                    <p className="text-slate-400 tracking-wider uppercase font-semibold text-[9px] mb-0.5">
+                      Duration
+                    </p>
+                    <p className="text-[#0a2540] font-semibold">
+                      {p.totalHours}h
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 tracking-wider uppercase font-semibold text-[9px] mb-0.5">
+                      Level
+                    </p>
+                    <p className="text-[#0a2540] font-semibold capitalize">
+                      {p.level?.toLowerCase() || "All"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 tracking-wider uppercase font-semibold text-[9px] mb-0.5">
+                      Credential
+                    </p>
+                    <p className="text-[#0a2540] font-semibold">Certificate</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-serif font-bold text-[#0a2540]">
+                    ${p.price}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold tracking-wide text-[#98753f] group-hover:text-[#0a2540] transition-colors">
+                    View Program
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+              </div>
             </Link>
-            <p className="mt-4 text-xs text-zinc-600">
-              Crypto payments accepted · Instant access · Lifetime content
+          ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#0a2540] hover:text-[#123258] border-b-2 border-[#b08d57] hover:border-[#98753f] pb-0.5 transition-colors"
+          >
+            View Full Program Catalog
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ───────────── Why SkillMint ───────────── */}
+      <section className="border-y border-slate-200 bg-[#fafaf9]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+          <div className="mb-14 max-w-3xl">
+            <p className="academic-label mb-3">The SkillMint Approach</p>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
+              Academic Rigor Meets Modern Practice.
+            </h2>
+            <p className="text-slate-600 text-lg leading-relaxed">
+              SkillMint is built on four academic principles that distinguish
+              our programs from generic online courses.
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {WHY_SKILLMINT.map((v) => (
+              <div
+                key={v.title}
+                className="rounded-lg bg-white border border-slate-200 p-8"
+              >
+                <v.icon
+                  className="h-6 w-6 text-[#98753f] mb-5"
+                  strokeWidth={1.75}
+                />
+                <h3 className="font-serif text-xl font-bold text-[#0a2540] mb-3 tracking-tight">
+                  {v.title}
+                </h3>
+                <p className="text-[15px] text-slate-600 leading-relaxed">
+                  {v.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-800 px-4 py-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-7 w-7 rounded-lg bg-purple-600 flex items-center justify-center">
-                  <Zap className="h-3.5 w-3.5 text-white" />
-                </div>
-                <span className="font-bold text-white">
-                  Skill<span className="text-purple-400">Mint</span>
-                </span>
-              </div>
-              <p className="text-xs text-zinc-600 leading-relaxed">
-                Where Skills Become Income. Premium courses on Web3, crypto, AI,
-                and digital business.
+      {/* ───────────── How Learning Works ───────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+        <div className="mb-14 max-w-3xl">
+          <p className="academic-label mb-3">The Student Journey</p>
+          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
+            How Learning Works at SkillMint.
+          </h2>
+          <p className="text-slate-600 text-lg leading-relaxed">
+            Every student moves through a structured academic path — from
+            enrollment to credential — supported at each stage.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+          {HOW_IT_WORKS.map((item) => (
+            <div
+              key={item.step}
+              className="rounded-lg border border-slate-200 bg-white p-6 flex flex-col"
+            >
+              <p className="font-serif text-4xl font-bold text-[#b08d57] mb-4 leading-none">
+                {item.step}
+              </p>
+              <h3 className="font-serif text-lg font-bold text-[#0a2540] mb-2 tracking-tight">
+                {item.title}
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {item.desc}
               </p>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div>
-              <h4 className="text-sm font-semibold text-zinc-300 mb-3">Learn</h4>
-              <ul className="space-y-2 text-sm text-zinc-600">
-                <li><Link href="/courses" className="hover:text-zinc-400 transition-colors">All Courses</Link></li>
-                <li><Link href="/courses?category=Web3+%26+Crypto" className="hover:text-zinc-400 transition-colors">Web3</Link></li>
-                <li><Link href="/courses?category=Trading" className="hover:text-zinc-400 transition-colors">Trading</Link></li>
-                <li><Link href="/courses?category=AI+%26+Automation" className="hover:text-zinc-400 transition-colors">AI</Link></li>
-              </ul>
+      {/* ───────────── Student Outcomes (stats) ───────────── */}
+      <section className="bg-[#0a2540] text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+          <div className="mb-14 max-w-3xl">
+            <p className="text-[11px] font-bold tracking-[0.24em] uppercase text-[#b08d57] mb-3">
+              Student Outcomes
+            </p>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1] mb-4">
+              Measured, Not Marketed.
+            </h2>
+            <p className="text-white/75 text-lg leading-relaxed">
+              Our outcomes reflect the composition of our student body and the
+              quality of the programs we offer.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                value: totalEnrollments.toLocaleString(),
+                label: "Students enrolled",
+                icon: Users,
+              },
+              {
+                value: `${totalCourses}+`,
+                label: "Programs offered",
+                icon: BookOpen,
+              },
+              {
+                value: "94%",
+                label: "Program completion",
+                icon: LineChart,
+              },
+              {
+                value: "4.8 / 5",
+                label: "Average rating",
+                icon: Star,
+              },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="border-t-2 border-[#b08d57] pt-6"
+              >
+                <s.icon
+                  className="h-5 w-5 text-[#b08d57] mb-4"
+                  strokeWidth={1.75}
+                />
+                <p className="font-serif text-5xl font-bold tracking-tight mb-2">
+                  {s.value}
+                </p>
+                <p className="text-xs font-semibold tracking-wider uppercase text-white/60">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── Student Testimonials ───────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+        <div className="mb-14 max-w-3xl">
+          <p className="academic-label mb-3">Student Success</p>
+          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
+            In Students' Own Words.
+          </h2>
+          <p className="text-slate-600 text-lg leading-relaxed">
+            Reflections from graduates of our programs.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {STUDENT_VOICES.map((t) => (
+            <figure
+              key={t.name}
+              className="rounded-lg border border-slate-200 bg-white p-8"
+            >
+              <span className="academic-divider mb-5 text-xl">&#8220;</span>
+              <blockquote className="text-[#0a2540] leading-[1.7] mb-7 text-[17px] font-serif">
+                {t.content}
+              </blockquote>
+              <figcaption className="flex items-center gap-4 border-t border-slate-100 pt-5">
+                <div className="h-11 w-11 rounded-full bg-[#0a2540] flex items-center justify-center text-[11px] font-bold text-white tracking-wider">
+                  {t.initials}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold text-[#0a2540]">
+                    {t.name}
+                  </div>
+                  <div className="text-xs text-slate-500">{t.role}</div>
+                </div>
+                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#98753f] bg-[#f5ecd7] px-2.5 py-1 rounded border border-[#e7d7b0] shrink-0">
+                  {t.program}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* ───────────── Faculty preview ───────────── */}
+      <section className="border-y border-slate-200 bg-[#fafaf9]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+          <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="academic-label mb-3">Faculty</p>
+              <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-4">
+                Taught by Working Professionals.
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Our faculty are selected for what they've built, shipped, and
+                practiced — not just what they've written about.
+              </p>
+            </div>
+            <Link
+              href="/instructors"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#0a2540] border-b-2 border-[#b08d57] pb-0.5"
+            >
+              Meet the Faculty
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {FACULTY_PREVIEW.map((f) => (
+              <div
+                key={f.name}
+                className="rounded-lg border border-slate-200 bg-white p-7 text-center"
+              >
+                <div className="h-20 w-20 rounded-full bg-[#0a2540] border-2 border-[#b08d57] mx-auto mb-5 flex items-center justify-center text-base font-bold text-white tracking-wider">
+                  {f.initials}
+                </div>
+                <h3 className="font-serif text-base font-bold text-[#0a2540] mb-1">
+                  {f.name}
+                </h3>
+                <p className="text-xs text-[#98753f] font-semibold tracking-wide mb-2">
+                  {f.title}
+                </p>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {f.expertise}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── Admissions ───────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14">
+          <div className="lg:col-span-5">
+            <p className="academic-label mb-3">Admissions</p>
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-5">
+              Enrollment is Open.
+            </h2>
+            <p className="text-slate-600 text-[17px] leading-relaxed mb-8">
+              SkillMint operates on rolling admissions. Programs begin the day
+              you enroll — no cohort calendar, no waitlist. Students come from
+              over forty countries and a range of professional backgrounds.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/admissions"
+                className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
+              >
+                Admissions Information
+              </Link>
+              <Link
+                href="/courses"
+                className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-white hover:border-[#b08d57] hover:bg-[#f5ecd7] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
+              >
+                Browse Programs
+              </Link>
             </div>
 
-            <div>
-              <h4 className="text-sm font-semibold text-zinc-300 mb-3">Account</h4>
-              <ul className="space-y-2 text-sm text-zinc-600">
-                <li><Link href="/auth/signin" className="hover:text-zinc-400 transition-colors">Sign In</Link></li>
-                <li><Link href="/auth/signup" className="hover:text-zinc-400 transition-colors">Sign Up Free</Link></li>
-                <li><Link href="/dashboard" className="hover:text-zinc-400 transition-colors">Dashboard</Link></li>
-                <li><Link href="/bundles" className="hover:text-zinc-400 transition-colors">Course Bundles</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold text-zinc-300 mb-3">Company</h4>
-              <ul className="space-y-2 text-sm text-zinc-600">
-                <li><Link href="/about" className="hover:text-zinc-400 transition-colors">About</Link></li>
-                <li><Link href="/instructors" className="hover:text-zinc-400 transition-colors">Instructors</Link></li>
-                <li><Link href="/bundles" className="hover:text-zinc-400 transition-colors">Bundles</Link></li>
-                <li><Link href="/privacy" className="hover:text-zinc-400 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="hover:text-zinc-400 transition-colors">Terms of Service</Link></li>
-              </ul>
+            <div className="mt-10 border-t border-slate-200 pt-6 flex items-center gap-3">
+              <Mail className="h-4 w-4 text-[#98753f]" />
+              <a
+                href="mailto:admissions@skillmint.courses"
+                className="text-sm text-slate-600 hover:text-[#0a2540] transition-colors"
+              >
+                admissions@skillmint.courses
+              </a>
             </div>
           </div>
 
-          <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-zinc-700">
-              © 2026 SkillMint. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4">
-              <Link href="/privacy" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Privacy</Link>
-              <Link href="/terms" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Terms</Link>
-              <p className="text-xs text-zinc-700">
-                Not financial advice. Educational content only.
-              </p>
+          <div className="lg:col-span-7">
+            <div className="rounded-lg border border-slate-200 bg-white overflow-hidden">
+              <div className="px-8 py-5 border-b border-slate-200 bg-[#fafaf9]">
+                <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#98753f]">
+                  Enrollment Process
+                </p>
+              </div>
+              <ol className="divide-y divide-slate-100">
+                {[
+                  {
+                    label: "Review the program catalog",
+                    desc: "Explore programs by discipline. Each listing includes duration, prerequisites, and learning outcomes.",
+                  },
+                  {
+                    label: "Create your student account",
+                    desc: "Set up your account to access your Student Portal, saved programs, and credentials.",
+                  },
+                  {
+                    label: "Enroll in your chosen program",
+                    desc: "Complete enrollment with PayPal, credit card, or Bitcoin. Access is granted immediately.",
+                  },
+                  {
+                    label: "Begin coursework",
+                    desc: "Meet your instructor, orient to the curriculum, and work through structured modules at your pace.",
+                  },
+                  {
+                    label: "Receive your credential",
+                    desc: "Complete the program assessments and capstone to receive your verifiable certificate.",
+                  },
+                ].map((step, i) => (
+                  <li key={step.label} className="px-8 py-5 flex gap-5">
+                    <span className="font-serif font-bold text-2xl text-[#b08d57] w-8 shrink-0 leading-none pt-1">
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <p className="text-[15px] font-semibold text-[#0a2540] mb-1">
+                        {step.label}
+                      </p>
+                      <p className="text-sm text-slate-600 leading-relaxed">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* ───────────── Final CTA ───────────── */}
+      <section className="bg-[#fafaf9] border-t border-slate-200">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 py-24 text-center">
+          <Compass className="h-8 w-8 text-[#98753f] mx-auto mb-6" strokeWidth={1.75} />
+          <h2 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-[1.1] mb-5">
+            Begin your program today.
+          </h2>
+          <p className="text-slate-600 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+            Join students from over forty countries advancing their careers
+            through rigorous, flexible online study.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/courses"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-8 py-4 text-sm font-semibold tracking-wide text-white transition-colors"
+            >
+              Explore Programs
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/admissions"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-8 py-4 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
+            >
+              View Admissions
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

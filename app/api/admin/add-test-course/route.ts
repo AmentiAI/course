@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         slug: 'test-payment-course',
         title: 'Payment Test Course - $5',
         shortDesc: 'Quick test course for crypto payment verification',
-        description: 'This is a test course for verifying Bitcoin and Solana payment integration. Only $5 to test the full payment flow!',
+        description: 'This is a test course for verifying PayPal and Bitcoin payment integration. Only $5 to test the full payment flow!',
         introduction: '# Payment Test Course\n\nThis course is designed for testing the crypto payment system.\n\n## What You\'ll Get\n- Quick access for payment testing\n- Full payment flow verification\n- Instant enrollment after payment\n\nPerfect for testing Bitcoin wallet integration!',
         thumbnail: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=800',
         banner: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1200',
@@ -149,7 +149,7 @@ Check the Payment table in the database to see your transaction record:
 
 ## Next Steps
 This test course confirms the payment system is working. You can now:
-- Add more payment methods (Solana, Lightning)
+- Add more payment methods (Lightning, Stripe)
 - Customize the checkout flow
 - Add receipt emails
 - Build payment history pages

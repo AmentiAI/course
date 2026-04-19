@@ -49,12 +49,15 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
     router.push(`/courses?${params.toString()}`);
   };
 
+  const selectClass =
+    "rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm font-medium text-slate-700 focus:border-[#0a2540] focus:outline-none focus:ring-2 focus:ring-[#0a2540]/15";
+
   if (sortOnly) {
     return (
       <select
         value={current.sort || "popular"}
         onChange={(e) => updateFilter("sort", e.target.value)}
-        className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 focus:border-purple-500 focus:outline-none"
+        className={selectClass}
       >
         {SORTS.map((s) => (
           <option key={s.value} value={s.value}>
@@ -67,11 +70,11 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
 
   if (mobile) {
     return (
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4">
         <select
           value={current.category || "all"}
           onChange={(e) => updateFilter("category", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 focus:border-purple-500 focus:outline-none"
+          className={`shrink-0 ${selectClass}`}
         >
           <option value="all">All Categories</option>
           {CATEGORIES.map((c) => (
@@ -83,7 +86,7 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
         <select
           value={current.level || "all"}
           onChange={(e) => updateFilter("level", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 focus:border-purple-500 focus:outline-none"
+          className={`shrink-0 ${selectClass}`}
         >
           <option value="all">All Levels</option>
           {LEVELS.map((l) => (
@@ -95,7 +98,7 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
         <select
           value={current.sort || "popular"}
           onChange={(e) => updateFilter("sort", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-300 focus:border-purple-500 focus:outline-none"
+          className={`shrink-0 ${selectClass}`}
         >
           {SORTS.map((s) => (
             <option key={s.value} value={s.value}>
@@ -107,26 +110,30 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
     );
   }
 
+  const optionClass = (active: boolean) =>
+    `block w-full text-left text-sm px-3 py-2 rounded-md transition-colors ${
+      active
+        ? "bg-[#f5ecd7] text-[#0a2540] font-semibold border-l-2 border-[#b08d57] pl-2.5"
+        : "text-slate-600 hover:text-[#0a2540] hover:bg-[#fafaf9]"
+    }`;
+
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 space-y-6">
-      <div className="flex items-center gap-2">
-        <SlidersHorizontal className="h-4 w-4 text-zinc-400" />
-        <span className="text-sm font-semibold text-white">Filters</span>
+    <div className="rounded-lg border border-slate-200 bg-white p-5 space-y-7">
+      <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+        <SlidersHorizontal className="h-4 w-4 text-[#98753f]" />
+        <span className="text-[11px] font-bold tracking-[0.18em] uppercase text-[#0a2540]">
+          Refine Catalog
+        </span>
       </div>
 
-      {/* Category */}
       <div>
-        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+        <h3 className="text-[10px] font-bold text-[#98753f] uppercase tracking-[0.18em] mb-3">
           Category
         </h3>
-        <div className="space-y-1.5">
+        <div className="space-y-0.5">
           <button
             onClick={() => updateFilter("category", undefined)}
-            className={`block w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${
-              !current.category
-                ? "bg-purple-600/20 text-purple-300"
-                : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-            }`}
+            className={optionClass(!current.category)}
           >
             All Categories
           </button>
@@ -134,11 +141,7 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
             <button
               key={cat}
               onClick={() => updateFilter("category", cat)}
-              className={`block w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${
-                current.category === cat
-                  ? "bg-purple-600/20 text-purple-300"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-              }`}
+              className={optionClass(current.category === cat)}
             >
               {cat}
             </button>
@@ -146,19 +149,14 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
         </div>
       </div>
 
-      {/* Level */}
       <div>
-        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+        <h3 className="text-[10px] font-bold text-[#98753f] uppercase tracking-[0.18em] mb-3">
           Level
         </h3>
-        <div className="space-y-1.5">
+        <div className="space-y-0.5">
           <button
             onClick={() => updateFilter("level", undefined)}
-            className={`block w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${
-              !current.level
-                ? "bg-purple-600/20 text-purple-300"
-                : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-            }`}
+            className={optionClass(!current.level)}
           >
             All Levels
           </button>
@@ -166,11 +164,7 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
             <button
               key={lvl}
               onClick={() => updateFilter("level", lvl)}
-              className={`block w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${
-                current.level === lvl
-                  ? "bg-purple-600/20 text-purple-300"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-              }`}
+              className={optionClass(current.level === lvl)}
             >
               {lvl.charAt(0) + lvl.slice(1).toLowerCase()}
             </button>
@@ -178,21 +172,16 @@ export default function CoursesFilter({ current, mobile, sortOnly }: Props) {
         </div>
       </div>
 
-      {/* Sort */}
       <div>
-        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">
+        <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">
           Sort By
         </h3>
-        <div className="space-y-1.5">
+        <div className="space-y-0.5">
           {SORTS.map((s) => (
             <button
               key={s.value}
               onClick={() => updateFilter("sort", s.value)}
-              className={`block w-full text-left text-sm px-2 py-1.5 rounded-lg transition-colors ${
-                (current.sort || "popular") === s.value
-                  ? "bg-purple-600/20 text-purple-300"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800"
-              }`}
+              className={optionClass((current.sort || "popular") === s.value)}
             >
               {s.label}
             </button>

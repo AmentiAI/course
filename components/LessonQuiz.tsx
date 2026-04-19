@@ -17,18 +17,17 @@ interface LessonQuizProps {
   lessonTitle: string;
 }
 
-export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQuizProps) {
+export default function LessonQuiz({ lessonId, questions }: LessonQuizProps) {
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(
-    Array(questions.length).fill(null)
+    Array(questions.length).fill(null),
   );
   const [showResults, setShowResults] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSelectAnswer = (answerIndex: number) => {
     if (submitted) return;
-    
     const newAnswers = [...selectedAnswers];
     newAnswers[currentQuestion] = answerIndex;
     setSelectedAnswers(newAnswers);
@@ -43,21 +42,17 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
+    if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
   const handleSubmit = async () => {
     setSubmitted(true);
     setShowResults(true);
 
-    // Calculate score
     const score = selectedAnswers.reduce((acc: number, answer, idx) => {
       return answer !== null && answer === questions[idx].correctAnswer ? acc + 1 : acc;
     }, 0);
 
-    // Submit to backend
     try {
       await fetch('/api/quiz/submit', {
         method: 'POST',
@@ -81,37 +76,34 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
     setStarted(true);
   };
 
-  const calculateScore = () => {
-    return selectedAnswers.reduce((acc: number, answer, idx) => {
+  const calculateScore = () =>
+    selectedAnswers.reduce((acc: number, answer, idx) => {
       return answer !== null && answer === questions[idx].correctAnswer ? acc + 1 : acc;
     }, 0);
-  };
 
   const scorePercentage = Math.round((calculateScore() / questions.length) * 100);
-  const allAnswered = selectedAnswers.every(answer => answer !== null);
 
   if (!started) {
     return (
-      <div className="mt-8 rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6">
-        <div className="flex items-start gap-4">
-          <div className="shrink-0 w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center">
-            <Award className="h-6 w-6 text-white" />
+      <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
+        <div className="flex items-start gap-5">
+          <div className="shrink-0 w-12 h-12 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] flex items-center justify-center">
+            <Award className="h-6 w-6 text-[#98753f]" strokeWidth={1.75} />
           </div>
           <div className="flex-1">
-            <h3 className="font-bold text-white text-lg mb-2">
-              Test Your Knowledge
+            <p className="academic-label mb-2">Assessment</p>
+            <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-2 tracking-tight">
+              Lesson Knowledge Check.
             </h3>
-            <p className="text-sm text-zinc-400 mb-4">
-              {questions.length} questions • ~{Math.ceil(questions.length * 0.5)} minutes
-            </p>
-            <p className="text-sm text-zinc-300 mb-6">
-              Reinforce what you just learned by completing this quick quiz. You'll get instant feedback on each question.
+            <p className="text-sm text-slate-600 mb-5 leading-relaxed">
+              {questions.length} questions &middot; approximately{' '}
+              {Math.ceil(questions.length * 0.5)} minutes &middot; instant feedback
             </p>
             <button
               onClick={() => setStarted(true)}
-              className="rounded-lg bg-purple-600 hover:bg-purple-500 px-6 py-3 text-sm font-medium text-white transition-colors flex items-center gap-2"
+              className="rounded-md bg-[#0a2540] hover:bg-[#123258] px-5 py-2.5 text-sm font-semibold tracking-wide text-white transition-colors inline-flex items-center gap-2"
             >
-              Start Quiz
+              Begin Assessment
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -121,19 +113,30 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
   }
 
   if (showResults) {
+    const passed = scorePercentage >= 80;
+    const partial = scorePercentage >= 60;
     return (
-      <div className="mt-8 rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6">
-        <div className="text-center mb-6">
-          <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 ${
-            scorePercentage >= 80 ? 'bg-green-600' : scorePercentage >= 60 ? 'bg-yellow-600' : 'bg-red-600'
-          }`}>
-            <span className="text-2xl font-bold text-white">{scorePercentage}%</span>
+      <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
+        <div className="text-center mb-8">
+          <p className="academic-label mb-3">Assessment Result</p>
+          <div
+            className={`w-20 h-20 mx-auto rounded-md border flex items-center justify-center mb-4 ${
+              passed
+                ? 'bg-[#14532d] border-[#14532d]'
+                : partial
+                ? 'bg-[#98753f] border-[#98753f]'
+                : 'bg-[#9f1239] border-[#9f1239]'
+            }`}
+          >
+            <span className="font-serif text-2xl font-bold text-white tracking-tight">
+              {scorePercentage}%
+            </span>
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">
-            {scorePercentage >= 80 ? '🎉 Great Job!' : scorePercentage >= 60 ? '👍 Good Effort!' : '📚 Keep Learning!'}
+          <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-1 tracking-tight">
+            {passed ? 'Outstanding work.' : partial ? 'Good effort.' : 'Keep practicing.'}
           </h3>
-          <p className="text-zinc-400">
-            You got {calculateScore()} out of {questions.length} questions correct
+          <p className="text-sm text-slate-600">
+            You answered {calculateScore()} of {questions.length} questions correctly.
           </p>
         </div>
 
@@ -145,31 +148,40 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
             return (
               <div
                 key={q.id}
-                className={`rounded-lg border p-4 ${
-                  isCorrect ? 'border-green-600/50 bg-green-900/10' : 'border-red-600/50 bg-red-900/10'
+                className={`rounded-md border p-5 ${
+                  isCorrect
+                    ? 'border-[#bbf7d0] bg-[#dcfce7]/40'
+                    : 'border-rose-200 bg-rose-50/50'
                 }`}
               >
-                <div className="flex items-start gap-3 mb-3">
+                <div className="flex items-start gap-3 mb-2">
                   {isCorrect ? (
-                    <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-5 w-5 text-[#14532d] shrink-0 mt-0.5" />
                   ) : (
-                    <XCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+                    <XCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5" />
                   )}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-white mb-2">
+                    <p className="text-sm font-semibold text-[#0a2540] mb-2">
                       Question {idx + 1}: {q.question}
                     </p>
-                    <p className="text-xs text-zinc-400 mb-2">
-                      Your answer: <span className={isCorrect ? 'text-green-400' : 'text-red-400'}>
+                    <p className="text-xs text-slate-600 mb-1.5">
+                      Your answer:{' '}
+                      <span
+                        className={
+                          isCorrect
+                            ? 'text-[#14532d] font-semibold'
+                            : 'text-rose-700 font-semibold'
+                        }
+                      >
                         {q.options[userAnswer as number]}
                       </span>
                     </p>
                     {!isCorrect && (
-                      <p className="text-xs text-green-400 mb-2">
+                      <p className="text-xs text-[#14532d] font-semibold mb-1.5">
                         Correct answer: {q.options[q.correctAnswer]}
                       </p>
                     )}
-                    <p className="text-xs text-zinc-500 italic">
+                    <p className="text-xs text-slate-600 italic leading-relaxed mt-2 pt-2 border-t border-slate-200/70">
                       {q.explanation}
                     </p>
                   </div>
@@ -182,10 +194,10 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
         <div className="mt-6 flex gap-3">
           <button
             onClick={handleRetake}
-            className="flex-1 rounded-lg border border-purple-600 hover:bg-purple-600/10 px-4 py-3 text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-4 py-3 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors inline-flex items-center justify-center gap-2"
           >
             <RotateCcw className="h-4 w-4" />
-            Retake Quiz
+            Retake Assessment
           </button>
         </div>
       </div>
@@ -196,81 +208,77 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
   const selectedAnswer = selectedAnswers[currentQuestion];
 
   return (
-    <div className="mt-8 rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6">
-      {/* Progress */}
+    <div className="mt-10 rounded-lg border border-slate-200 bg-white p-7">
       <div className="mb-6">
-        <div className="flex items-center justify-between text-sm mb-2">
-          <span className="text-zinc-400">
+        <div className="flex items-center justify-between text-xs font-medium mb-2">
+          <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-[#98753f]">
             Question {currentQuestion + 1} of {questions.length}
           </span>
-          <span className="text-zinc-500">
+          <span className="text-[10px] font-bold tracking-[0.18em] uppercase text-slate-500">
             {Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete
           </span>
         </div>
-        <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-purple-600 to-blue-600 transition-all duration-300"
+            className="h-full bg-[#0a2540] transition-all duration-300"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           />
         </div>
       </div>
 
-      {/* Question */}
       <div className="mb-6">
-        <h4 className="text-lg font-semibold text-white mb-4">
+        <h4 className="font-serif text-xl font-bold text-[#0a2540] mb-5 leading-snug tracking-tight">
           {question.question}
         </h4>
 
-        <div className="space-y-3">
-          {question.options.map((option, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSelectAnswer(idx)}
-              className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                selectedAnswer === idx
-                  ? 'border-purple-500 bg-purple-500/10'
-                  : 'border-zinc-700 hover:border-zinc-600 bg-zinc-800/50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    selectedAnswer === idx
-                      ? 'border-purple-500 bg-purple-500'
-                      : 'border-zinc-600'
-                  }`}
-                >
-                  {selectedAnswer === idx && (
-                    <div className="w-2 h-2 rounded-full bg-white" />
-                  )}
+        <div className="space-y-2.5">
+          {question.options.map((option, idx) => {
+            const isSelected = selectedAnswer === idx;
+            return (
+              <button
+                key={idx}
+                onClick={() => handleSelectAnswer(idx)}
+                className={`w-full text-left p-4 rounded-md border transition-colors ${
+                  isSelected
+                    ? 'border-[#b08d57] bg-[#f5ecd7]'
+                    : 'border-slate-200 hover:border-[#b08d57] bg-white'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                      isSelected ? 'border-[#0a2540] bg-[#0a2540]' : 'border-slate-300 bg-white'
+                    }`}
+                  >
+                    {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                  </div>
+                  <span className="text-sm text-[#0a2540] font-medium">{option}</span>
                 </div>
-                <span className="text-sm text-zinc-200">{option}</span>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="flex items-center justify-between">
         <button
           onClick={handlePrevious}
           disabled={currentQuestion === 0}
-          className="px-4 py-2 text-sm text-zinc-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-[#0a2540] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           Previous
         </button>
 
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {questions.map((_, idx) => (
             <div
               key={idx}
               className={`w-2 h-2 rounded-full ${
                 selectedAnswers[idx] !== null
-                  ? 'bg-purple-500'
+                  ? 'bg-[#0a2540]'
                   : idx === currentQuestion
-                  ? 'bg-zinc-500'
-                  : 'bg-zinc-700'
+                  ? 'bg-[#b08d57]'
+                  : 'bg-slate-200'
               }`}
             />
           ))}
@@ -279,9 +287,9 @@ export default function LessonQuiz({ lessonId, questions, lessonTitle }: LessonQ
         <button
           onClick={handleNext}
           disabled={selectedAnswer === null}
-          className="px-6 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-zinc-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+          className="px-5 py-2.5 bg-[#0a2540] hover:bg-[#123258] disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-sm font-semibold tracking-wide rounded-md transition-colors inline-flex items-center gap-2"
         >
-          {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
+          {currentQuestion === questions.length - 1 ? 'Submit Assessment' : 'Next'}
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>

@@ -1,108 +1,203 @@
 import Link from "next/link";
-import { Zap, Users, TrendingUp, Award, ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  GraduationCap,
+  BookMarked,
+  Scale,
+  Compass,
+  Award,
+} from "lucide-react";
+
+export const metadata = {
+  title: "About SkillMint",
+  description:
+    "SkillMint Online Academy delivers structured, career-focused programs taught by working professionals. Learn about our mission, standards, and academic approach.",
+};
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-16">
-      <div className="mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <div className="h-12 w-12 rounded-2xl bg-purple-600 flex items-center justify-center">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-3xl font-bold text-white">
-              Skill<span className="text-purple-400">Mint</span>
-            </span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-5">
-            Where Skills Become Income
+    <div className="bg-white text-[#0b1727]">
+      {/* Header */}
+      <section className="hero-backdrop border-b border-slate-200">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20 sm:py-24">
+          <p className="academic-label mb-4">About the Academy</p>
+          <h1 className="font-serif text-5xl sm:text-6xl font-bold text-[#0a2540] tracking-tight leading-[1.05] mb-6">
+            A Modern Online Academy for Applied Education.
           </h1>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            SkillMint was built by practitioners frustrated with theory-heavy courses
-            that don&apos;t translate to real results. We only teach what works — right now,
-            in today&apos;s economy.
+          <p className="text-lg sm:text-[19px] text-slate-600 leading-[1.7] max-w-3xl">
+            SkillMint.Courses was established to deliver serious, structured
+            online education in disciplines of the modern digital economy — at
+            the academic standards of a traditional institution, in a format
+            built for working adults.
           </p>
         </div>
+      </section>
 
-        {/* Mission */}
-        <div className="rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-zinc-900 p-8 mb-10">
-          <h2 className="text-2xl font-bold text-white mb-4">Our Mission</h2>
-          <p className="text-zinc-300 leading-relaxed text-lg">
-            Most online education teaches you what someone learned 5 years ago. We
-            believe that&apos;s broken. At SkillMint, every instructor must be actively
-            earning in their field right now. No academics. No outdated playbooks.
-            Just proven strategies from people doing it today.
-          </p>
-        </div>
+      {/* Mission */}
+      <section className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
+        <p className="academic-label mb-3">Mission</p>
+        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-6">
+          Our Mission.
+        </h2>
+        <p className="text-[17px] text-slate-700 leading-[1.8] mb-5">
+          To provide accessible, rigorous, and career-focused education in
+          disciplines that shape the modern economy — and to do so with the
+          academic standards that prospective students, employers, and
+          institutions can trust.
+        </p>
+        <p className="text-[17px] text-slate-700 leading-[1.8]">
+          SkillMint programs are structured, taught by practicing faculty, and
+          concluded with a verifiable credential. Every program is built to be
+          defensible: to colleagues, to interviewers, and to students' own
+          standards for time well spent.
+        </p>
+      </section>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {[
-            { value: "10+", label: "Expert Instructors", icon: Users },
-            { value: "500+", label: "Active Students", icon: Users },
-            { value: "4.8★", label: "Average Rating", icon: Award },
-            { value: "$2M+", label: "Student Earnings", icon: TrendingUp },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-xl border border-zinc-800 bg-zinc-900 p-5 text-center"
-            >
-              <div className="text-2xl font-bold text-purple-400 mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs text-zinc-500">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+      {/* Academic principles */}
+      <section className="border-y border-slate-200 bg-[#fafaf9]">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
+          <div className="mb-12 max-w-3xl">
+            <p className="academic-label mb-3">Principles</p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-4">
+              Academic Principles.
+            </h2>
+            <p className="text-slate-600 leading-relaxed">
+              The following principles guide program design, faculty
+              selection, and how we serve students.
+            </p>
+          </div>
 
-        {/* Values */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-white mb-6">What We Stand For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {[
               {
-                title: "Practitioner-Led",
-                desc: "Every instructor is verified to be actively earning in their niche. We don't allow theory-only educators.",
+                icon: BookMarked,
+                title: "Curricular rigor",
+                desc: "Programs are designed as structured curricula — not content libraries. Each has defined learning outcomes and measured progression.",
               },
               {
-                title: "Results-Focused",
-                desc: "We measure success by student outcomes — income generated, skills monetized, businesses launched.",
+                icon: GraduationCap,
+                title: "Faculty of practice",
+                desc: "Instructors are working professionals, selected for applied expertise and evaluated on student outcomes.",
               },
               {
-                title: "Web3 Native",
-                desc: "We accept crypto payments because we believe in the technology. Bitcoin, Solana, and card all welcome.",
+                icon: Scale,
+                title: "Accessible admission",
+                desc: "Admission is open and non-competitive. We believe serious programs should be available to anyone prepared to do the work.",
               },
               {
-                title: "No Fluff",
-                desc: "Dense, actionable content only. If a lesson doesn't teach something you can implement, it gets cut.",
+                icon: Award,
+                title: "Verifiable credentials",
+                desc: "Program completion is recognized with a credential students can share, reference, and defend.",
               },
-            ].map((v) => (
+            ].map((p) => (
               <div
-                key={v.title}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5"
+                key={p.title}
+                className="rounded-lg border border-slate-200 bg-white p-8"
               >
-                <h3 className="font-semibold text-white mb-2 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-                  {v.title}
+                <p.icon
+                  className="h-6 w-6 text-[#98753f] mb-5"
+                  strokeWidth={1.75}
+                />
+                <h3 className="font-serif text-xl font-bold text-[#0a2540] mb-3 tracking-tight">
+                  {p.title}
                 </h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{v.desc}</p>
+                <p className="text-[15px] text-slate-600 leading-relaxed">
+                  {p.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link
-            href="/courses"
-            className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-8 py-4 text-base font-semibold text-white transition-all hover:shadow-lg hover:shadow-purple-500/25"
-          >
-            Browse Courses
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+      {/* At a glance */}
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="academic-label mb-3">At a Glance</p>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-4">
+            SkillMint at a Glance.
+          </h2>
         </div>
-      </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { value: "Online", label: "Delivery format" },
+            { value: "Self-paced", label: "Study schedule" },
+            { value: "Lifetime", label: "Program access" },
+            { value: "Rolling", label: "Admissions" },
+          ].map((s) => (
+            <div key={s.label} className="border-t-2 border-[#b08d57] pt-5">
+              <p className="font-serif text-3xl font-bold text-[#0a2540] tracking-tight mb-1">
+                {s.value}
+              </p>
+              <p className="text-xs font-semibold tracking-wider uppercase text-slate-500">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* What the credential means */}
+      <section className="border-y border-slate-200 bg-[#fafaf9]">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
+          <p className="academic-label mb-3">Credentials</p>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-6">
+            What a SkillMint Credential Represents.
+          </h2>
+          <div className="space-y-5 text-[17px] text-slate-700 leading-[1.8]">
+            <p>
+              A SkillMint certificate is issued only upon completion of all
+              program modules, required assessments, and the capstone
+              deliverable. Each credential is accompanied by a unique
+              verification identifier.
+            </p>
+            <p>
+              Credentials are <em>not</em> accredited degrees — they are
+              recognitions of completed applied coursework, intended to be
+              used alongside (not in place of) traditional credentials,
+              professional experience, or licensure.
+            </p>
+            <p>
+              Students and employers may verify the authenticity of any
+              issued credential at any time through the unique verification
+              URL printed on the certificate.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 py-24">
+        <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
+          <Compass
+            className="h-8 w-8 text-[#98753f] mx-auto mb-6"
+            strokeWidth={1.75}
+          />
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight mb-4">
+            Explore the Academy.
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-8 max-w-xl mx-auto">
+            Review the program catalog, meet the faculty, or begin the
+            admissions process.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/courses"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition-colors"
+            >
+              Explore Programs
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/admissions"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-[#b08d57] bg-white hover:bg-[#f5ecd7] px-7 py-3.5 text-sm font-semibold tracking-wide text-[#0a2540] transition-colors"
+            >
+              View Admissions
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

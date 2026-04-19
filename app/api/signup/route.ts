@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { trackEvent } from "@/lib/events";
 
 export async function POST(req: NextRequest) {
-  const { name, email, password } = await req.json();
+  const { name, email, password, utm } = await req.json();
 
   if (!name || !email || !password) {
     return NextResponse.json({ error: "All fields required" }, { status: 400 });
@@ -25,6 +26,12 @@ export async function POST(req: NextRequest) {
 
   const user = await prisma.user.create({
     data: { name, email, password: hashed },
+  });
+
+  await trackEvent({
+    type: "SIGNUP",
+    userId: user.id,
+    utm: utm ?? undefined,
   });
 
   return NextResponse.json({ id: user.id, email: user.email });

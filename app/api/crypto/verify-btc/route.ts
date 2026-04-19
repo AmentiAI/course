@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { trackEvent } from '@/lib/events';
 
 const DUST_LIMIT = 600; // 600 sats minimum
 
@@ -124,7 +125,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Course not found' }, { status: 404 });
     }
 
-    // Create enrollment and record payment
     await prisma.$transaction([
       prisma.enrollment.create({
         data: {
@@ -149,6 +149,19 @@ export async function POST(req: NextRequest) {
         },
       }),
     ]);
+
+    await trackEvent({
+      type: tx.status.confirmed ? 'PAYMENT_CONFIRM' : 'PAYMENT_INIT',
+      userId: session.user.id,
+      courseId,
+      metadata: { method: 'bitcoin', txid, sats: ourOutput.value },
+    });
+    await trackEvent({
+      type: 'ENROLLMENT',
+      userId: session.user.id,
+      courseId,
+      metadata: { method: 'bitcoin' },
+    });
 
     return NextResponse.json({
       success: true,

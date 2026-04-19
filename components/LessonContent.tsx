@@ -20,10 +20,6 @@ export default function LessonContent({
   courseId,
   enrolled,
   initialCompleted,
-  nextLessonUrl,
-  courseSlug,
-  allLessonsCount,
-  completedCount,
 }: Props) {
   const [completed, setCompleted] = useState(initialCompleted);
   const [loading, setLoading] = useState(false);
@@ -58,19 +54,19 @@ export default function LessonContent({
     <button
       onClick={markComplete}
       disabled={completed || loading}
-      className={`shrink-0 flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+      className={`shrink-0 flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold tracking-wide transition-colors ${
         completed
-          ? "bg-green-600/20 border border-green-500/50 text-green-400 cursor-default"
-          : "bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-purple-500 hover:text-purple-300"
+          ? "bg-[#dcfce7] border border-[#bbf7d0] text-[#14532d] cursor-default"
+          : "bg-[#0a2540] hover:bg-[#123258] text-white border border-[#0a2540]"
       }`}
     >
       {completed ? (
         <>
           <CheckCircle className="h-4 w-4" />
-          Completed
+          Lesson Completed
         </>
       ) : loading ? (
-        <span className="animate-pulse">Saving...</span>
+        <span className="animate-pulse">Saving…</span>
       ) : (
         <>
           <Check className="h-4 w-4" />

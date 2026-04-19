@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { Heart, ArrowRight, BookOpen } from "lucide-react";
+import { Bookmark, ArrowRight, BookOpen } from "lucide-react";
 import CourseCard from "@/components/CourseCard";
 import MobileNav from "@/components/MobileNav";
 
@@ -28,44 +28,47 @@ export default async function WishlistPage() {
   const wishlistItems = await getWishlist(session.user.id);
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-10 pb-24 md:pb-10">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 flex items-center gap-3">
-            <Heart className="h-7 w-7 text-red-400 fill-red-400" />
-            My Wishlist
+    <div className="min-h-screen bg-white pb-24 md:pb-16">
+      <section className="hero-backdrop border-b border-slate-200 px-4 sm:px-6 py-14">
+        <div className="mx-auto max-w-7xl">
+          <p className="academic-label mb-3">Student Portal</p>
+          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-[#0a2540] tracking-tight leading-tight mb-3">
+            Saved Programs.
           </h1>
-          <p className="text-zinc-500 text-sm">
+          <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
             {wishlistItems.length === 0
-              ? "Save courses to your wishlist"
-              : `${wishlistItems.length} course${wishlistItems.length !== 1 ? "s" : ""} saved`}
+              ? "Save programs you would like to revisit before enrollment."
+              : `${wishlistItems.length} program${
+                  wishlistItems.length !== 1 ? "s" : ""
+                } saved for review. Enroll when you are ready to begin.`}
           </p>
         </div>
+      </section>
 
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
         {wishlistItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {wishlistItems.map((item) => (
-              <CourseCard
-                key={item.id}
-                course={item.course}
-              />
+              <CourseCard key={item.id} course={item.course} />
             ))}
           </div>
         ) : (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-12 text-center max-w-md mx-auto">
-            <Heart className="h-12 w-12 text-zinc-700 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-white mb-2">
-              No saved courses yet
+          <div className="rounded-lg border border-slate-200 bg-white p-14 text-center max-w-md mx-auto">
+            <div className="inline-flex h-14 w-14 rounded-md bg-[#f5ecd7] border border-[#e7d7b0] items-center justify-center mb-5">
+              <Bookmark className="h-6 w-6 text-[#98753f]" strokeWidth={1.75} />
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-[#0a2540] mb-3 tracking-tight">
+              No Saved Programs.
             </h3>
-            <p className="text-sm text-zinc-500 mb-6">
-              Click the heart icon on any course to save it here
+            <p className="text-slate-600 mb-7 max-w-xs mx-auto leading-relaxed">
+              Use the bookmark on any program card to save it for review later.
             </p>
             <Link
               href="/courses"
-              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 hover:bg-purple-500 px-6 py-3 text-sm font-semibold text-white transition-all"
+              className="inline-flex items-center gap-2 rounded-md bg-[#0a2540] hover:bg-[#123258] px-6 py-3 text-sm font-semibold tracking-wide text-white transition-colors"
             >
               <BookOpen className="h-4 w-4" />
-              Browse Courses
+              Explore Programs
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
