@@ -167,9 +167,8 @@ export default async function CheckoutPage({
                     icon: BookOpen,
                     label: `${course.totalLessons} lessons`,
                   },
-                  { icon: Award, label: 'Verifiable credential' },
+                  { icon: Award, label: 'Certificate of completion' },
                   { icon: Check, label: 'Lifetime access' },
-                  { icon: Check, label: 'Discussion forum access' },
                 ].map((item) => (
                   <div
                     key={item.label}

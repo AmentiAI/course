@@ -60,8 +60,8 @@ const CREDIBILITY = [
   },
   {
     icon: Award,
-    title: "Verifiable credentials",
-    desc: "Shareable certificates issued upon program completion.",
+    title: "Web2 and Web3, together",
+    desc: "AI, trading, e-commerce, marketing, development, finance, and digital business — all in one catalog.",
   },
   {
     icon: ShieldCheck,
@@ -227,7 +227,7 @@ export default async function HomePage() {
               <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-[13px] text-slate-600">
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
-                  Verifiable credentials
+                  Web2 &amp; Web3 courses
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-[#14532d]" />
@@ -348,9 +348,9 @@ export default async function HomePage() {
             Featured Programs &amp; Curricula.
           </h2>
           <p className="text-slate-600 text-lg leading-relaxed">
-            Our program catalog is curated across disciplines in the digital
-            economy — each program structured around applied coursework,
-            assessments, and a verifiable credential.
+            Our program catalog spans Web2 and Web3 — AI, trading, e-commerce,
+            marketing, development, finance, and digital business — each
+            structured around applied coursework and assessments.
           </p>
         </div>
 

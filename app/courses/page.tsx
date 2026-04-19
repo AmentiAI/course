@@ -93,9 +93,9 @@ export default async function CoursesPage({
             {heading}
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
-            {total} program{total !== 1 ? "s" : ""} across every discipline — taught by
-            working professionals, delivered online, with verifiable credentials on
-            completion.
+            {total} program{total !== 1 ? "s" : ""} across Web2 and Web3 — AI, trading,
+            e-commerce, marketing, development, and more — taught by working
+            professionals and delivered online.
           </p>
         </div>
       </section>

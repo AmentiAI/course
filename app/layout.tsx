@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s · SkillMint",
   },
   description:
-    "SkillMint.Courses is a modern online academy offering structured, career-focused programs in Web3, AI, trading, and digital business. Expert instruction. Verifiable credentials.",
+    "SkillMint.Courses is a modern online academy with structured, career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and digital business. Expert instruction. Self-paced online learning.",
   keywords: [
     "online academy",
     "SkillMint",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SkillMint — Online Academy for Professional Education",
     description:
-      "A modern online academy delivering structured, career-focused programs and verifiable credentials.",
+      "A modern online academy with structured, career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, development, and more.",
     url: "https://skillmint.courses",
     siteName: "SkillMint",
     type: "website",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SkillMint — Online Academy for Professional Education",
     description:
-      "Structured, career-focused programs taught by expert practitioners.",
+      "Career-focused programs across Web2 and Web3 — AI, trading, e-commerce, marketing, and more — taught by expert practitioners.",
   },
 };
 

@@ -25,8 +25,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed max-w-xs">
-              A modern online academy delivering structured, career-focused
-              education taught by expert practitioners.
+              A modern online academy with career-focused programs across
+              Web2 and Web3 — AI, trading, e-commerce, marketing, and more.
             </p>
             <div className="mt-5 flex items-center gap-2 text-sm text-slate-600">
               <Mail className="h-4 w-4 text-[#98753f]" />

@@ -46,10 +46,11 @@ export default function AboutPage() {
           institutions can trust.
         </p>
         <p className="text-[17px] text-slate-700 leading-[1.8]">
-          SkillMint programs are structured, taught by practicing faculty, and
-          concluded with a verifiable credential. Every program is built to be
-          defensible: to colleagues, to interviewers, and to students' own
-          standards for time well spent.
+          SkillMint programs span Web2 and Web3 — AI, trading, e-commerce,
+          marketing, development, finance, and digital business — each one
+          structured and taught by practicing faculty. Every program is built
+          to be defensible: to colleagues, to interviewers, and to students'
+          own standards for time well spent.
         </p>
       </section>
 
@@ -86,8 +87,8 @@ export default function AboutPage() {
               },
               {
                 icon: Award,
-                title: "Verifiable credentials",
-                desc: "Program completion is recognized with a credential students can share, reference, and defend.",
+                title: "Web2 and Web3, together",
+                desc: "AI, trading, e-commerce, marketing, development, finance, and digital business — all in one catalog.",
               },
             ].map((p) => (
               <div

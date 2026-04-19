@@ -555,8 +555,6 @@ function CurriculumModule({
   enrolled: boolean;
   courseSlug: string;
 }) {
-  const totalDuration = module.lessons.reduce((a, b) => a + b.duration, 0);
-
   return (
     <details className="group">
       <summary className="flex items-center justify-between px-6 py-5 cursor-pointer list-none select-none hover:bg-[#fafaf9] transition-colors">
@@ -569,7 +567,7 @@ function CurriculumModule({
               Module {index}: {module.title}
             </span>
             <span className="text-xs text-slate-500">
-              {module.lessons.length} lessons &middot; {totalDuration} min
+              {module.lessons.length} lessons
             </span>
           </div>
         </div>
