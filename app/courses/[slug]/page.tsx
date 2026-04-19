@@ -564,7 +564,7 @@ function CurriculumModule({
           </span>
           <div className="min-w-0">
             <span className="font-serif text-[17px] font-bold text-[#0a2540] tracking-tight block truncate">
-              Module {index}: {module.title}
+              {module.title.replace(/^module\s*\d+\s*[:\-–]\s*/i, "")}
             </span>
             <span className="text-xs text-slate-500">
               {module.lessons.length} lessons

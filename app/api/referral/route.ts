@@ -18,7 +18,7 @@ export async function GET() {
     .slice(0, 8)
     .toUpperCase();
 
-  const referralUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://coursehub-gold.vercel.app"}/r/${code}`;
+  const referralUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://skillmint.online"}/r/${code}`;
 
   return NextResponse.json({
     code,

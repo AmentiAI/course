@@ -33,7 +33,7 @@ export default async function ProfilePage() {
     .slice(0, 8)
     .toUpperCase();
 
-  const referralUrl = `https://skillmint.courses/r/${referralCode}`;
+  const referralUrl = `https://skillmint.online/r/${referralCode}`;
 
   return (
     <div className="min-h-screen bg-white pb-24 md:pb-16">
