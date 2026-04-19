@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "Bash(npx --version)",
+      "Bash(npx --yes prisma@7.4.0 db push --accept-data-loss)",
+      "Bash(mkdir -p /tmp/prismash)",
+      "Read(//tmp/**)",
+      "Bash(npm init *)",
+      "Bash(npm install *)"
     ]
   }
 }
