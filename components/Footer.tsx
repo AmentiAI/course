@@ -71,11 +71,6 @@ export default function Footer() {
                   Bundles
                 </Link>
               </li>
-              <li>
-                <Link href="/instructors" className="hover:text-[#0a2540] transition-colors">
-                  Instructors
-                </Link>
-              </li>
             </ul>
           </div>
 

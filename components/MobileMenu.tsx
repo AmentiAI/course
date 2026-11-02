@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Home, BookOpen, Bookmark, User, LogIn, LogOut, Users } from "lucide-react";
+import { Menu, X, Home, BookOpen, Bookmark, User, LogIn, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { SkillMintLogo } from "./Navbar";
 
@@ -30,7 +30,6 @@ export default function MobileMenu() {
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/courses", label: "Courses", icon: BookOpen },
-    { href: "/instructors", label: "Instructors", icon: Users },
     ...(session?.user
       ? [
           { href: "/dashboard/wishlist", label: "Saved Courses", icon: Bookmark },

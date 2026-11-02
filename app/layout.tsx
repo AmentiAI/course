@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s · SkillMint",
   },
   description:
-    "SkillMint sells self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and digital business. Learn practical, job-ready skills from working practitioners.",
+    "SkillMint sells self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and digital business. Each course is made by a skilled professional.",
   keywords: [
     "online courses",
     "SkillMint",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SkillMint — Online Courses for Web2, Web3, AI & More",
     description:
-      "Self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and more. Taught by working practitioners.",
+      "Self-paced online courses across Web2 and Web3 — AI, trading, e-commerce, marketing, development, finance, and more. Each course is made by a skilled professional.",
     url: "https://skillmint.online",
     siteName: "SkillMint",
     type: "website",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "SkillMint — Online Courses for Web2, Web3, AI & More",
     description:
-      "Self-paced online courses taught by working practitioners — Web2, Web3, AI, trading, e-commerce, marketing, and more.",
+      "Self-paced online courses made by skilled professionals — Web2, Web3, AI, trading, e-commerce, marketing, and more.",
     images: ["/logo.png"],
   },
   icons: {

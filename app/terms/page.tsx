@@ -135,7 +135,7 @@ export default function TermsPage() {
               8. Limitation of liability
             </h2>
             <p className="text-slate-700">
-              To the maximum extent permitted by law, SkillMint and its instructors shall not be
+              To the maximum extent permitted by law, SkillMint and its affiliates shall not be
               liable for any indirect, incidental, special, consequential, or punitive damages
               arising from your use of the Platform or course content.
             </p>

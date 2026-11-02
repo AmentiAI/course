@@ -16,7 +16,6 @@ import {
   X,
   Heart,
   GraduationCap,
-  Users,
   ScrollText,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -68,7 +67,6 @@ export function SkillMintLogo({ size = 34 }: { size?: number }) {
 
 const NAV_LINKS = [
   { href: "/courses", label: "Courses" },
-  { href: "/instructors", label: "Instructors" },
   { href: "/about", label: "About" },
 ];
 
@@ -478,14 +476,6 @@ export default function Navbar() {
             >
               <BookOpen className="h-4 w-4 text-slate-400" />
               Courses
-            </Link>
-            <Link
-              href="/instructors"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-slate-700 hover:text-[#0a2540] hover:bg-[#fafaf9] rounded-md"
-            >
-              <Users className="h-4 w-4 text-slate-400" />
-              Instructors
             </Link>
             <Link
               href="/about"

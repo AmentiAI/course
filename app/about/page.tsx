@@ -1,28 +1,27 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  GraduationCap,
   BookMarked,
   Scale,
   Compass,
   Award,
+  Briefcase,
 } from "lucide-react";
 
 export const metadata = {
   title: "About SkillMint",
   description:
-    "SkillMint is a catalog of self-paced online courses across Web2 and Web3 — taught by working practitioners. Learn about who we are and how we build our courses.",
+    "SkillMint is a catalog of self-paced online courses across Web2 and Web3. Each course is made by a skilled professional — learn about who we are and how we build our catalog.",
 };
 
 export default function AboutPage() {
   return (
     <div className="bg-white text-[#0b1727]">
-      {/* Header */}
       <section className="hero-backdrop border-b border-slate-200">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20 sm:py-24">
           <p className="academic-label mb-4">About SkillMint</p>
           <h1 className="font-serif text-5xl sm:text-6xl font-bold text-[#0a2540] tracking-tight leading-[1.05] mb-6">
-            Practical courses, built by people doing the work.
+            Practical courses, made by skilled professionals.
           </h1>
           <p className="text-lg sm:text-[19px] text-slate-600 leading-[1.7] max-w-3xl">
             SkillMint is a catalog of self-paced online courses across Web2
@@ -33,7 +32,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
         <p className="academic-label mb-3">Why we exist</p>
         <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0a2540] tracking-tight leading-tight mb-6">
@@ -41,19 +39,18 @@ export default function AboutPage() {
         </h2>
         <p className="text-[17px] text-slate-700 leading-[1.8] mb-5">
           Most online courses waste your time. Too much fluff, not enough
-          substance, and rarely taught by anyone who has actually shipped
+          substance, and rarely built by anyone who has actually shipped
           anything. We built SkillMint to fix that.
         </p>
         <p className="text-[17px] text-slate-700 leading-[1.8]">
           SkillMint courses span Web2 and Web3 — AI, trading, e-commerce,
-          marketing, development, finance, and digital business — taught by
-          working practitioners. Every course is focused on helping you pick
+          marketing, development, finance, and digital business. Each course
+          is made by a skilled professional and focused on helping you pick
           up a skill you can put to work: to get hired, build something, or
           grow what you already do.
         </p>
       </section>
 
-      {/* Principles */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
           <div className="mb-12 max-w-3xl">
@@ -75,9 +72,9 @@ export default function AboutPage() {
                 desc: "Courses move in a clear arc — fundamentals, applied work, and a concrete output. No 10-hour ramps before you do anything useful.",
               },
               {
-                icon: GraduationCap,
-                title: "Practitioners, not generalists",
-                desc: "Instructors are people actively doing the work — traders, operators, engineers, marketers — not generalists reading from a deck.",
+                icon: Briefcase,
+                title: "Made by skilled professionals",
+                desc: "Every course is created by someone who does the work for a living — traders, operators, engineers, marketers — not generalists reading from a deck.",
               },
               {
                 icon: Scale,
@@ -110,7 +107,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* At a glance */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6 py-20">
         <div className="mb-10 max-w-3xl">
           <p className="academic-label mb-3">At a Glance</p>
@@ -138,7 +134,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What the certificate means */}
       <section className="border-y border-slate-200 bg-[#fafaf9]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 py-20">
           <p className="academic-label mb-3">Certificates</p>
@@ -153,8 +148,8 @@ export default function AboutPage() {
             </p>
             <p>
               Certificates are <em>not</em> accredited academic degrees —
-              they're proof that you finished the course. Use them alongside
-              the work you've actually put together.
+              they&apos;re proof that you finished the course. Use them alongside
+              the work you&apos;ve actually put together.
             </p>
             <p>
               Anyone you share the certificate with can verify it through
@@ -164,7 +159,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6 py-24">
         <div className="rounded-lg border border-slate-200 bg-white p-12 text-center">
           <Compass
@@ -175,8 +169,8 @@ export default function AboutPage() {
             Start learning today.
           </h2>
           <p className="text-slate-600 leading-relaxed mb-8 max-w-xl mx-auto">
-            Browse the catalog, meet the instructors, or sign up and get
-            started.
+            Browse the catalog or sign up and get started — every course is
+            made by a skilled professional.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

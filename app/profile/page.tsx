@@ -152,7 +152,7 @@ export default async function ProfilePage() {
               { href: "/dashboard", label: "Dashboard" },
               { href: "/dashboard/wishlist", label: "Saved Courses" },
               { href: "/courses", label: "Course Catalog" },
-              { href: "/instructors", label: "Instructors" },
+              { href: "/about", label: "About SkillMint" },
             ].map((link) => (
               <Link
                 key={link.href}

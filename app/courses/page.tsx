@@ -94,8 +94,8 @@ export default async function CoursesPage({
           </h1>
           <p className="text-slate-600 text-[17px] leading-relaxed max-w-2xl">
             {total} course{total !== 1 ? "s" : ""} across Web2 and Web3 — AI,
-            trading, e-commerce, marketing, development, and more — taught by
-            working professionals and delivered online.
+            trading, e-commerce, marketing, development, and more. Each one is
+            made by a skilled professional and delivered online.
           </p>
         </div>
       </section>
