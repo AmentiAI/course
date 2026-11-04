@@ -47,7 +47,7 @@ function useDebounce<T>(value: T, delay: number): T {
   return debounced;
 }
 
-export function SkillMintLogo({ size = 34 }: { size?: number }) {
+export function SkillMintLogo({ size = 52 }: { size?: number }) {
   return (
     <span
       className="relative inline-flex items-center justify-center shrink-0"
@@ -148,19 +148,19 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-lg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex h-[72px] items-center justify-between gap-4">
+        <div className="flex h-[84px] items-center justify-between gap-4">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group shrink-0"
+            className="flex items-center gap-3 group shrink-0"
             aria-label="SkillMint home"
           >
-            <SkillMintLogo size={34} />
+            <SkillMintLogo size={52} />
             <span className="hidden sm:flex flex-col leading-tight">
-              <span className="text-base font-semibold tracking-tight text-[#0a2540]">
+              <span className="text-lg font-semibold tracking-tight text-[#0a2540]">
                 SkillMint
               </span>
-              <span className="text-[9px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
+              <span className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#98753f]">
                 Online Courses
               </span>
             </span>

@@ -63,13 +63,13 @@ export default function MobileMenu() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b border-slate-200">
             <div className="flex items-center gap-2.5">
-              <SkillMintLogo size={30} />
+              <SkillMintLogo size={44} />
               <div>
-                <div className="font-serif font-bold text-[#0a2540] leading-none text-base tracking-tight">
+                <div className="font-serif font-bold text-[#0a2540] leading-none text-lg tracking-tight">
                   SkillMint
                 </div>
-                <div className="text-[8px] font-bold tracking-[0.25em] uppercase text-[#98753f] mt-0.5">
-                  Online Academy
+                <div className="text-[9px] font-bold tracking-[0.25em] uppercase text-[#98753f] mt-0.5">
+                  Online Courses
                 </div>
               </div>
             </div>

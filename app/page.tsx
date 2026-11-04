@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   Zap,
   Layers,
-  Play,
 } from "lucide-react";
 
 async function getFeaturedCourses() {
@@ -93,43 +92,38 @@ export default async function HomePage() {
     getCourseCount(),
   ]);
 
-  const heroCourse = courses[0];
-
   return (
     <div className="bg-white text-[#0b1727]">
-      {/* Hero — one composition */}
-      <section className="relative min-h-[min(92vh,880px)] overflow-hidden bg-[#061525]">
+      {/* Hero — brand + logo mark */}
+      <section className="relative min-h-[min(88vh,820px)] overflow-hidden bg-[#061525]">
         <div
-          className="absolute inset-0 opacity-90"
+          className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 80% 60% at 70% 40%, rgba(34, 120, 180, 0.28), transparent 55%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(16, 185, 129, 0.12), transparent 50%), linear-gradient(160deg, #061525 0%, #0a2540 45%, #0d2f4a 100%)",
+              "radial-gradient(ellipse 70% 55% at 75% 45%, rgba(52, 211, 153, 0.22), transparent 55%), radial-gradient(ellipse 45% 40% at 15% 75%, rgba(56, 189, 248, 0.12), transparent 50%), linear-gradient(160deg, #061525 0%, #0a2540 50%, #0d2f4a 100%)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 opacity-[0.3]"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
           }}
         />
 
-        <div className="relative mx-auto flex min-h-[min(92vh,880px)] max-w-7xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:justify-center lg:pb-24 lg:pt-32">
-          <div className="grid items-end gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
+        <div className="relative mx-auto flex min-h-[min(88vh,820px)] max-w-7xl flex-col justify-center px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:pb-24 lg:pt-28">
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-8">
             <div className="lg:col-span-6">
-              <p className="mb-5 font-semibold tracking-[0.28em] text-[11px] uppercase text-emerald-300/90 animate-[fadeUp_0.7s_ease_both]">
-                SkillMint
-              </p>
-              <h1 className="mb-5 max-w-xl text-[2.75rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.5rem] animate-[fadeUp_0.7s_ease_0.08s_both]">
+              <h1 className="mb-5 max-w-xl text-[2.75rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.5rem] animate-[fadeUp_0.7s_ease_both]">
                 Skills that pay for themselves.
               </h1>
-              <p className="mb-9 max-w-lg text-base leading-relaxed text-white/70 sm:text-lg animate-[fadeUp_0.7s_ease_0.16s_both]">
+              <p className="mb-9 max-w-lg text-base leading-relaxed text-white/70 sm:text-lg animate-[fadeUp_0.7s_ease_0.08s_both]">
                 Self-paced courses in AI, trading, commerce, marketing, and
                 digital business — each one made by a skilled professional,
                 built to be used, not just watched.
               </p>
 
-              <div className="flex flex-col gap-3 sm:flex-row animate-[fadeUp_0.7s_ease_0.24s_both]">
+              <div className="flex flex-col gap-3 sm:flex-row animate-[fadeUp_0.7s_ease_0.16s_both]">
                 <Link
                   href="/courses"
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-400 px-7 py-3.5 text-sm font-semibold tracking-wide text-[#061525] transition-transform hover:bg-emerald-300 hover:scale-[1.02] active:scale-[0.99]"
@@ -145,7 +139,7 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-x-7 gap-y-2 text-[13px] text-white/55 animate-[fadeUp_0.7s_ease_0.32s_both]">
+              <div className="mt-10 flex flex-wrap gap-x-7 gap-y-2 text-[13px] text-white/55 animate-[fadeUp_0.7s_ease_0.24s_both]">
                 <span className="inline-flex items-center gap-2">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                   Lifetime access
@@ -161,45 +155,29 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Dominant course visual */}
-            <div className="relative lg:col-span-6 animate-[fadeUp_0.9s_ease_0.2s_both]">
-              <div className="relative aspect-[16/11] overflow-hidden rounded-sm shadow-[0_40px_80px_-20px_rgba(0,0,0,0.55)] ring-1 ring-white/10">
-                {heroCourse?.thumbnail ? (
-                  <img
-                    src={heroCourse.thumbnail}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a5c] to-[#061525]" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#061525]/95 via-[#061525]/35 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-                  <p className="mb-2 text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-300/90">
-                    {heroCourse?.category || "Featured"}
-                  </p>
-                  <p className="mb-4 max-w-md font-serif text-2xl font-bold leading-snug tracking-tight text-white sm:text-3xl">
-                    {heroCourse?.title || "Start with a course that fits your goals"}
-                  </p>
-                  <div className="flex items-center gap-4 text-sm text-white/70">
-                    {heroCourse && (
-                      <>
-                        <span className="inline-flex items-center gap-1.5">
-                          <Play className="h-3.5 w-3.5" />
-                          {heroCourse.totalHours}h
-                        </span>
-                        <span>${heroCourse.price}</span>
-                        <Link
-                          href={`/courses/${heroCourse.slug}`}
-                          className="ml-auto inline-flex items-center gap-1.5 font-semibold text-emerald-300 hover:text-emerald-200"
-                        >
-                          View course
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </Link>
-                      </>
-                    )}
-                  </div>
-                </div>
+            {/* Big logo mark */}
+            <div className="relative flex items-center justify-center lg:col-span-6 animate-[fadeUp_0.9s_ease_0.12s_both]">
+              <div
+                className="pointer-events-none absolute h-[340px] w-[340px] rounded-full sm:h-[420px] sm:w-[420px] lg:h-[480px] lg:w-[480px]"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(52,211,153,0.28) 0%, rgba(52,211,153,0.08) 40%, transparent 70%)",
+                }}
+              />
+              <div className="relative flex flex-col items-center">
+                <img
+                  src="/logo.png"
+                  alt="SkillMint"
+                  width={420}
+                  height={420}
+                  className="h-[220px] w-[220px] object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[300px] sm:w-[300px] lg:h-[380px] lg:w-[380px] animate-[logoFloat_6s_ease-in-out_infinite]"
+                />
+                <p className="mt-4 text-center text-2xl font-semibold tracking-tight text-white sm:text-3xl lg:text-4xl">
+                  SkillMint
+                </p>
+                <p className="mt-1 text-[11px] font-semibold tracking-[0.28em] uppercase text-emerald-300/80">
+                  Online Courses
+                </p>
               </div>
             </div>
           </div>

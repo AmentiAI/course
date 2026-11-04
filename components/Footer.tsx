@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { GraduationCap, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { SkillMintLogo } from "./Navbar";
 
 export default function Footer() {
   return (
@@ -8,19 +9,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mb-12">
           {/* Brand */}
           <div className="col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
-              <span
-                className="inline-flex items-center justify-center rounded-md bg-[#0a2540]"
-                style={{ width: 34, height: 34 }}
-                aria-hidden
-              >
-                <GraduationCap
-                  className="text-white"
-                  style={{ width: 18, height: 18 }}
-                  strokeWidth={2.25}
-                />
-              </span>
-              <span className="text-lg font-semibold tracking-tight text-[#0a2540]">
+            <div className="flex items-center gap-3 mb-4">
+              <SkillMintLogo size={48} />
+              <span className="text-xl font-semibold tracking-tight text-[#0a2540]">
                 SkillMint
               </span>
             </div>
